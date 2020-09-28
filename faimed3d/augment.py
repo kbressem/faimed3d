@@ -58,6 +58,7 @@ def resize_3d(t: (TensorDicom3D), size: int):
 
     meshx, meshy, meshz = torch.meshgrid((x, y, z)) #
     grid = torch.stack((meshy, meshx , meshz), 3) # create flow field. x and y need to be switched as otherwise the images are rotated.
+    if t.device.type == 'cuda': grid = grid.cuda()
     grid = grid.unsqueeze(0) # add batch dim
     t_resized = F.grid_sample(t, grid, align_corners=True, mode = 'bilinear') # rescale the 5D tensor
     return t_resized[0,0,:,:,:].permute(2,0,1).contiguous() # remove fake color channels and batch dim, reorder the image (the Z axis has moved to the back...)
@@ -71,7 +72,9 @@ class Resize3D(RandTransform):
         store_attr()
         super().__init__(**kwargs)
 
-    def encodes(self, x: TensorDicom3D): return x.resize_3d(self.size)
+    def encodes(self, x: TensorDicom3D):
+        x = x.resize_3d(self.size)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 def _process_sz_3d(size):
     if len(size) == 2: size=(size[0],size[1], size[1])
@@ -136,10 +139,10 @@ class RandomRotate3D(RandTransform):
         self.which = random.randint(1, 3)  # add a random integer for axis to rotate
 
     def encodes(self, x:TensorDicom3D):
-        if self.which == 1: return x.rotate_90_3d()
-        elif self.which == 2: return x.rotate_180_3d()
-        else: return x.rotate_270_3d()
-
+        if self.which == 1: x = x.rotate_90_3d()
+        elif self.which == 2: x = x.rotate_180_3d()
+        else: x = x.rotate_270_3d()
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
@@ -157,7 +160,7 @@ def rotate_3d_by(t: TensorDicom3D, angle: (int, float), axes: list):
     rotate_3d_by(t, angle = -15.23, axes = [1,2]) will rotate each slice for -15.23 degrees.
 
     '''
-    rot_t = torch.from_numpy(ndimage.rotate(t, angle, axes, reshape=False))
+    rot_t = torch.from_numpy(ndimage.rotate(t.cpu(), angle, axes, reshape=False))
     return retain_type(rot_t, typ = TensorDicom3D)
 
 
@@ -174,7 +177,8 @@ class RandomRotate3DBy(RandTransform):
 
     def encodes(self, x:TensorDicom3D):
         if x.ndim == 4: self.axes = [x+1 for x in self.axes]
-        return x.rotate_3d_by(angle=self.angle, axes=self.axes)
+        x = x.rotate_3d_by(angle=self.angle, axes=self.axes)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
@@ -199,8 +203,9 @@ class RandomDihedral3D(RandTransform):
         super().before_call(b, split_idx)
         self.k = random.randint(0,17)
 
-    def encodes(self, x:TensorDicom3D): return x.dihedral3d(self.k)
-
+    def encodes(self, x:TensorDicom3D):
+        x = x.dihedral3d(self.k)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
@@ -230,7 +235,7 @@ class RandomCrop3D(RandTransform):
     Randomly crop the 3D volume with a probability of `p`
     The x axis is the "slice" axis, where no cropping should be done by default
     '''
-
+    split_idx, p = None, 1
     def __init__(self, final_margins, crop_by, perc_margins=False, p=1, **kwargs):
         super().__init__(p=p,**kwargs)
         self.p = p
@@ -238,9 +243,9 @@ class RandomCrop3D(RandTransform):
         self.perc_margins = perc_margins
         self.crop_by_x, self.crop_by_y, self.crop_by_z = crop_by
 
-#    def setups(self, items):
-#        self.final_margins, crop_by, self.perc_margins = items
-#        self.crop_by_x, self.crop_by_y, self.crop_by_z = crop_by
+#    def __call__(self, b, split_idx=None, **kwargs):
+#        "change in __call__ to enforce, that the Transform is always applied on every dataset. "
+#        return super().__call__(b, split_idx=split_idx, **kwargs)
 
     def encodes(self, x:TensorDicom3D):
         if self.p < 0.5: self.margins = self.final_margins
@@ -268,8 +273,8 @@ class RandomCrop3D(RandTransform):
 
             if any(self.margins) < 0: raise ValueError('cannot crop to a negative dimension')
 
-        return x.crop_3d(margins = self.margins, perc_margins = self.perc_margins)
-
+        x = x.crop_3d(margins = self.margins, perc_margins = self.perc_margins)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
@@ -300,8 +305,8 @@ class ResizeCrop3D(RandTransform):
         else: raise ValueError('"crop_by" must be a tuple with length 3 in the form ox (x,y,z) or ((x1,x2),(y1,y2),(z1,z2))')
         if any(self.margins) < 0: raise ValueError('cannot crop to a negative dimension')
 
-        return x.crop_3d(margins = self.margins, perc_margins = self.perc_crop).resize_3d(self.resize_to)
-
+        x = x.crop_3d(margins = self.margins, perc_margins = self.perc_crop).resize_3d(self.resize_to)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 @patch
@@ -335,6 +340,8 @@ def warp_3d(t: TensorDicom3D):
     meshx, meshy, meshz = torch.meshgrid((x, y, z)) #
     grid = torch.stack((meshy, meshx , meshz), 3) # create flow field. x and y need to be switched as otherwise the images are rotated.
     grid = grid.unsqueeze(0) # add batch dim
+    if t.device.type == 'cuda': grid = grid.cuda()
+
     out = F.grid_sample(t, grid, align_corners=True, mode = 'bilinear') # rescale the 5D tensor
     out = out[0,0,:,:,:].permute(2,0,1).contiguous() # remove fake color channels and batch dim, reorder the image (the Z axis has moved to the back...)
     return retain_type(out, typ = TensorDicom3D)
@@ -354,14 +361,16 @@ class RandomWarp3D(RandTransform):
     def before_call(self, b, split_idx):
         super().before_call(b, split_idx)
 
-    def encodes(self, x:TensorDicom3D): return x.warp_3d() if x.ndim == 3 else x.warp_4d()
-
+    def encodes(self, x:TensorDicom3D):
+        x = x.warp_3d() if x.ndim == 3 else x.warp_4d()
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
 @patch
 def add_gaussian_noise(t:TensorDicom3D, std):
-    return t + (std**0.5)*torch.randn(t.shape)
+    shape = torch.randn(t.shape).cuda() if t.device.type == 'cuda' else torch.randn(t.shape).cpu()
+    return t + (std**0.5)*shape
 
 class RandomNoise3D(RandTransform):
     def __init__(self, p=0.5):
@@ -373,7 +382,9 @@ class RandomNoise3D(RandTransform):
         high_std = float(random.randint(20,30))/100
         self.std = random.choice((low_std, low_std, low_std, low_std, high_std)) # lower noise is oversampled, as high noise migh be bad for the model
 
-    def encodes(self, x:TensorDicom3D): return x.add_gaussian_noise(self.std)
+    def encodes(self, x:TensorDicom3D):
+        x = x.add_gaussian_noise(self.std)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
@@ -383,16 +394,7 @@ def rescale(t: TensorDicom3D, new_min = 0, new_max = 1):
 
 @patch
 def adjust_brightness(x:TensorDicom3D, beta):
-
-    old_min = x.min()
-    old_max = x.max()
-    x = rescale(x, 0, 1)
-
-    arr = x.numpy() # tensor equivalent??
-    arr = np.clip(arr + beta, arr.min(), arr.max())
-    x = TensorDicom3D(arr)
-
-    return rescale(x, old_min, old_max)
+    return torch.clamp(x + beta, x.min(), x.max())
 
 
 class RandomBrightness3D(RandTransform):
@@ -404,24 +406,15 @@ class RandomBrightness3D(RandTransform):
         self.beta = float(random.randint(-300,400))/1000
 
     def encodes(self, x:TensorDicom3D):
-        return x.adjust_brightness(self.beta)
-
+        x = x.adjust_brightness(self.beta)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 
 # Cell
 
 @patch
 def adjust_contrast(x:TensorDicom3D, alpha):
-
-    old_min = x.min()
-    old_max = x.max()
-    x = rescale(x, 0, 1)
-
-    arr = x.numpy()
-    arr = np.clip(arr * alpha, arr.min(), arr.max())
-    x = TensorDicom3D(arr)
-
-    return rescale(x, old_min, old_max)
+    return torch.clamp(alpha * x, x.min(), x.max())
 
 
 class RandomContrast3D(RandTransform):
@@ -433,7 +426,8 @@ class RandomContrast3D(RandTransform):
         self.alpha = float(random.randint(940, 1150))/1000
 
     def encodes(self, x:TensorDicom3D):
-        return x.adjust_contrast(self.alpha)
+        x = x.adjust_contrast(self.alpha)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
@@ -442,14 +436,21 @@ def make_pseudo_color(t: (Tensor, TensorDicom3D)):
     '''
     The 3D CNN still expects color images, so a pseudo color image needs to be created as long as I don't adapt the 3D CNN
     '''
-    return torch.stack((t, t, t), t.ndim).float() # permute is an important step, ensuring rigth format of tensors
+    return torch.stack((t, t, t), t.ndim).float() if t.ndim in (3,4) else t # permute is an important step, ensuring rigth format of tensors
 
 class PseudoColor(RandTransform):
+    split_idx, p = None, 1
+
     def __init__(self, p=1):
         super().__init__(p=p)
 
+    def __call__(self, b, split_idx=None, **kwargs):
+        "change in __call__ to enforce, that the Transform is always applied on every dataset. "
+        return super().__call__(b, split_idx=split_idx, **kwargs)
+
     def encodes(self, x:(TensorDicom3D, Tensor)):
-        return x.make_pseudo_color()
+        x = x.make_pseudo_color()
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 

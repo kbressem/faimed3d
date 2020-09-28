@@ -5,27 +5,18 @@ __all__ = ['AlexNet_3D', 'alexnet_3d']
 # Cell
 # export
 
-import SimpleITK as sitk
-import re
-import pathlib
 import torchvision
-
-from fastai.basics import *
-from fastai.vision.all import *
-from fastai.callback.all import *
-import fastai
-from .basics import *
-from .augment import *
+from torch import nn
 
 # Cell
 # https://github.com/Ontheroad123/ImageNet/blob/master/torch-alexnet-3D.py
 
 class AlexNet_3D(nn.Module):
 
-    def __init__(self, num_classes=2):
+    def __init__(self, num_classes=2, n_dim=7):
         super(AlexNet_3D, self).__init__()
         self.features = nn.Sequential(
-            nn.Conv3d(7, 512, kernel_size=(5,5,1), stride=(2,2,1), padding=(2,2,1)),
+            nn.Conv3d(n_dim, 512, kernel_size=(5,5,1), stride=(2,2,1), padding=(2,2,1)),
             nn.LeakyReLU(inplace = True), #    nn.ReLU(inplace=True),
             nn.MaxPool3d(kernel_size=(3,3,1), stride=(2,2,1)),
 
