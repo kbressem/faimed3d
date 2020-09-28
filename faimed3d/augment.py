@@ -452,6 +452,12 @@ class PseudoColor(RandTransform):
         return x.make_pseudo_color()
 
 # Cell
+
+def _set_p_tfms(p, p_all):
+    return p_all if p is None else p
+
+# Cell
+
 def aug_transforms_3d(p_all = 0.1,
                       do_warp = True, p_warp = None,
                       do_dihedral = True, p_dihedral = None,
@@ -474,6 +480,3 @@ def aug_transforms_3d(p_all = 0.1,
     if do_rotate: tfms.append(RandomRotate3D(p=_set_p_tfms(p_rotate, p_all)))
 
     return tfms
-
-def _set_p_tfms(p, p_all):
-    return p_all if p is None else p

@@ -13,7 +13,6 @@ import torchvision
 from fastai.basics import *
 from fastai.vision.all import *
 from fastai.callback.all import *
-import fastai
 
 # Cell
 from .basics import *
