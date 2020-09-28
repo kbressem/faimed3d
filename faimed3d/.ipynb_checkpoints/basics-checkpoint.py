@@ -220,14 +220,6 @@ class TensorDicom3D(Tensor):
         x = tensor(x).reshape(self.shape).clamp(0.,1.)
         return retain_type(x, typ = TensorDicom3D)
 
-    @patch
-    def hist_scaled_pt(self:Tensor, brks=None):
-        # Pytorch-only version - switch to this if/when interp_1d can be optimized
-        if brks is None: brks = self.freqhist_bins()
-        brks = brks.to(self.device)
-        ys = torch.linspace(0., 1., len(brks)).to(self.device)
-        return self.flatten().interp_1d(brks, ys).reshape(self.shape).clamp(0.,1.)
-
     @classmethod
     def create(cls, fn:(Path,str,Tensor,ndarray), **kwargs)->None:
         "Open an `3D Image` from path `fn` or create it from an array"
