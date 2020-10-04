@@ -8,6 +8,7 @@ __all__ = ['Resize3D', 'RandomFlip3D', 'RandomRotate3D', 'RandomRotate3DBy', 'Ra
 # default_exp augment
 import torchvision
 import torch
+import torch.nn.functional as F
 import fastai
 from fastai.basics import *
 from fastai.vision.augment import *
@@ -18,82 +19,62 @@ from .basics import *
 # Cell
 
 @patch
-def resize_3d(t: (TensorDicom3D), size: int):
+def resize_3d(t: (TensorDicom3D, TensorMask3D), size, scale_factor=None, mode='nearest', align_corners=None, recompute_scale_factor=None):
 
     '''
-    A function to resize a 3D image using torch.nn.functional.grid_sample
-
-    Taken form the offical documention:
-        Given an input and a flow-field grid, computes the output using input values and pixel locations from grid.
-        In the spatial (4-D) case, for input with shape (N,C,Hin,Win) and with grid in shape (N, Hout, Wout, 2), the output will have shape (N, C, Hout,Wout)
-
-        In the case of 5D inputs, grid[n, d, h, w] specifies the x, y, z pixel locations for interpolating output[n, :, d, h, w].
-        mode argument specifies nearest or bilinear interpolation method to sample the input pixels.
-
-    Workflow of this function:
-    1. create a fake RGB 3D image through generating fake color channels.
-    2. add a 5th batch dimension
-    3. create a flow-field for rescaling:
-        a. create a 1D tensor giving a linear progression from -1 to 1
-        b. creat a mesh-grid (the flow field) from x,y,z tensors from (a)
-    4. resample the input tensor according to the flow field
-    5. remove fake color channels and batch dim, returning only the 3D tensor
+    A function to resize a 3D image using torch.nn.functional.interpolate
 
     Args:
-        t (Tensor): a Rank 3 Tensor to be resized
+        t (Tensor): a 3D or 4D Tensor to be resized
         new_dim (int): a tuple with the new x,y,z dimensions of the tensor after resize
 
     '''
-    if type(size) in (tuple, fastuple) and len(size) == 3:
-        z,x,y = size # for a reason, I do currently not understand, order of the axis changes from resampling. flipping the order of x,y,z is the current workaround
-    else:
-        raise ValueError('"size" must be a tuple with length 3, specifying the new (x,y,z) dimensions of the 3D tensor')
 
-    t = torch.stack((t,t,t)) # create fake color channel
-    t = t.unsqueeze(0).float() # create batch dim
+    if t.ndim == 3: t=t.unsqueeze(0)   # add fake chanel dim
 
-    x = torch.linspace(-1, 1, x) # create resampling 'directions' for pixels in each axis
-    y = torch.linspace(-1, 1, y)
-    z = torch.linspace(-1, 1, z)
+    return F.interpolate(t.unsqueeze(0), # add fake batch dim
+                         size=size,
+                         scale_factor=scale_factor,
+                         mode=mode,
+                         align_corners=align_corners,
+                         recompute_scale_factor=recompute_scale_factor).squeeze() # remove fake dims, returning original 3D or 4D Tensor
 
-    meshx, meshy, meshz = torch.meshgrid((x, y, z)) #
-    grid = torch.stack((meshy, meshx , meshz), 3) # create flow field. x and y need to be switched as otherwise the images are rotated.
-    if t.device.type == 'cuda': grid = grid.cuda()
-    grid = grid.unsqueeze(0) # add batch dim
-    t_resized = F.grid_sample(t, grid, align_corners=True, mode = 'bilinear') # rescale the 5D tensor
-    return t_resized[0,0,:,:,:].permute(2,0,1).contiguous() # remove fake color channels and batch dim, reorder the image (the Z axis has moved to the back...)
 
 class Resize3D(RandTransform):
     split_idx,order = None, 1
     "Resize a 3D image"
 
-    def __init__(self, size, **kwargs):
+    def __init__(self, size, scale_factor=None, mode='nearest', align_corners=None, recompute_scale_factor=None, **kwargs):
         size = _process_sz_3d(size)
+        scale_factor = scale_factor
+        mode = mode
+        align_corners = align_corners
         store_attr()
         super().__init__(**kwargs)
 
-    def encodes(self, x: TensorDicom3D):
-        x = x.resize_3d(self.size)
-        return x if x.device.type == 'cpu' else x.cuda()
+    def encodes(self, x: (TensorDicom3D,TensorMask3D)):
+        return x.resize_3d(self.size, self.scale_factor, self.mode, self.align_corners, self.recompute_scale_factor)
 
 def _process_sz_3d(size):
     if len(size) == 2: size=(size[0],size[1], size[1])
     return fastuple(size[0],size[1],size[2])
 
+
+
 # Cell
 
 @patch
-def flip_ll_3d(t: TensorDicom3D):
+def flip_ll_3d(t: (TensorDicom3D, TensorMask3D)):
     "flips an image laterolateral"
     return t.flip(-1) # works on 3D images and 4D batchs
 
 @patch
-def flip_ap_3d(t: TensorDicom3D):
+def flip_ap_3d(t: (TensorDicom3D, TensorMask3D)):
     "flips an image anterior posterior"
     return t.flip(-2)
 
 @patch
-def flip_cc_3d(t: TensorDicom3D):
+def flip_cc_3d(t: (TensorDicom3D, TensorMask3D)):
     "flips an image cranio caudal"
     return t.flip(-3)
 
@@ -110,21 +91,21 @@ class RandomFlip3D(RandTransform):
         self.do = self.p==1. or random.random() < self.p
         self.axis = random.randint(1, 3)*-1  # add a random integer for axis to rotate
 
-    def encodes(self, x:TensorDicom3D):
+    def encodes(self, x:(TensorDicom3D, TensorMask3D)):
         return x.flip(self.axis)
 
 # Cell
 
 @patch
-def rotate_90_3d(t: TensorDicom3D):
+def rotate_90_3d(t: (TensorDicom3D, TensorMask3D)):
     return t.transpose(1, 2) if t.ndim == 3 else t.transpose(2, 3)
 
 @patch
-def rotate_270_3d(t: TensorDicom3D):
+def rotate_270_3d(t: (TensorDicom3D, TensorMask3D)):
     return t.transpose(1, 2).flip(-1) if t.ndim == 3 else t.transpose(2, 3).flip(-1)
 
 @patch
-def rotate_180_3d(t: TensorDicom3D):
+def rotate_180_3d(t: (TensorDicom3D, TensorMask3D)):
     return t.flip(-1).flip(-2)
 
 
@@ -138,7 +119,7 @@ class RandomRotate3D(RandTransform):
         self.do = self.p==1. or random.random() < self.p
         self.which = random.randint(1, 3)  # add a random integer for axis to rotate
 
-    def encodes(self, x:TensorDicom3D):
+    def encodes(self, x:(TensorDicom3D, TensorMask3D)):
         if self.which == 1: x = x.rotate_90_3d()
         elif self.which == 2: x = x.rotate_180_3d()
         else: x = x.rotate_270_3d()
@@ -147,7 +128,7 @@ class RandomRotate3D(RandTransform):
 # Cell
 
 @patch
-def rotate_3d_by(t: TensorDicom3D, angle: (int, float), axes: list):
+def rotate_3d_by(t: (TensorDicom3D,TensorMask3D), angle: (int, float), axes: list):
     '''rotates 2D slices of a 3D tensor.
     Args:
         t: a TensorDicom3D object or torch.tensor
@@ -160,8 +141,9 @@ def rotate_3d_by(t: TensorDicom3D, angle: (int, float), axes: list):
     rotate_3d_by(t, angle = -15.23, axes = [1,2]) will rotate each slice for -15.23 degrees.
 
     '''
+    typ = type(t)
     rot_t = torch.from_numpy(ndimage.rotate(t.cpu(), angle, axes, reshape=False))
-    return retain_type(rot_t, typ = TensorDicom3D)
+    return retain_type(rot_t, typ = typ)
 
 
 class RandomRotate3DBy(RandTransform):
@@ -175,7 +157,7 @@ class RandomRotate3DBy(RandTransform):
         self.angle = random.randint(-10, 10)  # add a random integer for axis to rotate
         self.axes = random.choice([[0,1],[1,2],[0,2]])
 
-    def encodes(self, x:TensorDicom3D):
+    def encodes(self, x:(TensorDicom3D, TensorMask3D)):
         if x.ndim == 4: self.axes = [x+1 for x in self.axes]
         x = x.rotate_3d_by(angle=self.angle, axes=self.axes)
         return x if x.device.type == 'cpu' else x.cuda()
@@ -183,7 +165,7 @@ class RandomRotate3DBy(RandTransform):
 # Cell
 
 @patch
-def dihedral3d(x:TensorDicom3D, k):
+def dihedral3d(x:(TensorDicom3D,TensorMask3D), k):
     "apply dihedral transforamtions to the 3D Dicom Tensor"
     if k in [6,7,8,9,14,15,16,17]: x = x.flip(-3)
     if k in [4,10,11,14,15]: x = x.flip(-1)
@@ -203,77 +185,85 @@ class RandomDihedral3D(RandTransform):
         super().before_call(b, split_idx)
         self.k = random.randint(0,17)
 
-    def encodes(self, x:TensorDicom3D):
+    def encodes(self, x:(TensorDicom3D,TensorMask3D)):
         x = x.dihedral3d(self.k)
         return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
 @patch
-def crop_3d(t: TensorDicom3D, margins: (int, float), perc_margins = False):
+def crop_3d(t: (TensorDicom3D, TensorMask3D), crop_by: (int, float), perc_crop = False):
     "Similar to function `crop_3d_tensor`, but no checking for margin formats is done, as they were correctly passed to this function by RandomCrop3D.encodes"
-
+    typ = type(t)
     if t.ndim not in (3,4): raise TypeError('Tensor of size 3 or 4 expected, but got Tensor of size {} with shape {}'.format(t.ndim, t.shape))
     if t.ndim == 3:
         x, y, z = t.shape
     else:
         _, x, y, z = t.shape
-    x1,x2,y1,y2,z1,z2 = margins
+    x1,x2,y1,y2,z1,z2 = crop_by
 
-    if perc_margins:
-        if not all(isinstance(i, float) for i in [x1,x2,y1,y2,z1,z2]): raise ValueError('percentage margins should be a float value between 0 and 0.5')
+    if perc_crop:
+        if not all(isinstance(i, float) for i in [x1,x2,y1,y2,z1,z2]): raise ValueError('perc_crop should be a float value between 0 and 0.5')
         x1,x2,y1,y2,z1,z2 = int(x1*x),int(x2*x),int(y1*y),int(y2*y),int(z1*z),int(z2*z)
 
     if t.ndim == 3:
-        return retain_type(t[x1:x-x2, y1:y-y2, z1:z-z2], typ = TensorDicom3D)
+        return retain_type(t[x1:x-x2, y1:y-y2, z1:z-z2], typ = typ)
     else:
         return t[:,x1:x-x2, y1:y-y2, z1:z-z2]
+
+
+def _get_margins(crop_by):
+    cropx, cropy, cropz = crop_by
+    try: x1,x2 = cropx
+    except: x1,x2 = cropx,cropx
+    try: y1,y2 = cropy
+    except: y1,y2 = cropy,cropy
+    try: z1,z2 = cropz
+    except: z1,z2 = cropz,cropz
+    return (x1,x2,y1,y2,z1,z2)
+
+def _add_to_margin(add):
+    if type(add) is int: return random.randint(-add,add)
+    if type(add) is float: return random.uniform(-add, add)
+
 
 
 class RandomCrop3D(RandTransform):
     '''
     Randomly crop the 3D volume with a probability of `p`
     The x axis is the "slice" axis, where no cropping should be done by default
+
+    Args
+        crop_by: number of pixels or pecantage of pixel to be removed at each side. E.g. if (0, 5, 5), 0 pixel in the x axis, but 10 pixels in eacht y and z axis will be cropped (5 each side)
+        rand_crop_xyz: range in which the cropping window is allowed to vary.
+        perc_crop: if true, no absolute but relative number of pixels are cropped
     '''
     split_idx, p = None, 1
-    def __init__(self, final_margins, crop_by, perc_margins=False, p=1, **kwargs):
+    def __init__(self, crop_by, rand_crop_xyz, perc_crop=False, p=1, **kwargs):
         super().__init__(p=p,**kwargs)
         self.p = p
-        self.final_margins = final_margins
-        self.perc_margins = perc_margins
-        self.crop_by_x, self.crop_by_y, self.crop_by_z = crop_by
+        self.crop_by = crop_by
+        self.perc_crop = perc_crop
+        self.crop_by_x, self.crop_by_y, self.crop_by_z = rand_crop_xyz
 
-#    def __call__(self, b, split_idx=None, **kwargs):
-#        "change in __call__ to enforce, that the Transform is always applied on every dataset. "
-#        return super().__call__(b, split_idx=split_idx, **kwargs)
+    def encodes(self, x:(TensorDicom3D,TensorMask3D)):
+        if type(self.crop_by) is tuple and len(self.crop_by) == 3:
+            x1,x2,y1,y2,z1,z2 = _get_margins(self.crop_by)
 
-    def encodes(self, x:TensorDicom3D):
-        if self.p < 0.5: self.margins = self.final_margins
+            self.x_add = _add_to_margin(self.crop_by_x)
+            self.y_add = _add_to_margin(self.crop_by_y)
+            self.z_add = _add_to_margin(self.crop_by_z)
+
+            self.margins = (x1+self.x_add, x2-self.x_add,
+                                y1+self.y_add, y2-self.y_add,
+                                z1+self.z_add, z2-self.z_add)
+
         else:
-            if type(self.final_margins) is tuple and len(self.final_margins) == 3:
-                cropx, cropy, cropz = self.final_margins
-                try:
-                    if len(cropx) == 2:
-                        x1,x2 = cropx
-                    if len(cropx) == 2:
-                        y1,y2 = cropy
-                    if len(cropx) == 2:
-                        z1,z2 = cropz
-                except:
-                    x1,x2,y1,y2,z1,z2 = cropx, cropx, cropy, cropy, cropz, cropz
+            raise ValueError('"final_margins" must be a tuple with length 3')
 
-                self.x_add = random.randint(-self.crop_by_x,self.crop_by_x)
-                self.y_add = random.randint(-self.crop_by_y,self.crop_by_y)
-                self.z_add = random.randint(-self.crop_by_z,self.crop_by_z)
+        if any(self.margins) < 0: raise ValueError('cannot crop to a negative dimension')
 
-                self.margins = (x1+self.x_add, x2-self.x_add,y1+self.y_add, y2-self.y_add,z1+self.z_add, z2-self.z_add)
-
-            else:
-                raise ValueError('"final_margins" must be a tuple with length 3')
-
-            if any(self.margins) < 0: raise ValueError('cannot crop to a negative dimension')
-
-        x = x.crop_3d(margins = self.margins, perc_margins = self.perc_margins)
+        x = x.crop_3d(crop_by = self.margins, perc_crop = self.perc_crop)
         return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
@@ -290,28 +280,45 @@ class ResizeCrop3D(RandTransform):
         store_attr()
         super().__init__(p=p,**kwargs)
 
-    def encodes(self, x:TensorDicom3D):
+    def encodes(self, x:(TensorDicom3D,TensorMask3D)):
         if type(self.crop_by) is tuple and len(self.crop_by) == 3:
-            cropx, cropy, cropz = self.crop_by
-            try: x1,x2 = cropx
-            except: x1,x2 = cropx,cropx
-            try: y1,y2 = cropy
-            except: y1,y2 = cropy,cropy
-            try: z1,z2 = cropz
-            except: z1,z2 = cropz,cropz
-
-            self.margins = (x1,x2,y1,y2,z1,z2)
+            self.margins =  _get_margins(self.crop_by)
 
         else: raise ValueError('"crop_by" must be a tuple with length 3 in the form ox (x,y,z) or ((x1,x2),(y1,y2),(z1,z2))')
         if any(self.margins) < 0: raise ValueError('cannot crop to a negative dimension')
 
-        x = x.crop_3d(margins = self.margins, perc_margins = self.perc_crop).resize_3d(self.resize_to)
+        x = x.crop_3d(crop_by = self.margins, perc_crop = self.perc_crop).resize_3d(self.resize_to)
         return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 @patch
-def warp_3d(t: TensorDicom3D):
+def warp_3d(t: (TensorDicom3D,TensorMask3D)):
 
+    '''
+    A function to warp a 3D image using torch.nn.functional.grid_sample
+
+    Taken form the offical documention:
+        Given an input and a flow-field grid, computes the output using input values and pixel locations from grid.
+        In the spatial (4-D) case, for input with shape (N,C,Hin,Win) and with grid in shape (N, Hout, Wout, 2), the output will have shape (N, C, Hout,Wout)
+
+        In the case of 5D inputs, grid[n, d, h, w] specifies the x, y, z pixel locations for interpolating output[n, :, d, h, w].
+        mode argument specifies nearest or bilinear interpolation method to sample the input pixels.
+
+    Workflow of this function:
+    1. create a fake RGB 3D image through generating fake color channels.
+    2. add a 5th batch dimension
+    3. create a flow-field for rescaling:
+        a. creat2 two 1D tensor giving a linear progression from -1 to 0 and 0 to 1 with differnt number of steps, then merge them to one tensor
+        b. creat a mesh-grid (the flow field) from x,y,z tensors from (a)
+    4. resample the input tensor according to the flow field
+    5. remove fake color channels and batch dim, returning only the 3D tensor
+
+    Args:
+        t (Tensor): a Rank 3 Tensor to be resized
+
+    '''
+
+    typ = type(t)
     z,x,y = t.shape # for a reason, I do currently not understand, order of the axis changes from resampling. flipping the order of x,y,z is the current workaround. z axis is now the slice axis
 
     t = torch.stack((t,t,t)) # create fake color channel
@@ -344,7 +351,7 @@ def warp_3d(t: TensorDicom3D):
 
     out = F.grid_sample(t, grid, align_corners=True, mode = 'bilinear') # rescale the 5D tensor
     out = out[0,0,:,:,:].permute(2,0,1).contiguous() # remove fake color channels and batch dim, reorder the image (the Z axis has moved to the back...)
-    return retain_type(out, typ = TensorDicom3D)
+    return retain_type(out, typ = typ)
 
 @patch
 def warp_4d(t: Tensor):
@@ -361,7 +368,7 @@ class RandomWarp3D(RandTransform):
     def before_call(self, b, split_idx):
         super().before_call(b, split_idx)
 
-    def encodes(self, x:TensorDicom3D):
+    def encodes(self, x:(TensorDicom3D,TensorMask3D)):
         x = x.warp_3d() if x.ndim == 3 else x.warp_4d()
         return x if x.device.type == 'cpu' else x.cuda()
 
@@ -432,7 +439,7 @@ class RandomContrast3D(RandTransform):
 # Cell
 
 @patch
-def make_pseudo_color(t: (Tensor, TensorDicom3D)):
+def make_pseudo_color(t: (Tensor, TensorDicom3D, TensorMask3D)):
     '''
     The 3D CNN still expects color images, so a pseudo color image needs to be created as long as I don't adapt the 3D CNN
     '''
@@ -448,7 +455,7 @@ class PseudoColor(RandTransform):
         "change in __call__ to enforce, that the Transform is always applied on every dataset. "
         return super().__call__(b, split_idx=split_idx, **kwargs)
 
-    def encodes(self, x:(TensorDicom3D, Tensor)):
+    def encodes(self, x:(TensorDicom3D, Tensor, TensorMask3D)):
         x = x.make_pseudo_color()
         return x if x.device.type == 'cpu' else x.cuda()
 
