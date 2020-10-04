@@ -53,7 +53,7 @@ def read_medical_3d_image(fn: (pathlib.Path, str), div=None, return_scaled=False
     return retain_type(t, typ = TensorDicom3D)
 
 # Cell
-def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, return_grid = False, alpha = 1.):
+def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, return_grid = False):
     '''
     Plots 2D slices of a 3D image alongside a prior specified axis.
 
@@ -84,10 +84,10 @@ def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15
     grid = torchvision.utils.make_grid(t, nrow = nrow)
     if return_grid: return grid
     plt.figure(figsize=figsize)
-    plt.imshow(np.transpose(grid, (1,2,0)), cmap = cmap, alpha = alpha)
+    plt.imshow(np.transpose(grid, (1,2,0)), cmap = cmap)
 
 # Cell
-def show_multiple_3d_images(t_4d: Tensor, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, alpha = 1., return_grid = False):
+def show_multiple_3d_images(t_4d: Tensor, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, return_grid = False):
     "displays multiple 3D images (e.g. a batch) by flattening the 4th dimension of the tensor and then calling show_one_3d_image"
 
     if t_4d.ndim != 4:
@@ -104,7 +104,7 @@ def show_multiple_3d_images(t_4d: Tensor, axis: int = 0, figsize: int = (15,15),
     grid = torch.cat(grid_list, dim = 1)
     if return_grid: return grid
     plt.figure(figsize=figsize)
-    plt.imshow(np.transpose(grid, (1,2,0)), cmap = cmap, alpha = alpha)
+    plt.imshow(np.transpose(grid, (1,2,0)), cmap = cmap)
 
 
 # Cell
@@ -267,6 +267,14 @@ class TensorMask3D(TensorDicom3D):
         "open the mask, scale back to int"
         if isinstance(fn,ndarray): return cls(fn)
         if isinstance(fn, Tensor): return cls(fn)
+
+        # nifti files differ in pixel orientation from DICOM.
+        # This might be due to differnt pixel orientations.
+
+        if 'nii' in str(fn):
+            o = sitk.ReadImage(str(fn))
+
+
         return cls(load_image_3d(fn))
 
 # Cell
