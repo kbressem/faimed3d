@@ -58,23 +58,14 @@ def show_batch_3d(dls, max_n=9, with_mask=False, alpha_mask=0.3, figsize = (15, 
 
     xb, yb = dls.one_batch()
 
-    if xb.device.type == 'cuda':
-        xb=xb.cpu()
-        yb=yb.cpu()
     if xb.ndim < 4: raise TypeError('Batch is not a batch of multiple 3D images')
     if xb.ndim == 5:
         print('Expected 4D tensor but got 5D tensor. Removing the last dimension under the assumption that it is a color channel ')
         xb = xb[:,:,:,:,0]
-        yb = yb[:,:,:,:,0]
+
     if xb.ndim > 5: raise NotImplementedError('Batches with more than 3 Dimensions are currently not supported')
 
+    show_multiple_3d_images(xb, cmap = 'gray', **kwargs)
     if with_mask:
-
-        x_grid = show_multiple_3d_images(xb, return_grid = True, **kwargs)[0,:,:]
-        y_grid = show_multiple_3d_images(yb, return_grid = True, **kwargs)[0,:,:]
-
-        plt.figure(figsize=figsize)
-        plt.imshow(x_grid, cmap = 'gray')
-        plt.imshow(y_grid, cmap = 'jet', alpha = alpha_mask)
-
-    else: show_multiple_3d_images(xb, **kwargs)
+        if yb.ndim == 5: yb = yb[:,:,:,:,0]
+        show_multiple_3d_images(yb, add_to_existing = True, alpha = 0.50, cmap = 'jet', **kwargs)

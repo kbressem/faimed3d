@@ -53,7 +53,7 @@ def read_medical_3d_image(fn: (pathlib.Path, str), div=None, return_scaled=False
     return retain_type(t, typ = TensorDicom3D)
 
 # Cell
-def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, return_grid = False):
+def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, alpha = 1., return_grid = False, add_to_existing = False, **kwargs):
     '''
     Plots 2D slices of a 3D image alongside a prior specified axis.
 
@@ -63,8 +63,11 @@ def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15
         figsize, cmap: passed to plt.imshow
         nrow: passed to torchvision.utils.make_grid
         return_grid: Whether the grid should be returned for further processing or if the plot should be displayed.
+        add_to_existing: if set to true, no new figure will be created. Used for mask overlays
 
     '''
+    if t.device.type == 'cuda': t=t.cpu()
+
     if t.ndim < 3 or t.ndim > 4:
          raise TypeError('Object is not a rank 3 tensor but a rank {} tensor'.format(t.ndim))
     if t.ndim == 4:
@@ -78,33 +81,28 @@ def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15
     elif axis == 2:
         t = t.permute(2, 0, 1)
 
+        # implement better way to visualize
+
     if t.min() < 0.: t = t-t.min() # shift pixelvalues to positive range, otherwise the negative values will be clipped.
 
     t = t.unsqueeze(1)/torch.max(t) # rescale the images, makes for a nicer plot
     grid = torchvision.utils.make_grid(t, nrow = nrow)
     if return_grid: return grid
-    plt.figure(figsize=figsize)
-    plt.imshow(np.transpose(grid, (1,2,0)), cmap = cmap)
+    if not add_to_existing: plt.figure(figsize=figsize)
+    plt.imshow(grid[0,:,:], cmap = cmap, alpha = alpha)
 
 # Cell
-def show_multiple_3d_images(t_4d: Tensor, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, return_grid = False):
+def show_multiple_3d_images(t: Tensor, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, alpha = 1., return_grid = False, add_to_existing=False, **kwargs):
     "displays multiple 3D images (e.g. a batch) by flattening the 4th dimension of the tensor and then calling show_one_3d_image"
 
-    if t_4d.ndim != 4:
-         raise TypeError('Object is not a rank 4 tensor but a rank {} tensor'.format(t_4d.ndim))
+    if t.ndim not in (4,5): raise TypeError('Object is not a rank 4 or rank 5 tensor but a rank {} tensor'.format(t.ndim))
+    if axis > 2: raise ValueError('Axis should be between 0-2, indexing the plane to display each of the multiple 3D images. But axis was {}'.format(axis))
 
-    if axis > 2:
-         raise ValueError('Axis should be between 0-2, indexing the plane to display each of the multiple 3D images. But axis was {}'.format(axis))
+    if t.ndim == 4: t =t.reshape(t.size(0)*t.size(1), t.size(2), t.size(3))
+    if t.ndim == 5: t =t.reshape(t.size(0)*t.size(1), t.size(2), t.size(3), t.size(4))
 
-    grid_list = []
-    n_images, _, _, _ = t_4d.shape
-    for i in range(0, n_images):
-        grid_list.append(show_one_3d_image(t_4d[i,:,:,:], axis = axis,  nrow = nrow, return_grid = True))
-
-    grid = torch.cat(grid_list, dim = 1)
-    if return_grid: return grid
-    plt.figure(figsize=figsize)
-    plt.imshow(np.transpose(grid, (1,2,0)), cmap = cmap)
+    if return_grid: return t
+    show_one_3d_image(t, axis = axis, figsize = figsize, cmap = cmap, nrow = nrow, alpha = alpha, add_to_existing = add_to_existing)
 
 
 # Cell
@@ -236,9 +234,9 @@ class TensorDicom3D(Tensor):
         if isinstance(fn, Tensor): return cls(fn)
         return cls(load_image_3d(fn))
 
-    def show(self, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10):
-        return show_one_3d_image(self, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False)
-
+    def show(self, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, **kwargs):
+        if self.ndim == 3: return show_one_3d_image(self, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
+        if self.ndim in (4,5): return show_multiple_3d_images(self, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
 
 
 def load_image_3d(fn: (pathlib.Path, str)):
@@ -270,10 +268,6 @@ class TensorMask3D(TensorDicom3D):
 
         # nifti files differ in pixel orientation from DICOM.
         # This might be due to differnt pixel orientations.
-
-        if 'nii' in str(fn):
-            o = sitk.ReadImage(str(fn))
-
 
         return cls(load_image_3d(fn))
 
