@@ -58,9 +58,16 @@ index = {"read_medical_3d_image": "01_reading_and_displaying_medical_3d_images.i
          "ImageBlock3D": "03-custom-3d-datablock.ipynb",
          "AddMaskCodes3D": "03-custom-3d-datablock.ipynb",
          "MaskBlock3D": "03-custom-3d-datablock.ipynb",
+         "TensorMask3D.clamp_to_range": "03-custom-3d-datablock.ipynb",
+         "ClampMask3D": "03-custom-3d-datablock.ipynb",
          "show_batch_3d": "03-custom-3d-datablock.ipynb",
          "Sequential_": "05-Custom-3D-CNN.ipynb",
-         "resnet_3d": "05-Custom-3D-CNN.ipynb"}
+         "resnet_3d": "05-Custom-3D-CNN.ipynb",
+         "DoubleConv": "05-Custom-3D-CNN.ipynb",
+         "Down": "05-Custom-3D-CNN.ipynb",
+         "Up": "05-Custom-3D-CNN.ipynb",
+         "OutConv": "05-Custom-3D-CNN.ipynb",
+         "UNet3D": "05-Custom-3D-CNN.ipynb"}
 
 modules = ["basics.py",
            "augment.py",

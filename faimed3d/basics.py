@@ -71,9 +71,9 @@ def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15
     if t.ndim < 3 or t.ndim > 4:
          raise TypeError('Object is not a rank 3 tensor but a rank {} tensor'.format(t.ndim ))
     if t.ndim == 4:
-        w = 'Object is not a rank 3 tensor but a rank {} tensor. Assuming the 4th dimension is a (fake) color channel it will be removed'.format(t.ndim)
+        w = 'Object is not a rank 3 tensor but a rank {} tensor. Assuming the 1st dimension is a (fake) color channel it will be removed'.format(t.ndim)
         warn(w)
-        t = t[:,:,:,0]
+        t = t[0,:,:,:]
 
     if isinstance(t, np.ndarray): t = tensor(t)
 
@@ -99,8 +99,11 @@ def show_multiple_3d_images(t: Tensor, axis: int = 0, figsize: int = (15,15), cm
     if t.ndim not in (4,5): raise TypeError('Object is not a rank 4 or rank 5 tensor but a rank {} tensor'.format(t.ndim))
     if axis > 2: raise ValueError('Axis should be between 0-2, indexing the plane to display each of the multiple 3D images. But axis was {}'.format(axis))
 
+
     if t.ndim == 4: t =t.reshape(t.size(0)*t.size(1), t.size(2), t.size(3))
-    if t.ndim == 5: t =t.reshape(t.size(0)*t.size(1), t.size(2), t.size(3), t.size(4))
+    if t.ndim == 5:
+        t = t.permute(1,0,2,3,4)
+        t =t.reshape(t.size(0), t.size(1)*t.size(2), t.size(3), t.size(4))
 
     if return_grid: return t
     show_one_3d_image(t, axis = axis, figsize = figsize, cmap = cmap, nrow = nrow, alpha = alpha, add_to_existing = add_to_existing)
@@ -177,7 +180,7 @@ def resize_3d_tensor(t: Tensor, new_shape: int):
     else:
         raise ValueError('"new_dim" must be a tuple with length 3, specifying the new (x,y,z) dimensions of the 3D tensor')
 
-    t = torch.stack((t,t,t)) # create fake color channel
+    t = t.unsqueeze(0) # create fake color channel
     t = t.unsqueeze(0).float() # create batch dim
 
     x = torch.linspace(-1, 1, x) # create resampling 'directions' for pixels in each axis
@@ -188,7 +191,7 @@ def resize_3d_tensor(t: Tensor, new_shape: int):
     grid = torch.stack((meshy, meshx , meshz), 3) # create flow field. x and y need to be switched as otherwise the images are rotated.
     grid = grid.unsqueeze(0) # add batch dim
     out = F.grid_sample(t, grid, align_corners=True, mode = 'bilinear') # rescale the 5D tensor
-    out = out[0,0,:,:,:].permute(2,0,1).contiguous() # remove fake color channels and batch dim, reorder the image (the Z axis has moved to the back...)
+    out = out.squeeze().permute(2,0,1).contiguous() # remove fake color channels and batch dim, reorder the image (the Z axis has moved to the back...)
     return retain_type(out, typ = TensorDicom3D)
 
 # Cell

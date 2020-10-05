@@ -53,8 +53,8 @@ class Resize3D(RandTransform):
         super().__init__(**kwargs)
 
     def encodes(self, x: (TensorDicom3D,TensorMask3D)):
-        return x.resize_3d(self.size, self.scale_factor, self.mode, self.align_corners, self.recompute_scale_factor)
-
+        x = x.resize_3d(self.size, self.scale_factor, self.mode, self.align_corners, self.recompute_scale_factor)
+        return x if x.device.type == 'cpu' else x.cuda()
 def _process_sz_3d(size):
     if len(size) == 2: size=(size[0],size[1], size[1])
     return fastuple(size[0],size[1],size[2])
@@ -92,7 +92,8 @@ class RandomFlip3D(RandTransform):
         self.axis = random.randint(1, 3)*-1  # add a random integer for axis to rotate
 
     def encodes(self, x:(TensorDicom3D, TensorMask3D)):
-        return x.flip(self.axis)
+        x = x.flip(self.axis)
+        return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
 
@@ -144,7 +145,6 @@ def rotate_3d_by(t: (TensorDicom3D,TensorMask3D), angle: (int, float), axes: lis
     typ = type(t)
     if t.ndim == 4: axes = [x+1 for x in axes]
 
-    print(axes)
     rot_t = torch.from_numpy(ndimage.rotate(t.cpu(), angle, axes, reshape=False))
     return retain_type(rot_t, typ = typ)
 
@@ -456,7 +456,12 @@ def make_pseudo_color(t: (Tensor, TensorDicom3D, TensorMask3D)):
     '''
     The 3D CNN still expects color images, so a pseudo color image needs to be created as long as I don't adapt the 3D CNN
     '''
-    return torch.stack((t, t, t), t.ndim).float() if t.ndim in (3,4) else t # permute is an important step, ensuring rigth format of tensors
+    if t.ndim == 3:
+        return t.unsqueeze(0).float()
+    elif t.ndim == 4:
+        return t.unsqueeze(1).float()
+    else:
+        return t
 
 class PseudoColor(RandTransform):
     split_idx, p = None, 1
