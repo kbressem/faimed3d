@@ -55,17 +55,6 @@ def MaskBlock3D(codes = None):
 # Cell
 def show_batch_3d(dls, max_n=9, with_mask=False, alpha_mask=0.3, figsize = (15, 15), **kwargs):
     "Workarround, until implemented into dls as dls.show_batch_3d()"
-
     xb, yb = dls.one_batch()
-
-    if xb.ndim < 4: raise TypeError('Batch is not a batch of multiple 3D images')
-    if xb.ndim == 5:
-        print('Expected 4D tensor but got 5D tensor. Removing the last dimension under the assumption that it is a color channel ')
-        xb = xb[:,:,:,:,0]
-
-    if xb.ndim > 5: raise NotImplementedError('Batches with more than 3 Dimensions are currently not supported')
-
-    show_multiple_3d_images(xb, cmap = 'gray', **kwargs)
-    if with_mask:
-        if yb.ndim == 5: yb = yb[:,:,:,:,0]
-        show_multiple_3d_images(yb, add_to_existing = True, alpha = 0.50, cmap = 'jet', **kwargs)
+    xb.show(figsize=figsize)
+    if with_mask: yb.show(add_to_existing = True, alpha = alpha_mask, cmap = 'jet', figsize=figsize)

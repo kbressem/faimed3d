@@ -69,9 +69,10 @@ def show_one_3d_image(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15
     if t.device.type == 'cuda': t=t.cpu()
 
     if t.ndim < 3 or t.ndim > 4:
-         raise TypeError('Object is not a rank 3 tensor but a rank {} tensor'.format(t.ndim))
+         raise TypeError('Object is not a rank 3 tensor but a rank {} tensor'.format(t.ndim ))
     if t.ndim == 4:
-        warn('Object is not a rank 3 tensor but a rank {} tensor. Assuming the 4th dimension is a (fake) color channel it will be removed'.format(t.ndim))
+        w = 'Object is not a rank 3 tensor but a rank {} tensor. Assuming the 4th dimension is a (fake) color channel it will be removed'.format(t.ndim)
+        warn(w)
         t = t[:,:,:,0]
 
     if isinstance(t, np.ndarray): t = tensor(t)

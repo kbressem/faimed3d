@@ -142,6 +142,9 @@ def rotate_3d_by(t: (TensorDicom3D,TensorMask3D), angle: (int, float), axes: lis
 
     '''
     typ = type(t)
+    if t.ndim == 4: axes = [x+1 for x in axes]
+
+    print(axes)
     rot_t = torch.from_numpy(ndimage.rotate(t.cpu(), angle, axes, reshape=False))
     return retain_type(rot_t, typ = typ)
 
@@ -158,7 +161,6 @@ class RandomRotate3DBy(RandTransform):
         self.axes = random.choice([[0,1],[1,2],[0,2]])
 
     def encodes(self, x:(TensorDicom3D, TensorMask3D)):
-        if x.ndim == 4: self.axes = [x+1 for x in self.axes]
         x = x.rotate_3d_by(angle=self.angle, axes=self.axes)
         return x if x.device.type == 'cpu' else x.cuda()
 
@@ -246,7 +248,9 @@ class RandomCrop3D(RandTransform):
         self.perc_crop = perc_crop
         self.crop_by_x, self.crop_by_y, self.crop_by_z = rand_crop_xyz
 
-    def encodes(self, x:(TensorDicom3D,TensorMask3D)):
+    def before_call(self, b, split_idx):
+        super().before_call(b, split_idx)
+
         if type(self.crop_by) is tuple and len(self.crop_by) == 3:
             x1,x2,y1,y2,z1,z2 = _get_margins(self.crop_by)
 
@@ -263,6 +267,7 @@ class RandomCrop3D(RandTransform):
 
         if any(self.margins) < 0: raise ValueError('cannot crop to a negative dimension')
 
+    def encodes(self, x:(TensorDicom3D,TensorMask3D)):
         x = x.crop_3d(crop_by = self.margins, perc_crop = self.perc_crop)
         return x if x.device.type == 'cpu' else x.cuda()
 
@@ -292,7 +297,7 @@ class ResizeCrop3D(RandTransform):
 
 # Cell
 @patch
-def warp_3d(t: (TensorDicom3D,TensorMask3D)):
+def warp_3d(t: (TensorDicom3D,TensorMask3D), magnitude_x, magnitude_y):
 
     '''
     A function to warp a 3D image using torch.nn.functional.grid_sample
@@ -324,11 +329,15 @@ def warp_3d(t: (TensorDicom3D,TensorMask3D)):
     t = torch.stack((t,t,t)) # create fake color channel
     t = t.unsqueeze(0).float() # create batch dim
 
-    magintude_y = random.randint(4, 25)
-    magintude_x = random.randint(4, 25) # magnitude 5 is equal magintude 0.2 for fastai warp class
+#    magintude_y = random.randint(4, 25)
+#    magintude_x = random.randint(4, 25) # magnitude 5 is equal magintude 0.2 for fastai warp class
 
-    warp_x = random.randint(-x//magintude_x, x//magintude_x) # no warping along the z axis (wraping only on 2D slices)
-    warp_y = random.randint(-y//magintude_y, y//magintude_y)
+ #   warp_x = random.randint(-x//magintude_x, x//magintude_x) # no warping along the z axis (wraping only on 2D slices)
+ #   warp_y = random.randint(-y//magintude_y, y//magintude_y)
+
+    warp_x = int(x*magnitude_x)
+    warp_y = int(y*magnitude_y)
+
 
     warp_x1 = round(float(x)/2 + warp_x)
     warp_x2 = x - warp_x1
@@ -354,22 +363,26 @@ def warp_3d(t: (TensorDicom3D,TensorMask3D)):
     return retain_type(out, typ = typ)
 
 @patch
-def warp_4d(t: Tensor):
+def warp_4d(t: Tensor, magnitude_x, magnitude_y):
 
     for i in range(0, t.size(0)):
-        t[i,:,:,:] = warp_3d(t[i,:,:,:])
+        t[i,:,:,:] = warp_3d(t[i,:,:,:], magnitude_x=magnitude_x, magnitude_y=magnitude_y)
     return t
 
 
 class RandomWarp3D(RandTransform):
-    def __init__(self, p=0.5):
+    def __init__(self, p=0.5, max_magnitude = 0.25):
         super().__init__(p=p)
+        self.max_magnitude = max_magnitude
 
     def before_call(self, b, split_idx):
         super().before_call(b, split_idx)
 
+        self.magnitude_y= random.random()*self.max_magnitude
+        self.magnitude_x = random.random()*self.max_magnitude
+
     def encodes(self, x:(TensorDicom3D,TensorMask3D)):
-        x = x.warp_3d() if x.ndim == 3 else x.warp_4d()
+        x = x.warp_3d(magnitude_x = self.magnitude_x, magnitude_y = self.magnitude_y) if x.ndim == 3 else x.warp_4d(magnitude_x = self.magnitude_x, magnitude_y = self.magnitude_y)
         return x if x.device.type == 'cpu' else x.cuda()
 
 # Cell
