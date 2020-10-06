@@ -67,7 +67,10 @@ index = {"read_medical_3d_image": "01_reading_and_displaying_medical_3d_images.i
          "Down": "05-Custom-3D-CNN.ipynb",
          "Up": "05-Custom-3D-CNN.ipynb",
          "OutConv": "05-Custom-3D-CNN.ipynb",
-         "UNet3D": "05-Custom-3D-CNN.ipynb"}
+         "UNet3D": "05-Custom-3D-CNN.ipynb",
+         "DiceLossBinary": "05-Custom-3D-CNN.ipynb",
+         "MCCLossBinary": "05-Custom-3D-CNN.ipynb",
+         "mcc_binary": "05-Custom-3D-CNN.ipynb"}
 
 modules = ["basics.py",
            "augment.py",
