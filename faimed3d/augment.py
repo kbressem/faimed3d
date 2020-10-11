@@ -2,7 +2,7 @@
 
 __all__ = ['Resize3D', 'RandomFlip3D', 'RandomRotate3D', 'RandomRotate3DBy', 'RandomDihedral3D', 'RandomCrop3D',
            'ResizeCrop3D', 'RandomWarp3D', 'RandomNoise3D', 'RandomBrightness3D', 'RandomContrast3D', 'PseudoColor',
-           'aug_transforms_3d']
+           'aug_transforms_3d', 'MaskOneHot']
 
 # Cell
 # default_exp augment
@@ -32,6 +32,7 @@ def resize_3d(t: (TensorDicom3D, TensorMask3D), size, scale_factor=None, mode='n
 
     if t.ndim == 3: t=t.unsqueeze(0)   # add fake chanel dim
 
+    if isinstance(t, TensorMask3D): t = t.long()# mode = 'linear' # minimizes
     return F.interpolate(t.unsqueeze(0), # add fake batch dim
                          size=size,
                          scale_factor=scale_factor,
@@ -506,3 +507,48 @@ def aug_transforms_3d(p_all = 0.1,
     if do_rotate: tfms.append(RandomRotate3D(p=_set_p_tfms(p_rotate, p_all)))
 
     return tfms
+
+# Cell
+
+def _make_binary(t, set_to_one):
+    """
+    Sets all but one values to zero. The remaining value is set to one.
+    """
+    return (t == set_to_one).float()
+#   v = tensor(v).cuda() if t.device.type == 'cuda' else tensor(v)
+#   zero = tensor(0).cuda() if t.device.type == 'cuda' else tensor(0)
+#   one = tensor(1).cuda() if t.device.type == 'cuda' else tensor(1)
+#   return torch.where(t == v, one, zero)
+
+@patch
+def to_one_hot(m:(Tensor,TensorMask3D), num_features:int):
+    """
+    Takes a Tensor and will return a one hot encoded version,
+    where every layer of the 2nd channel corresponds to a single
+    one hot encoded value.
+
+    Args:
+        m: a Tensor or TensorMask3D in the Format: B*C*D*H*W where C should be 1
+        num_features: number of features to be one_hot_encoded
+
+    Returns:
+        A one hot encoded tensor with the number of color channels corresponding to num_features
+    """
+    m = m.squeeze(1).long() # remove the solitary color channel (if there is one) and set type to int64
+    one_hot = [_make_binary(m, set_to_one=i) for i in range(0, num_features + 1)]
+
+    return torch.stack(one_hot, 1)
+
+class MaskOneHot(RandTransform):
+    split_idx, p = 1, 1
+
+    def __init__(self, p=1):
+        super().__init__(p=p)
+
+    def __call__(self, b, split_idx=1, **kwargs):
+        "change in __call__ to enforce, that the Transform is always applied on every dataset. "
+        return super().__call__(b, split_idx=split_idx, **kwargs)
+
+    def encodes(self, x:(TensorMask3D)):
+        x = x.to_one_hot()
+        return x if x.device.type == 'cpu' else x.cuda()
