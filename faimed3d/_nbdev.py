@@ -9,8 +9,8 @@ index = {"read_medical_3d_image": "01_reading_and_displaying_medical_3d_images.i
          "resize_3d_tensor": "01_reading_and_displaying_medical_3d_images.ipynb",
          "TensorDicom3D": "01_reading_and_displaying_medical_3d_images.ipynb",
          "load_image_3d": "01_reading_and_displaying_medical_3d_images.ipynb",
-         "TensorMask3D": "01_reading_and_displaying_medical_3d_images.ipynb",
          "normalize": "01_reading_and_displaying_medical_3d_images.ipynb",
+         "TensorMask3D": "01_reading_and_displaying_medical_3d_images.ipynb",
          "TensorDicom3D.resize_3d": "02-transformation-for-3d-data.ipynb",
          "TensorMask3D.resize_3d": "02-transformation-for-3d-data.ipynb",
          "Resize3D": "02-transformation-for-3d-data.ipynb",
@@ -74,12 +74,15 @@ index = {"read_medical_3d_image": "01_reading_and_displaying_medical_3d_images.i
          "DiceLossBinary": "05-custom-models-losses-and-metrics.ipynb",
          "MCCLossBinary": "05-custom-models-losses-and-metrics.ipynb",
          "MCCLossMulti": "05-custom-models-losses-and-metrics.ipynb",
-         "MCCScore": "05-custom-models-losses-and-metrics.ipynb"}
+         "MCCScore": "05-custom-models-losses-and-metrics.ipynb",
+         "RotateNifti": "06-custom-specific-functions.ipynb",
+         "SubvolumeExporter": "06-custom-specific-functions.ipynb"}
 
 modules = ["basics.py",
            "augment.py",
            "data.py",
-           "models.py"]
+           "models.py",
+           "utils.py"]
 
 doc_url = "https://kbressem.github.io/faimed3d/"
 
