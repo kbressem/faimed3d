@@ -26,8 +26,10 @@ def resize_3d(t: (TensorDicom3D, TensorMask3D), size, scale_factor=None, mode='n
 
     Args:
         t (Tensor): a 3D or 4D Tensor to be resized
-        new_dim (int): a tuple with the new x,y,z dimensions of the tensor after resize
-
+        size (int): a tuple with the new x,y,z dimensions of the tensor after resize
+        scale_factor, mode, align_corners, recompute_scale_factor: args from F.interpolate
+    Returns:
+        A new `Tensor` with Tensor.size = size
     '''
 
     if t.ndim == 3: t=t.unsqueeze(0)   # add fake chanel dim
@@ -131,7 +133,8 @@ class RandomRotate3D(RandTransform):
 
 @patch
 def rotate_3d_by(t: (TensorDicom3D,TensorMask3D), angle: (int, float), axes: list):
-    '''rotates 2D slices of a 3D tensor.
+    """
+    rotates 2D slices of a 3D tensor.
     Args:
         t: a TensorDicom3D object or torch.tensor
         angle: the angle to rotate the image
@@ -142,7 +145,9 @@ def rotate_3d_by(t: (TensorDicom3D,TensorMask3D), angle: (int, float), axes: lis
 
     rotate_3d_by(t, angle = -15.23, axes = [1,2]) will rotate each slice for -15.23 degrees.
 
-    '''
+
+    BUG: Does not work properly on CUDA
+    """
     typ = type(t)
     if t.ndim == 4: axes = [x+1 for x in axes]
 

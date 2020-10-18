@@ -58,7 +58,7 @@ class SubvolumeExporter(object):
         if mask.ndim == 4:
             mult_channel_by = tensor(range(0, mask.size(0)))
             mask = mask * mult_channel_by[:, None, None, None]
-            return torch.sum(mask[1:], 0)
+            return torch.sum(mask, 0)
         else: return mask
 
     def match_size_mask_source(self):

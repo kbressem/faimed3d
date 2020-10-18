@@ -150,31 +150,41 @@ def crop_3d_tensor(t: Tensor, margins: (int, float), perc_margins = False):
 
 # Cell
 def resize_3d_tensor(t: Tensor, new_shape: int):
-
-    '''
+    """
     A function to resize a 3D image using torch.nn.functional.grid_sample
-
-    Taken form the offical documention:
-        Given an input and a flow-field grid, computes the output using input values and pixel locations from grid.
-        In the spatial (4-D) case, for input with shape (N,C,Hin,Win) and with grid in shape (N, Hout, Wout, 2), the output will have shape (N, C, Hout,Wout)
-
-        In the case of 5D inputs, grid[n, d, h, w] specifies the x, y, z pixel locations for interpolating output[n, :, d, h, w].
-        mode argument specifies nearest or bilinear interpolation method to sample the input pixels.
-
-    Workflow of this function:
-    1. create a fake RGB 3D image through generating fake color channels.
-    2. add a 5th batch dimension
-    3. create a flow-field for rescaling:
-        a. create a 1D tensor giving a linear progression from -1 to 1
-        b. creat a mesh-grid (the flow field) from x,y,z tensors from (a)
-    4. resample the input tensor according to the flow field
-    5. remove fake color channels and batch dim, returning only the 3D tensor
 
     Args:
         t (Tensor): a Rank 3 Tensor to be resized
         new_dim (int): a tuple with the new x,y,z dimensions of the tensor after resize
 
-    '''
+    Returns:
+        a resized `Tensor`. Note that the header with metadata is lost in this process.
+
+    Procedure:
+        [fake RGB] -> [batch dim] -> [flow field] -> [resampling] -> [squeeze]
+
+        fake RGB:
+            Create a fake RGB 3D image through generating fake color channels.
+        btach dim:
+            add a 5th batch dimension
+        flow field:
+            create a flow-field for rescaling:
+                a. create a 1D tensor giving a linear progression from -1 to 1
+                b. creat a mesh-grid (the flow field) from x,y,z tensors from (a)
+
+                Taken form the offical Pytroch documention:
+                    Given an input and a flow-field grid, computes the output using input values and pixel locations from grid.
+                    In the spatial (4-D) case, for input with shape (N,C,Hin,Win) and with grid in shape (N, Hout, Wout, 2), the output will have shape (N, C, Hout,Wout)
+
+                    In the case of 5D inputs, grid[n, d, h, w] specifies the x, y, z pixel locations for interpolating output[n, :, d, h, w].
+                    mode argument specifies nearest or bilinear interpolation method to sample the input pixels.
+
+        resampling:
+            resample the input tensor according to the flow field
+        squeeze:
+            remove fake color channels and batch dim, returning only the 3D tensor
+    """
+
     if type(new_shape) is tuple and len(new_shape) == 3:
         z,x,y = new_shape # for a reason, I do currently not understand, order of the axis changes from resampling. flipping the order of x,y,z is the current workaround
     else:
@@ -203,7 +213,9 @@ class TensorDicom3D(Tensor):
         self.metadata = {
             'spacing':  (1,1,1),
             'origin' : (0,0,0),
-            'direction': (0,0,0, 0,0,0, 0,0,0)
+            'direction': (0,0,0, 0,0,0, 0,0,0),
+            'table': pd.DataFrame({'tags': ['0008|103E'], # cannot pass an empty header to write function, thus add a series description.
+                                   'value': ['Object generated from PyTorch `Tensor`']})
         }
 
     def freqhist_bins(self:Tensor, n_bins=100):
@@ -232,6 +244,7 @@ class TensorDicom3D(Tensor):
         return retain_type(x, typ = TensorDicom3D)
 
     def hist_scaled_pt(self:Tensor, brks=None):
+        "same as fastai fucntion for PILDicom"
         # Pytorch-only version - switch to this if/when interp_1d can be optimized
         if brks is None: brks = self.freqhist_bins()
         brks = brks.to(self.device)
@@ -239,8 +252,18 @@ class TensorDicom3D(Tensor):
         return self.flatten().interp_1d(brks, ys).reshape(self.shape).clamp(0.,1.)
 
     @classmethod
-    def create(cls, fn:(Path,str,Tensor,ndarray), **kwargs)->None:
-        "Open an `3D Image` from path `fn` or create it from an array"
+    def create(cls, fn:(Path,str,Tensor,ndarray), **kwargs):
+        """
+        Open an `3D Image` from path `fn` or create it from an array
+
+        Args:
+            cls: Class of the object to create. Should be either TensorDicom3D or TensorMask3D
+            fn:  Filename of the medical image file. String or `pathlib.Path`
+
+        Returns:
+            An instance of `cls`
+
+        """
         if isinstance(fn,ndarray): return cls(fn)
         if isinstance(fn, Tensor): return cls(fn)
         instance, metadata = TensorDicom3D.load(fn)
@@ -249,21 +272,74 @@ class TensorDicom3D(Tensor):
         return instance
 
     def show(self, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, **kwargs):
+        "displays the 3D image as a mosaik"
         if self.ndim == 3: return show_one_3d_image(self, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
         if self.ndim in (4,5): return show_multiple_3d_images(self, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
 
     def save(self, fn: (str, Path)):
-        "writes the file to disk in any format supported by SimpleITK"
+        """
+        Writes the file to disk in any format supported by SimpleITK
+
+        Args:
+            fn:  Filename of the medical image file. String or `pathlib.Path`
+
+        Returns:
+            None. Writes file to disk.
+
+        """
         fn = str(fn) if isinstance(fn, Path) else fn
         im = sitk.GetImageFromArray(self)
+
+        # also save metadata
         im.SetSpacing(self.metadata['spacing'])
         im.SetDirection(self.metadata['direction'])
         im.SetOrigin(self.metadata['origin'])
+        for i in range(0, len(self.metadata['table'])):
+            try:
+                im.SetMetaData(self.metadata['table'].iloc[i,0], self.metadata['table'].iloc[i,1])
+            except:
+                print('failed to write DICOM tag {} : {}'.format(self.metadata['table'].iloc[i,0], self.metadata['table'].iloc[i,1]))
 
         sitk.WriteImage(im, fn)
 
     @staticmethod
     def load(fn: (Path, str)):
+        """
+        Loads a Medical image file. Stores pixel information as `Tensor` and DICOM header as dictionary.
+
+        Args:
+            fn:  Filename of the medical image file. String or `pathlib.Path`
+
+        Returns:
+            A tuple. 1st element is the pixelvalues converted to a `Tensor`, 2nd element is the metadata as dict.
+
+
+        Process:
+           [load pixel array] -> [load basic metadata] -> [load image header] -> [return]
+
+            load pixel array:
+                Medical images can be presented as a single volumetric file or as a (DICOM)-series.
+                If `fn` points to a directory, it is assumed that a DICOM series should be loaded.
+                If `fn` is a file, it is assumed it is a single 3D Volume.
+
+            load basic meta data:
+                Spacing, origin and direction are important for image display and calulations.
+                They are stored seperatly.
+
+            load image header:
+                creates table with header information.
+
+                | tags      | fn_01                        | fn_02             | ...
+                |-----------|------------------------------|-------------------|----
+                | DICOM tag | name of file or of 1st slice | name of 2nd slice | ...
+
+                Some tags contain special characters, which are transformed to surrogates.
+                This will lead to failure when displaying or writing the metadata.
+                Using encode(errors='ignore').decode() the surrogates are removed and the string ist turned into a bytes object.
+                Using decode will turn the bytes back into a string.
+        """
+
+
         if isinstance(fn, str): fn = Path(fn)
 
         if fn.is_dir():
@@ -271,6 +347,7 @@ class TensorDicom3D(Tensor):
             dicom_names = SeriesReader.GetGDCMSeriesFileNames(str(fn))
             SeriesReader.SetFileNames(dicom_names)
             im = SeriesReader.Execute()
+            im = sitk.Cast(im, sitk.sitkInt16)
 
         elif fn.is_file():
             im = sitk.ReadImage(str(fn), outputPixelType=sitk.sitkInt16)
@@ -285,26 +362,25 @@ class TensorDicom3D(Tensor):
             'direction': im.GetDirection()
         }
 
-#        if fn.is_dir():
-#            # iter through slices, collecting remaining metadata
-#            reader = sitk.ImageFileReader()
-#            reader.SetFileName(dicom_names[0])
-#            reader.ReadImageInformation()
-#            slice_metadata=pd.DataFrame({'tags': reader.GetMetaDataKeys()})
+        if fn.is_dir():
+            # iter through slices, collecting remaining metadata
+            reader = sitk.ImageFileReader()
+            reader.SetFileName(dicom_names[0])
+            reader.ReadImageInformation()
+            slice_metadata=pd.DataFrame({'tags': reader.GetMetaDataKeys()})
 
-#            for dcm in dicom_names:
-#                reader.SetFileName(dcm)
-#                reader.ReadImageInformation()
-#                slice_metadata[dcm] = [reader.GetMetaData(k) for k in reader.GetMetaDataKeys()]
+            for dcm in dicom_names:
+                reader.SetFileName(dcm)
+                reader.ReadImageInformation()
+                slice_metadata[dcm] = [reader.GetMetaData(k).encode(encoding='UTF-8',errors='ignore').decode() for k in reader.GetMetaDataKeys()]
 
-#            metadata['table'] = slice_metadata
+            metadata['table'] = slice_metadata
 
-#        if fn.is_file():
-#            metadata['table'] = pd.DataFrame({'tags': im.GetMetaDataKeys(),
-#                                              'value': [im.GetMetaData(k) for k in im.GetMetaDataKeys()]})
+        if fn.is_file():
+            metadata['table'] = pd.DataFrame({'tags': im.GetMetaDataKeys(),
+                                              fn: [im.GetMetaData(k).encode(encoding='UTF-8',errors='ignore').decode() for k in im.GetMetaDataKeys()]})
 
 
-        im = sitk.Cast(im, sitk.sitkInt16)
         return (torch.tensor(sitk.GetArrayFromImage(im)).float(), metadata)
 
 def load_image_3d(fn: (pathlib.Path, str)):
@@ -334,6 +410,11 @@ class TensorMask3D(TensorDicom3D):
     "Base class for 3d Segmentation, inherits from TensorDicom3D"
 
     def get_nonzero_bool(self):
+        """
+        Identifies non-zero planes alongsinde an axis of a 3D `Tensor`.
+        Returns a 1D boolean `Tensor`.
+        """
+
         z = torch.sum(self.abs(), dim=(1,2)) != 0
         x = torch.sum(self.abs(), dim=(0,2)) != 0
         y = torch.sum(self.abs(), dim=(0,1)) != 0
@@ -341,7 +422,7 @@ class TensorMask3D(TensorDicom3D):
 
     def get_center_id(self, x):
         """
-        In a tensor with a sequence of values which are not zero, return the index of the (approx.) central value:
+        In a `Tensor` with a sequence of values which are not zero, return the index of the (approx.) central value:
 
         example:
         x = tensor([0, 0, 0, 1, -3, 1, 4, 1, 0, 0])
@@ -352,6 +433,22 @@ class TensorMask3D(TensorDicom3D):
 
 
     def get_strip_idx(self, symmetric):
+        """
+        Calculated axis-ids to strip zero-planes from `Tensor`
+
+        Args:
+            symmetric: whether H and W of `Tensor` should be the same after stripping.
+
+        Returns:
+            ID of the axis which is closest to the region of interest but still zero
+
+        Example:
+            t = torch.zeros(5,9,9)
+            t[3,5,5] = 1
+            get_strip_idx(t)
+            >>> 2,4,4,6,4,6
+        """
+
         z, x, y = self.get_nonzero_bool()
 
         center_z = self.get_center_id(z)
@@ -380,7 +477,23 @@ class TensorMask3D(TensorDicom3D):
         return min.long(), max.long()
 
     def strip(self, pad_x=0, pad_y=0, pad_z=0, pad_xy=None, symmetric = True):
-        "how to make this as in place operation?"
+        """
+        Reduces a 3D `Tensor` in size through removing 2D planes which are all 0.
+        This is usefull if the segmented region of interest is only a small part
+        in the 3D volume (e.g. kidney in an abominal CT).
+
+        Args:
+            pad_x, pad_y, pad_z: added to margins, to keep a small margin of zero-planes.
+            pad_xy: can be used instead of passing the same number to pad_x and pad_y
+            symmetric: whether the resulting size of the `Tensor` should be the same for H and W.
+
+        Returns:
+            A `Tensor` stripped of its zero-margins.
+
+        Procedure:
+            [get strip idx] -> [add padding] -> [strip]
+        """
+
         if hasattr(self, 'strip_idx'):
             z1,z2,x1,x2,y1,y2 = self.strip_idx
         else:
@@ -425,6 +538,7 @@ class TensorMask3D(TensorDicom3D):
         return mesh
 
     def show_center_point(self):
+        "displays a cross in the center of the mask"
         z, x, y = self.get_nonzero_bool()
         center_z = self.get_center_id(z)
         center_x = self.get_center_id(x)
@@ -435,7 +549,7 @@ class TensorMask3D(TensorDicom3D):
         self.show()
 
     def create_mesh_for_classes(self, colors, alpha):
-
+        "applies `create_mesh` to all classes of the mask"
         classes = self.unique()[1:]
         if colors is None:
             colors = 'bgrcmyw'
@@ -458,6 +572,7 @@ class TensorMask3D(TensorDicom3D):
         return meshes
 
     def render_3d(self, colors=None, alpha = None, symmetric=False):
+        "renders the mask as a 3D object and displays it"
 
         im = self.strip(symmetric = symmetric)
         meshes = im.create_mesh_for_classes(colors = colors, alpha = alpha)
@@ -476,6 +591,11 @@ class TensorMask3D(TensorDicom3D):
         plt.show()
 
     def calc_volume(self):
+        """
+        Calcualtes the volume for a single class in the mask.
+        Calculation relies on correct spacing onformation in the header.
+        Results are given in mm**3
+        """
         x,y,z = self.metadata['spacing']
         voxel_size = x*y*z
 
@@ -489,4 +609,5 @@ class TensorMask3D(TensorDicom3D):
         print(self.volume)
 
     def _calc_vol_per_class(self, class_idx, voxel_size):
+        "calculates volume of the void, whole mask and for each class in the mask"
         return float((self == class_idx).sum() * voxel_size)
