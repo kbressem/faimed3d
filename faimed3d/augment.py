@@ -18,7 +18,7 @@ from .basics import *
 
 # Cell
 @patch
-def resize_3d(t: (Tensor, TensorDicom3D, TensorMask3D), size, scale_factor=None, mode='nearest', align_corners=None, recompute_scale_factor=None):
+def resize_3d(t: (Tensor, TensorDicom3D, TensorMask3D), size, scale_factor=None, mode='trilinear', align_corners=True, recompute_scale_factor=None):
 
     '''
     A function to resize a 3D image using torch.nn.functional.interpolate
@@ -46,12 +46,9 @@ class Resize3D(RandTransform):
     split_idx,order = None, 1
     "Resize a 3D image"
 
-    def __init__(self, size, scale_factor=None, mode='nearest', align_corners=None, recompute_scale_factor=None, **kwargs):
-        size = _process_sz_3d(size)
-        scale_factor = scale_factor
-        mode = mode
-        align_corners = align_corners
+    def __init__(self, size, scale_factor=None, mode='trilinear', align_corners=True, recompute_scale_factor=None, **kwargs):
         store_attr()
+        self.size = _process_sz_3d(self.size)
         super().__init__(**kwargs)
 
     def encodes(self, x: (TensorDicom3D,TensorMask3D)):

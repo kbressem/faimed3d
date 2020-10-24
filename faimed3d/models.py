@@ -2,7 +2,8 @@
 
 __all__ = ['Sequential_', 'DoubleConv', 'ResBlock', 'DoubleResBlock', 'Down', 'ResDown', 'DoubleResDown', 'Up', 'ResUp',
            'DoubleResUp', 'OutConv', 'OutDuoubleRes', 'resnet_3d', 'AbstractUNet3D', 'UNet3D', 'UResNet3D',
-           'DiceLossBinary', 'DiceLossMulti', 'MCCLossBinary', 'MCCLossMulti', 'WeightedMCCLossMulti', 'MCCScore']
+           'DiceLossBinary', 'DiceLossMulti', 'MCCLossBinary', 'MCCLossMulti', 'SoftMCCLossMulti',
+           'WeightedMCCLossMulti', 'MCCScore']
 
 # Cell
 # export
@@ -603,11 +604,38 @@ class MCCLossMulti(MCCLossBinary):
     def to_one_hot(self, target:Tensor):
         target = target.squeeze(1).long() # remove the solitary color channel (if there is one) and set type to int64
         one_hot = [self.make_binary(target, set_to_one=i) for i in range(0, self.n_classes)]
-
         return torch.stack(one_hot, 1)
 
     def activation(self, input):
         return F.softmax(input, 1)
+
+# Cell
+class SoftMCCLossMulti(MCCLossMulti):
+    """
+    Same as MCCLossMulti but can handle float values.
+    Example:
+        t = torch.randn(2,5); t
+        >>> tensor([[ 0.9113, -0.7525, -2.1771, -0.2420, -0.2245],
+                    [ 1.9503, -1.2903,  0.1201,  0.2830,  0.0473]])
+
+        MCCLossMulti(2).make_binary(t, 1)
+        >>> tensor([[0., 0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0.]])
+
+        SoftMCCLossMulti(2).soft_binary(t, 0)
+        >>> tensor([[0.9113, 0.0000, 0.0000, 0.0000, 0.0000],
+                    [0.0000, 0.0000, 0.0000, 0.0000, 0.0000]])
+    """
+
+    def soft_binary(self, t, set_to_one):
+        return torch.where(t.gt(set_to_one - 0.49) != t.gt(set_to_one + 0.49),
+                           t.float(),
+                           tensor(0.).to(t.device) if set_to_one > 0 else tensor(1.).to(t.device))
+
+    def to_one_hot(self, target:Tensor):
+        target = target.squeeze(1) # remove the solitary color channel (if there is one) and set type to int64
+        one_hot = [self.soft_binary(target, set_to_one=i) for i in range(0, self.n_classes)]
+        return torch.stack(one_hot, 1)
 
 # Cell
 class WeightedMCCLossMulti(MCCLossMulti):

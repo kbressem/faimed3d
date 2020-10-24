@@ -21,22 +21,18 @@ from .augment import *
 # Cell
 class ScaleDicom(DisplayedTransform):
     "Transforms a TensorDicom3D volume to float and normalizes the data"
-    def __init__(self, div=None, div_mask=1): store_attr()
-
+    def __init__(self, div=None, scale=True): store_attr()
     def encodes(self, x:(TensorDicom3D, TensorMask3D)):
-
         if isinstance(x, TensorMask3D): return x
-
-        if self.div is None:
-            return normalize(x.hist_scaled()).float()
-        else:
-            return (x.hist_scaled()/div).float()
+        if self.scale: x = x.hist_scaled()
+        if self.div is None: return normalize(x).float()
+        return (x/div).float()
 
 
 # Cell
-def ImageBlock3D(cls=TensorDicom3D):
+def ImageBlock3D(cls=TensorDicom3D, div=None,scale=True):
     "A `TransformBlock` for images of `cls`"
-    return TransformBlock(type_tfms=cls.create, batch_tfms=ScaleDicom)
+    return TransformBlock(type_tfms=cls.create, batch_tfms=[ScaleDicom(div=None,scale=True)])
 
 # Cell
 class AddMaskCodes3D(AddMaskCodes):
