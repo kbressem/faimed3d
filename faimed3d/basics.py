@@ -309,6 +309,7 @@ class TensorDicom3D(Tensor):
 
         Args:
             fn:  Filename of the medical image file. String or `pathlib.Path`
+            metadata_for_all_slices: if a DICOM series is given, if metadata from every single elemt of the series should be read.
 
         Returns:
             A tuple. 1st element is the pixelvalues converted to a `Tensor`, 2nd element is the metadata as dict.
@@ -372,7 +373,10 @@ class TensorDicom3D(Tensor):
             for dcm in dicom_names:
                 reader.SetFileName(dcm)
                 reader.ReadImageInformation()
-                slice_metadata[dcm] = [reader.GetMetaData(k).encode(encoding='UTF-8',errors='ignore').decode() for k in reader.GetMetaDataKeys()]
+                try:
+                    slice_metadata[dcm] = [reader.GetMetaData(k).encode(encoding='UTF-8',errors='ignore').decode() for k in reader.GetMetaDataKeys()]
+                except:
+                    print('Failed loading metadata for {}'.format(dcm))
 
             metadata['table'] = slice_metadata
 
