@@ -2,7 +2,7 @@
 
 __all__ = ['index_based_resize', 'Resize3D', 'RandomFlip3D', 'RandomRotate3D', 'RandomRotate3DBy', 'RandomDihedral3D',
            'RandomCrop3D', 'ResizeCrop3D', 'RandomWarp3D', 'RandomNoise3D', 'RandomBrightness3D', 'RandomContrast3D',
-           'PseudoColor', 'aug_transforms_3d', 'MaskOneHot']
+           'PseudoColor', 'aug_transforms_3d', 'ClampMask3D']
 
 # Cell
 # default_exp augment
@@ -531,40 +531,16 @@ def aug_transforms_3d(p_all = 0.1,
     return tfms
 
 # Cell
-
-def _make_binary(t, set_to_one):
-    "Sets all but one values to zero. The remaining value is set to one."
-    return (t == set_to_one).float().to(t.device)
-
-
 @patch
-def to_one_hot(m:(Tensor,TensorMask3D), num_features:int):
-    """
-    Takes a Tensor and will return a one hot encoded version,
-    where every layer of the 2nd channel corresponds to a single
-    one hot encoded value.
+def clamp_to_range(x:TensorMask3D, lwr, upr):
+    return torch.clamp(x, lwr, upr)
 
-    Args:
-        m: a Tensor or TensorMask3D in the Format: B*C*D*H*W where C should be 1
-        num_features: number of features to be one_hot_encoded
-
-    Returns:
-        A one hot encoded tensor with the number of color channels corresponding to num_features
-    """
-    m = m.squeeze(1).long() # remove the solitary color channel (if there is one) and set type to int64
-    one_hot = [_make_binary(m, set_to_one=i) for i in range(0, num_features + 1)]
-
-    return torch.stack(one_hot, 1).to(m.device)
-
-class MaskOneHot(RandTransform):
-    split_idx, p = 1, 1
-
-    def __init__(self, p=1):
+class ClampMask3D(RandTransform):
+    "Clamps/Clips mask value to a range"
+    def __init__(self, lwr=0,upr=1,p=1):
         super().__init__(p=p)
+        self.lwr=lwr
+        self.upr=upr
 
-    def __call__(self, b, split_idx=1, **kwargs):
-        "change in __call__ to enforce, that the Transform is always applied on every dataset. "
-        return super().__call__(b, split_idx=split_idx, **kwargs)
-
-    def encodes(self, x:(TensorMask3D)):
-        return x.to_one_hot()
+    def encodes(self, x:TensorMask3D):
+        return x.clamp_to_range(self.lwr, self.upr).to(x.device)
