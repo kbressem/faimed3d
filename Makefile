@@ -1,6 +1,6 @@
 .ONESHELL:
 SHELL := /bin/bash
-SRC = $(wildcard nbs/*.ipynb)
+SRC = $(wildcard ./*.ipynb)
 
 all: faimed3d docs
 

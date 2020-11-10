@@ -1,0 +1,15 @@
+{
+  "faimed3d": {
+    "Overview": "/",
+    "Basics": "basics.html",
+    "Transformations for 3D medical images": "transforms.html",
+    "Creating custom datablocks for 3D images and fastai": "datablock.html",
+    "Datasets": "datasets.html",
+    "Modules": "models.modules.html",
+    "3D CNN": "models.cnn.html",
+    "3D UNet": "models.unet.html",
+    "Losses and metrics": "models.losses.html",
+    "Callbacks": "callback.html",
+    "Task specific functions": "tools.html"
+  }
+}
