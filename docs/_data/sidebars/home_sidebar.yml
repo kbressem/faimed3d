@@ -25,8 +25,11 @@ entries:
       title: Modules
       url: models.modules.html
     - output: web,pdf
-      title: 3D CNN
-      url: models.cnn.html
+      title: 3D DeepLabV3+
+      url: models.deeplabv3.html
+    - output: web,pdf
+      title: 3D ResNet
+      url: models.resnet.html
     - output: web,pdf
       title: 3D UNet
       url: models.unet.html

@@ -141,7 +141,7 @@ learn = learn.to_fp16()
 
 ```python
 # slow
-learn.fit_one_cycle(1, 0.1)
+learn.fit_one_cycle(5, 0.1)
 ```
 
 

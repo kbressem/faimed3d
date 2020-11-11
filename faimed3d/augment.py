@@ -6,18 +6,19 @@ __all__ = ['index_based_resize', 'Resize3D', 'RandomFlip3D', 'RandomRotate3D', '
 
 # Cell
 # default_exp augment
+from fastai.torch_basics import *
 from torch import Tensor
-import torch.nn.functional as F
 from fastai.basics import *
 from fastai.vision.augment import *
 
 # Cell
 from .basics import *
 
+
 # Cell
 
 @patch
-def resize_3d(t: (Tensor, TensorDicom3D, TensorMask3D), size, scale_factor=None, mode='trilinear', align_corners=True, recompute_scale_factor=None):
+def resize_3d(t: (TensorDicom3D, TensorMask3D), size, scale_factor=None, mode='trilinear', align_corners=True, recompute_scale_factor=None):
     '''
     A function to resize a 3D image using torch.nn.functional.interpolate
 
@@ -380,7 +381,7 @@ def warp_3d(t: (TensorDicom3D,TensorMask3D), magnitude_x, magnitude_y):
     return retain_type(out.to(dev), typ = typ)
 
 @patch
-def warp_4d(t: Tensor, magnitude_x, magnitude_y):
+def warp_4d(t: (TensorDicom3D,TensorMask3D), magnitude_x, magnitude_y):
 
     for i in range(0, t.size(0)):
         t[i,:,:,:] = warp_3d(t[i,:,:,:], magnitude_x=magnitude_x, magnitude_y=magnitude_y)
@@ -475,7 +476,7 @@ class RandomContrast3D(RandTransform):
 # Cell
 
 @patch
-def make_pseudo_color(t: (Tensor, TensorDicom3D, TensorMask3D)):
+def make_pseudo_color(t: (TensorDicom3D, TensorMask3D)):
     '''
     The 3D CNN still expects color images, so a pseudo color image needs to be created as long as I don't adapt the 3D CNN
     '''
@@ -496,7 +497,7 @@ class PseudoColor(RandTransform):
         "change in __call__ to enforce, that the Transform is always applied on every dataset. "
         return super().__call__(b, split_idx=split_idx, **kwargs)
 
-    def encodes(self, x:(TensorDicom3D, Tensor, TensorMask3D)):
+    def encodes(self, x:(TensorDicom3D, TensorMask3D)):
         return x.make_pseudo_color()
 
 # Cell

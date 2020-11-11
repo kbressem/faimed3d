@@ -31,12 +31,13 @@ nb_path: "nbs/05c_models.unet.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Building-Blocks">Building Blocks<a class="anchor-link" href="#Building-Blocks"> </a></h2><h3 id="Convolutional-BlocKs">Convolutional BlocKs<a class="anchor-link" href="#Convolutional-BlocKs"> </a></h3><h4 id="DoubleConv">DoubleConv<a class="anchor-link" href="#DoubleConv"> </a></h4><p>Standard double Convulutional-Block for UNet adapted for 3D.</p>
-
-<pre><code>1. 3D Convolution with 3**3 Kernel
-2. 3D BatchNorm
-3. ReLu
-4. Repeat 1-3 once</code></pre>
+<h2 id="Building-Blocks">Building Blocks<a class="anchor-link" href="#Building-Blocks"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Convolutional-BlocKs">Convolutional BlocKs<a class="anchor-link" href="#Convolutional-BlocKs"> </a></h3><h4 id="DoubleConv">DoubleConv<a class="anchor-link" href="#DoubleConv"> </a></h4><p>Standard double Convulutional-Block for UNet adapted for 3D.</p>
 
 </div>
 </div>
@@ -52,7 +53,7 @@ nb_path: "nbs/05c_models.unet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DoubleConv" class="doc_header"><code>class</code> <code>DoubleConv</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L15" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DoubleConv</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>mid_channels</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="DoubleConv" class="doc_header"><code>class</code> <code>DoubleConv</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L14" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DoubleConv</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>mid_channels</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>(convolution =&gt; [BN] =&gt; ReLU) * 2</p>
 
@@ -75,8 +76,7 @@ nb_path: "nbs/05c_models.unet.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="ResBlock">ResBlock<a class="anchor-link" href="#ResBlock"> </a></h4><p>Double Conv-Block changed to Single ResNet-like Block with Bottleneck-layer</p>
-
+<h3 id="Upscaling-Block">Upscaling Block<a class="anchor-link" href="#Upscaling-Block"> </a></h3>
 </div>
 </div>
 </div>
@@ -91,268 +91,7 @@ nb_path: "nbs/05c_models.unet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L36" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlock</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>mid_channels</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
-</blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
-                evaluation mode.
-:vartype training: bool</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Double-ResBlock">Double ResBlock<a class="anchor-link" href="#Double-ResBlock"> </a></h4><p>Double ResBlock with additional grouping in the middel Layers.</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="DoubleResBlock" class="doc_header"><code>class</code> <code>DoubleResBlock</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L61" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DoubleResBlock</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>mid_channels</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
-</blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
-                evaluation mode.
-:vartype training: bool</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Down-Blocks">Down Blocks<a class="anchor-link" href="#Down-Blocks"> </a></h3>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="Down" class="doc_header"><code>class</code> <code>Down</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L101" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Down</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>) :: <code>Module</code></p>
-</blockquote>
-<p>Downscaling with maxpool then double conv</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResDown" class="doc_header"><code>class</code> <code>ResDown</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L114" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResDown</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>) :: <code>Module</code></p>
-</blockquote>
-<p>Downscaling with maxpool then resblock</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="DoubleResDown" class="doc_header"><code>class</code> <code>DoubleResDown</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L127" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DoubleResDown</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>) :: <code>Module</code></p>
-</blockquote>
-<p>Downscaling with maxpool then double res block</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Upscaling-Blocks">Upscaling Blocks<a class="anchor-link" href="#Upscaling-Blocks"> </a></h3>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="Up" class="doc_header"><code>class</code> <code>Up</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L141" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Up</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>trilinear</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
-</blockquote>
-<p>Upscaling then double conv</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResUp" class="doc_header"><code>class</code> <code>ResUp</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L175" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResUp</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>trilinear</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
-</blockquote>
-<p>Upscaling then double conv</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="DoubleResUp" class="doc_header"><code>class</code> <code>DoubleResUp</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L209" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DoubleResUp</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>trilinear</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
+<h2 id="Up" class="doc_header"><code>class</code> <code>Up</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Up</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>trilinear</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Upscaling then double conv</p>
 
@@ -390,55 +129,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="OutConv" class="doc_header"><code>class</code> <code>OutConv</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L244" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>OutConv</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>) :: <code>Module</code></p>
-</blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
-                evaluation mode.
-:vartype training: bool</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="OutDuoubleRes" class="doc_header"><code>class</code> <code>OutDuoubleRes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L252" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>OutDuoubleRes</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>mid_channels</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="OutConv" class="doc_header"><code>class</code> <code>OutConv</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L69" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>OutConv</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -500,7 +191,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AbstractUNet3D" class="doc_header"><code>class</code> <code>AbstractUNet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L288" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AbstractUNet3D</code>() :: <code>Module</code></p>
+<h2 id="AbstractUNet3D" class="doc_header"><code>class</code> <code>AbstractUNet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L78" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AbstractUNet3D</code>() :: <code>Module</code></p>
 </blockquote>
 <p>Abstract base class of UNet, should be subclassed by all UNets</p>
 
@@ -523,22 +214,43 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Double UNet as describet by <a href="https://arxiv.org/pdf/2006.04868.pdf">Debesh et al.</a>, adapted for 3D.<br>
-The original architecture as published:</p>
-<p><img src="https://raw.githubusercontent.com/DebeshJha/2020-CBMS-DoubleU-Net/master/img/DoubleU-Net.png" alt="Double UNet Architecture"></p>
+<h3 id="3D-UResNet">3D UResNet<a class="anchor-link" href="#3D-UResNet"> </a></h3><p>3D version of the original UNet with ResNet3D Encoder</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To also work on 3D images, some things have to be adapted.</p>
-<p>A pretrained VGG-19, as they did in the paper cannot be use as no pretrained 3D models exist. All parts will thus be build from scratch.<br>
-Network 1 is thus the same as Network 2.</p>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="UResNet3D" class="doc_header"><code>class</code> <code>UResNet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L93" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UResNet3D</code>(<strong><code>backbone</code></strong>, <strong><code>n_channels</code></strong>, <strong><code>n_classes</code></strong>, <strong><code>trilinear</code></strong>=<em><code>False</code></em>) :: <a href="/faimed3d/models.unet.html#AbstractUNet3D"><code>AbstractUNet3D</code></a></p>
+</blockquote>
+<p>Abstract base class of UNet, should be subclassed by all UNets</p>
+
+</div>
+
+</div>
 
 </div>
 </div>
+
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -546,125 +258,28 @@ Network 1 is thus the same as Network 2.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">AbstractDoubleUNet3D</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s2">&quot;Abstract base class of UNet, should be subclassed by all UNets&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">AbstractDoubleUNet3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-    
-    <span class="k">def</span> <span class="nf">Network</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">down1</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
-        <span class="n">x3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">down2</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-        <span class="n">x4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">down3</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span>
-        <span class="n">x5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">down4</span><span class="p">(</span><span class="n">x4</span><span class="p">)</span>
-
-        <span class="n">x5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aspp</span><span class="p">(</span><span class="n">x5</span><span class="p">)</span>
-        
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">up1</span><span class="p">(</span><span class="n">x5</span><span class="p">,</span> <span class="n">x4</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">up2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">up3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">up4</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">):</span> 
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-    
-    <span class="k">def</span> <span class="nf">Network_1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> 
-        <span class="k">pass</span>
-    
-    <span class="k">def</span> <span class="nf">Network_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x1a</span><span class="p">,</span> <span class="n">x2a</span><span class="p">,</span> <span class="n">x3a</span><span class="p">,</span> <span class="n">x4a</span><span class="p">):</span> 
-        <span class="k">pass</span>
-    
-    <span class="k">def</span> <span class="nf">concat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
-        <span class="k">pass</span>
-    
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> 
-        <span class="n">out_1</span><span class="p">,</span> <span class="n">x1a</span><span class="p">,</span> <span class="n">x2a</span><span class="p">,</span> <span class="n">x3a</span><span class="p">,</span> <span class="n">x4a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Network_1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">out_1</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">)</span>
-        <span class="n">out_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Network_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x1a</span><span class="p">,</span> <span class="n">x2a</span><span class="p">,</span> <span class="n">x3a</span><span class="p">,</span> <span class="n">x4a</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">out_1</span><span class="p">,</span> <span class="n">out_2</span><span class="p">)</span>
-        <span class="k">return</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    
-        
-
-        
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">UResNet3D</span><span class="p">(</span><span class="n">resnet152_3d</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">trilinear</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="3D-UNet">3D UNet<a class="anchor-link" href="#3D-UNet"> </a></h3><p>3D version of the original UNet</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
 <div class="output_area">
 
 
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="UNet3D" class="doc_header"><code>class</code> <code>UNet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L309" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UNet3D</code>(<strong><code>n_channels</code></strong>, <strong><code>n_classes</code></strong>, <strong><code>trilinear</code></strong>=<em><code>False</code></em>) :: <a href="/faimed3d/models.unet.html#AbstractUNet3D"><code>AbstractUNet3D</code></a></p>
-</blockquote>
-<p>Abstract base class of UNet, should be subclassed by all UNets</p>
 
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([10, 3, 3, 20, 20])</pre>
 </div>
 
 </div>
 
 </div>
 </div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="UResNet3D" class="doc_header"><code>class</code> <code>UResNet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L327" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UResNet3D</code>(<strong><code>n_channels</code></strong>, <strong><code>n_classes</code></strong>, <strong><code>trilinear</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/models.unet.html#AbstractUNet3D"><code>AbstractUNet3D</code></a></p>
-</blockquote>
-<p>Abstract base class of UNet, should be subclassed by all UNets</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
