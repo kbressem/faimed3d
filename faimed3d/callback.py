@@ -200,11 +200,17 @@ class MixUp3D(Callback):
     """
     Implementation of MixUp for 3D images.
     Note that the loss function does not need to be adapted like in fastais MixUp, as MCC and DICE loss accept float values.
+
+    ToDo:
+        Currently, MixUp can generate false labels. Eg mixing 50% of Label 1 and 50% of Label 3 will give Label 2, which is wrong.
+
     """
 
     run_after = [Normalize, StackVolumes]
     def __init__(self, p = 0.5):
         store_attr()
+        warnings.warn('currently MixUp generates wrong labels if there are more than two differnt labels.'
+                      'Use with caution.')
 
     def before_batch(self):
         if self.training and random.random() < self.p:
