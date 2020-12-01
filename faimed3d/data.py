@@ -32,15 +32,15 @@ class ScaleDicom(DisplayedTransform):
 # Cell
 def ImageBlock3D(cls=TensorDicom3D, div=None,scale=True, normalize=True):
     "A `TransformBlock` for images of `cls`"
-    return TransformBlock(type_tfms=cls.create, batch_tfms=[ScaleDicom(div=None,scale=True)])
+    return TransformBlock(type_tfms=cls.create, batch_tfms=[ScaleDicom(div=div,scale=scale,normalize=normalize)])
 
 def MaskBlock3D(cls=TensorMask3D):
     "A `TransformBlock` for images of `cls`"
-    return TransformBlock(type_tfms=cls.create, batch_tfms=[ScaleDicom(div=None,scale=True)])
+    return TransformBlock(type_tfms=cls.create, batch_tfms=[ScaleDicom])
 
 # Cell
 def show_batch_3d(dls, max_n=9, with_mask=False, alpha_mask=0.3, figsize = (15, 15), **kwargs):
     "Workarround, until implemented into dls as dls.show_batch_3d()"
     xb, yb = dls.one_batch()
     xb.show(figsize=figsize)
-    if with_mask: yb.show(add_to_existing = True, alpha = alpha_mask, cmap = 'jet', figsize=figsize)
+    if with_mask: yb.show(add_to_existing = True, alpha = alpha_mask, cmap = 'jet', figsize=figsize, **kwargs)
