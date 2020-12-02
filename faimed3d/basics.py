@@ -203,6 +203,20 @@ class TensorDicom3D(Tensor):
         if self.ndim == 3: return show_image_3d(self, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
         if self.ndim in (4,5): return show_images_3d(self, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
 
+    def as_sitk(self):
+        "convertes Tensor to SimpleITK image"
+        im = sitk.GetImageFromArray(self.detach().cpu().numpy())
+       # also save metadata
+        im.SetSpacing(self.metadata['spacing'])
+        im.SetDirection(self.metadata['direction'])
+        im.SetOrigin(self.metadata['origin'])
+        for i in range(0, len(self.metadata['table'])):
+            try:
+                im.SetMetaData(self.metadata['table'].iloc[i,0], self.metadata['table'].iloc[i,1])
+            except:
+                print('failed to write DICOM tag {} : {}'.format(self.metadata['table'].iloc[i,0], self.metadata['table'].iloc[i,1]))
+        return im
+
     def save(self, fn: (str, Path)):
         """
         Writes the file to disk in any format supported by SimpleITK
@@ -215,18 +229,7 @@ class TensorDicom3D(Tensor):
 
         """
         fn = str(fn) if isinstance(fn, Path) else fn
-        im = sitk.GetImageFromArray(self)
-
-        # also save metadata
-        im.SetSpacing(self.metadata['spacing'])
-        im.SetDirection(self.metadata['direction'])
-        im.SetOrigin(self.metadata['origin'])
-        for i in range(0, len(self.metadata['table'])):
-            try:
-                im.SetMetaData(self.metadata['table'].iloc[i,0], self.metadata['table'].iloc[i,1])
-            except:
-                print('failed to write DICOM tag {} : {}'.format(self.metadata['table'].iloc[i,0], self.metadata['table'].iloc[i,1]))
-
+        im = self.as_sitk()
         sitk.WriteImage(im, fn)
 
     @staticmethod
