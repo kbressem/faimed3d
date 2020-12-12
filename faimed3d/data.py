@@ -21,16 +21,18 @@ from .augment import *
 # Cell
 class ScaleDicom(DisplayedTransform):
     "Transforms a TensorDicom3D volume to float and normalizes the data"
-    def __init__(self, div=None, scale=True, normalize=True): store_attr()
+    def __init__(self, div=None, scale=True, normalize='mean'): store_attr()
     def encodes(self, x:(TensorDicom3D, TensorMask3D)):
         if isinstance(x, TensorMask3D): return x
+        if self.normalize == 'mean': x=x.normalize('mean')
+        if self.normalize == 'median': x=x.normalize('median')
+        if self.normalize == 'max': x=x.normalize('max')
         if self.scale: x=x.hist_scaled()
-        if self.normalize: x=normalize(x)
         if self.div is not None: x=x/self.div
         return x.float()
 
 # Cell
-def ImageBlock3D(cls=TensorDicom3D, div=None,scale=True, normalize=True):
+def ImageBlock3D(cls=TensorDicom3D, div=None,scale=True, normalize='mean'):
     "A `TransformBlock` for images of `cls`"
     return TransformBlock(type_tfms=cls.create, batch_tfms=[ScaleDicom(div=div,scale=scale,normalize=normalize)])
 
@@ -42,5 +44,5 @@ def MaskBlock3D(cls=TensorMask3D):
 def show_batch_3d(dls, max_n=9, with_mask=False, alpha_mask=0.3, figsize = (15, 15), **kwargs):
     "Workarround, until implemented into dls as dls.show_batch_3d()"
     xb, yb = dls.one_batch()
-    xb.show(figsize=figsize)
+    xb.show(figsize=figsize, **kwargs)
     if with_mask: yb.show(add_to_existing = True, alpha = alpha_mask, cmap = 'jet', figsize=figsize, **kwargs)

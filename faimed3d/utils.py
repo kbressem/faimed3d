@@ -15,6 +15,7 @@ from .basics import *
 from .augment import *
 from .data import *
 from .models.unet import *
+from .models.resnet import *
 from .models.losses import *
 
 # Cell
