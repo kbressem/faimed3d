@@ -53,7 +53,7 @@ nb_path: "nbs/05b_models.resnet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="conv3x3" class="doc_header"><code>conv3x3</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv3x3</code>(<strong><code>in_planes</code></strong>, <strong><code>out_planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>)</p>
+<h4 id="conv3x3" class="doc_header"><code>conv3x3</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L82" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv3x3</code>(<strong><code>in_planes</code></strong>, <strong><code>out_planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 <p>3x3 convolution with padding</p>
 
@@ -78,7 +78,7 @@ nb_path: "nbs/05b_models.resnet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="conv1x1" class="doc_header"><code>conv1x1</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1x1</code>(<strong><code>in_planes</code></strong>, <strong><code>out_planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>)</p>
+<h4 id="conv1x1" class="doc_header"><code>conv1x1</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L87" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1x1</code>(<strong><code>in_planes</code></strong>, <strong><code>out_planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 <p>1x1 convolution</p>
 
@@ -103,7 +103,7 @@ nb_path: "nbs/05b_models.resnet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="BasicBlock3d" class="doc_header"><code>class</code> <code>BasicBlock3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L26" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicBlock3d</code>(<strong><code>inplanes</code></strong>, <strong><code>planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>downsample</code></strong>=<em><code>None</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>base_width</code></strong>=<em><code>64</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="BasicBlock3d" class="doc_header"><code>class</code> <code>BasicBlock3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L92" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicBlock3d</code>(<strong><code>inplanes</code></strong>, <strong><code>planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>downsample</code></strong>=<em><code>None</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>base_width</code></strong>=<em><code>64</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>, <strong><code>act_layer</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -151,7 +151,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Bottleneck3d" class="doc_header"><code>class</code> <code>Bottleneck3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L64" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Bottleneck3d</code>(<strong><code>inplanes</code></strong>, <strong><code>planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>downsample</code></strong>=<em><code>None</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>base_width</code></strong>=<em><code>64</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="Bottleneck3d" class="doc_header"><code>class</code> <code>Bottleneck3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L132" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Bottleneck3d</code>(<strong><code>inplanes</code></strong>, <strong><code>planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>downsample</code></strong>=<em><code>None</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>base_width</code></strong>=<em><code>64</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>, <strong><code>act_layer</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -202,7 +202,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BasicBlock3d</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">Bottleneck3d</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BasicBlock3d</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">norm_layer</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm3d</span><span class="p">,</span> <span class="n">affine</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -217,28 +217,100 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(BasicBlock3d(
-   (conv1): Conv3d(4, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-   (bn1): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-   (relu): ReLU(inplace=True)
-   (conv2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-   (bn2): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
- ),
- Bottleneck3d(
-   (conv1): Conv3d(4, 64, kernel_size=(1, 1, 1), stride=(1, 1, 1), bias=False)
-   (bn1): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-   (conv2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-   (bn2): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-   (conv3): Conv3d(64, 256, kernel_size=(1, 1, 1), stride=(1, 1, 1), bias=False)
-   (bn3): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-   (relu): ReLU(inplace=True)
- ))</pre>
+<pre>BasicBlock3d(
+  (conv1): Conv3d(4, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+  (bn1): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (conv2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+  (bn2): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=True)
+)</pre>
 </div>
 
 </div>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Bottleneck3d</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Bottleneck3d(
+  (conv1): Conv3d(4, 64, kernel_size=(1, 1, 1), stride=(1, 1, 1), bias=False)
+  (bn1): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (conv2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+  (bn2): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (conv3): Conv3d(64, 256, kernel_size=(1, 1, 1), stride=(1, 1, 1), bias=False)
+  (bn3): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Identity-Layer">Identity Layer<a class="anchor-link" href="#Identity-Layer"> </a></h3><p>Medical images, especially 3D images are large so batch size is limited when trainig in normal consumer hardware. This can lead to problems with the normalization layers, as performance can/will decrease for batch sizes under 32/under 8. 
+This is discussed to <a href="https://stackoverflow.com/questions/59648509/batch-normalization-when-batch-size-1">here</a>, <a href="https://luminovo.ai/blog/a-refresher-on-batch-re-normalization">here</a> and <a href="https://www.alexirpan.com/2017/04/26/perils-batch-norm.html">here</a>. Replacing the normalization layer with an indentity layer might be a quick solution without the need to alter the whole architecture.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="IdentityLayer" class="doc_header"><code>class</code> <code>IdentityLayer</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L177" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>IdentityLayer</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+</blockquote>
+<p>Returns input as is</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -261,7 +333,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResNet3D" class="doc_header"><code>class</code> <code>ResNet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L106" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResNet3D</code>(<strong><code>block</code></strong>, <strong><code>layers</code></strong>, <strong><code>n_channels</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>100</code></em>, <strong><code>zero_init_residual</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>width_per_group</code></strong>=<em><code>64</code></em>, <strong><code>replace_stride_with_dilation</code></strong>=<em><code>None</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>, <strong><code>kernel_size_MaxPool3d</code></strong>=<em><code>(3, 3, 3)</code></em>, <strong><code>stride_MaxPool3d</code></strong>=<em><code>(2, 2, 2)</code></em>, <strong><code>pad_MaxPool3d</code></strong>=<em><code>(1, 1, 1)</code></em>) :: <code>Module</code></p>
+<h2 id="ResNet3D" class="doc_header"><code>class</code> <code>ResNet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L185" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResNet3D</code>(<strong><code>block</code></strong>, <strong><code>layers</code></strong>, <strong><code>n_channels</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>100</code></em>, <strong><code>zero_init_residual</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>width_per_group</code></strong>=<em><code>64</code></em>, <strong><code>replace_stride_with_dilation</code></strong>=<em><code>None</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>, <strong><code>act_layer</code></strong>=<em><code>None</code></em>, <strong><code>final_softmax</code></strong>=<em><code>False</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -305,6 +377,39 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResNet3D</span><span class="p">(</span><span class="n">BasicBlock3d</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">final_softmax</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">act_layer</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">,</span> <span class="n">ps</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">))</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([10, 100])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="ResNet-Architectures">ResNet Architectures<a class="anchor-link" href="#ResNet-Architectures"> </a></h2><p>Note that a pretrained ResNet18 for 3D already exists at <code>torchvision.models.video</code></p>
@@ -323,7 +428,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="resnet18_3d" class="doc_header"><code>resnet18_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L217" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet18_3d</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="resnet18_3d" class="doc_header"><code>resnet18_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L316" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet18_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>ResNet-34 model from
 <code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>_
@@ -350,7 +455,7 @@ adapted to 3d</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="resnet34_3d" class="doc_header"><code>resnet34_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L225" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet34_3d</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="resnet34_3d" class="doc_header"><code>resnet34_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L324" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet34_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>ResNet-34 model from
 <code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>_
@@ -377,7 +482,7 @@ adapted to 3d</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="resnet50_3d" class="doc_header"><code>resnet50_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L233" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet50_3d</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="resnet50_3d" class="doc_header"><code>resnet50_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L332" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet50_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>ResNet-50 model from
 <code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>_
@@ -404,7 +509,7 @@ adapted to 3d</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="resnet101_3d" class="doc_header"><code>resnet101_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L241" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet101_3d</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="resnet101_3d" class="doc_header"><code>resnet101_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L340" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet101_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>ResNet-101 model from
 <code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>
@@ -431,7 +536,7 @@ adapted to 3d</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="resnet152_3d" class="doc_header"><code>resnet152_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L249" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet152_3d</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="resnet152_3d" class="doc_header"><code>resnet152_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L348" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet152_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>ResNet-152 model from
 <code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>_
@@ -462,7 +567,7 @@ adapted to 3d</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">resnet18_3d</span><span class="p">()</span>
-<span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 </pre></div>
@@ -495,7 +600,10 @@ adapted to 3d</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">resnet101_3d</span><span class="p">()</span>
+<span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -507,101 +615,10 @@ adapted to 3d</p>
 
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ResNet3D(
-  (inc): Sequential(
-    (0): Conv3d(3, 128, kernel_size=(3, 7, 7), stride=(2, 2, 2), padding=(1, 3, 3), bias=False)
-    (1): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    (2): ReLU(inplace=True)
-    (3): MaxPool3d(kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), dilation=1, ceil_mode=False)
-  )
-  (layer1): Sequential(
-    (0): BasicBlock3d(
-      (conv1): Conv3d(128, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn1): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (relu): ReLU(inplace=True)
-      (conv2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn2): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (downsample): Sequential(
-        (0): Conv3d(128, 64, kernel_size=(1, 1, 1), stride=(1, 1, 1), bias=False)
-        (1): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (1): BasicBlock3d(
-      (conv1): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn1): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (relu): ReLU(inplace=True)
-      (conv2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn2): BatchNorm3d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-  )
-  (layer2): Sequential(
-    (0): BasicBlock3d(
-      (conv1): Conv3d(64, 128, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
-      (bn1): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (relu): ReLU(inplace=True)
-      (conv2): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn2): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (downsample): Sequential(
-        (0): Conv3d(64, 128, kernel_size=(1, 1, 1), stride=(2, 2, 2), bias=False)
-        (1): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (1): BasicBlock3d(
-      (conv1): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn1): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (relu): ReLU(inplace=True)
-      (conv2): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn2): BatchNorm3d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-  )
-  (layer3): Sequential(
-    (0): BasicBlock3d(
-      (conv1): Conv3d(128, 256, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
-      (bn1): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (relu): ReLU(inplace=True)
-      (conv2): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn2): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (downsample): Sequential(
-        (0): Conv3d(128, 256, kernel_size=(1, 1, 1), stride=(2, 2, 2), bias=False)
-        (1): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (1): BasicBlock3d(
-      (conv1): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn1): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (relu): ReLU(inplace=True)
-      (conv2): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn2): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-  )
-  (layer4): Sequential(
-    (0): BasicBlock3d(
-      (conv1): Conv3d(256, 512, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
-      (bn1): BatchNorm3d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (relu): ReLU(inplace=True)
-      (conv2): Conv3d(512, 512, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn2): BatchNorm3d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (downsample): Sequential(
-        (0): Conv3d(256, 512, kernel_size=(1, 1, 1), stride=(2, 2, 2), bias=False)
-        (1): BatchNorm3d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (1): BasicBlock3d(
-      (conv1): Conv3d(512, 512, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn1): BatchNorm3d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (relu): ReLU(inplace=True)
-      (conv2): Conv3d(512, 512, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
-      (bn2): BatchNorm3d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-  )
-  (avgpool): AdaptiveAvgPool3d(output_size=(1, 1, 1))
-  (fc): Linear(in_features=512, out_features=100, bias=True)
-)</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([1, 100])
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -628,7 +645,7 @@ adapted to 3d</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="build_backbone" class="doc_header"><code>build_backbone</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L257" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_backbone</code>(<strong><code>backbone</code></strong>, <strong><code>output_stride</code></strong>, <strong><code>BatchNorm</code></strong>, <strong><code>n_channels</code></strong>)</p>
+<h4 id="build_backbone" class="doc_header"><code>build_backbone</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L356" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_backbone</code>(<strong><code>backbone</code></strong>, <strong><code>output_stride</code></strong>, <strong><code>norm_layer</code></strong>, <strong><code>n_channels</code></strong>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -655,7 +672,7 @@ adapted to 3d</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">build_backbone</span><span class="p">(</span><span class="n">resnet152_3d</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm3d</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">build_backbone</span><span class="p">(</span><span class="n">resnet34_3d</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">IdentityLayer</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">xb</span> <span class="o">=</span> <span class="n">m</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xb</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 </pre></div>
@@ -670,11 +687,11 @@ adapted to 3d</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>torch.Size([10, 128, 3, 13, 13])
-torch.Size([10, 256, 3, 13, 13])
-torch.Size([10, 512, 2, 7, 7])
-torch.Size([10, 1024, 1, 4, 4])
-torch.Size([10, 2048, 1, 2, 2])
+<pre>torch.Size([10, 32, 5, 25, 25])
+torch.Size([10, 64, 5, 25, 25])
+torch.Size([10, 128, 3, 13, 13])
+torch.Size([10, 256, 2, 7, 7])
+torch.Size([10, 512, 1, 4, 4])
 </pre>
 </div>
 </div>

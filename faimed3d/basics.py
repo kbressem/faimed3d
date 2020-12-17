@@ -96,34 +96,35 @@ class TensorDicom3D(Tensor):
         metadata['spacing'] = im.GetSpacing()
         metadata['origin'] = im.GetOrigin()
         metadata['direction'] = im.GetDirection()
-        if load_header: metadata['table'] = TensorDicom3D.read_extended_metadata(fn)
+        if load_header:
+            if fn.is_dir():
+                metadata['table'] = TensorDicom3D.read_metadata_from_series(str(fn))
+            if fn.is_file():
+                metadata['table'] =  pd.DataFrame({'tags': im.GetMetaDataKeys(),
+                                                 str(fn): [im.GetMetaData(k)
+                                                           .encode(encoding='UTF-8',errors='ignore')
+                                                           .decode() for k in im.GetMetaDataKeys()]})
         return (torch.tensor(sitk.GetArrayFromImage(im)), metadata)
 
     @staticmethod
-    def read_extended_metadata(fn:Path):
+    def read_metadata_from_series(fn:str):
         "read metadata from file or Series and returns a pd.DataFrame"
-        if fn.is_dir():
-            # iter through slices, collecting remaining metadata
-            SeriesReader = sitk.ImageSeriesReader()
-            dicom_names = SeriesReader.GetGDCMSeriesFileNames(str(fn))
-            reader = sitk.ImageFileReader()
-            reader.SetFileName(dicom_names[0])
+        # iter through slices, collecting remaining metadata
+        SeriesReader = sitk.ImageSeriesReader()
+        dicom_names = SeriesReader.GetGDCMSeriesFileNames(str(fn))
+        reader = sitk.ImageFileReader()
+        reader.SetFileName(dicom_names[0])
+        reader.ReadImageInformation()
+        slice_metadata=pd.DataFrame({'tags': reader.GetMetaDataKeys()})
+        for dcm in dicom_names:
+            reader.SetFileName(dcm)
             reader.ReadImageInformation()
-            slice_metadata=pd.DataFrame({'tags': reader.GetMetaDataKeys()})
-            for dcm in dicom_names:
-                reader.SetFileName(dcm)
-                reader.ReadImageInformation()
-                try:
-                    slice_metadata[dcm] = [reader.GetMetaData(k).encode(encoding='UTF-8',errors='ignore')
-                                                                .decode() for k in reader.GetMetaDataKeys()]
-                except:
-                    print('Failed loading metadata for {}'.format(dcm))
-            return slice_metadata
-
-        if fn.is_file():
-            return pd.DataFrame({'tags': im.GetMetaDataKeys(),
-                                 str(fn): [im.GetMetaData(k).encode(encoding='UTF-8',errors='ignore')
-                                                            .decode() for k in im.GetMetaDataKeys()]})
+            try:
+                slice_metadata[dcm] = [reader.GetMetaData(k).encode(encoding='UTF-8',errors='ignore')
+                                                            .decode() for k in reader.GetMetaDataKeys()]
+            except:
+                print('Failed loading metadata for {}'.format(dcm))
+        return slice_metadata
 
     @staticmethod
     def read_dicom_series(fn:str):
