@@ -40,6 +40,9 @@ class TensorDicom3D(Tensor):
         Returns:
             An instance of `cls`
         """
+        if isinstance(fn, str):
+            if fn.endswith('.npy'):
+                fn = np.load(fn)
         if isinstance(fn,ndarray): return cls(fn)
         if isinstance(fn, Tensor): return cls(fn)
         instance, metadata = TensorDicom3D.load(fn,load_header)
