@@ -120,14 +120,16 @@ class ImageDataLoaders3D(DataLoaders):
                     batch_tfms=None, **kwargs):
         "Create from imagenet style dataset in `path` with `train` and `valid` subfolders (or provide `valid_pct`)"
         raise NotImplementedError('Currently only from_df and from_csv are supported. '
-                                  'You can raise a feature request on Github (https://github.com/kbressem/faimed3d/), if you need this feature implemented. ')
+                                  'You can raise a feature request on Github (https://github.com/kbressem/faimed3d/),'
+                                  ' if you need this feature implemented. ')
 
     @classmethod
     @delegates(DataLoaders.from_dblock)
     def from_path_func(cls, path, fnames, label_func, valid_pct=0.2, seed=None, item_tfms=None, batch_tfms=None, **kwargs):
         "Create from list of `fnames` in `path`s with `label_func`"
         raise NotImplementedError('Currently only from_df and from_csv are supported. '
-                                  'You can raise a feature request on Github (https://github.com/kbressem/faimed3d/), if you need this feature implemented. ')
+                                  'You can raise a feature request on Github (https://github.com/kbressem/faimed3d/),'
+                                  ' if you need this feature implemented. ')
 
     @classmethod
     def from_name_func(cls, path, fnames, label_func, **kwargs):

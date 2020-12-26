@@ -7,7 +7,6 @@ __all__ = ['ASPPConv', 'ASPPPooling', 'ASPP', 'Decoder', 'DeepLab']
 from fastai.basics import *
 from fastai.layers import *
 from warnings import warn
-from .modules import Sequential_
 from .resnet import *
 
 # Cell

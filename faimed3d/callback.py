@@ -10,9 +10,11 @@ from fastai.basics import *
 from fastai.vision.all import *
 from fastai.callback.all import *
 import torch.nn.functional as F
+from tqdm import tqdm
 
 # Cell
 from .basics import *
+from .preprocess import *
 from .augment import *
 from .data import *
 
@@ -245,9 +247,6 @@ class ReloadBestFit(TrackerCallback):
                 self.wait=0
 
 # Cell
-from .normalize import *
-from tqdm import tqdm
-
 class PiecewiseHistNormalizationCallback(Callback):
     """
     Applies Piecewise Histogram Matching to batches.

@@ -13,22 +13,35 @@ from fastai.torch_core import interp_1d
 from tqdm import tqdm
 
 # Cell
+@patch
+def show(l:L, **kwargs):
+    "shows all Tensors in L"
+    show_images_3d(torch.stack(tuple(l)), **kwargs)
+
+@patch
+def apply(l:L, fun):
+    "applies a function to each element of L"
+    return L(fun(item) for item in l)
+
+# Cell
 def size_correction(im:(TensorDicom3D, TensorMask3D), new_spacing=1):
     x_sz, y_sz, z_sz  = im.get_spacing()
+    m = im.metadata
     rescale_factor = new_spacing/x_sz
     new_sz = (im.size(-3),
               int(im.size(-2)*rescale_factor),
               int(im.size(-1)*rescale_factor))
     mode = 'trilinear' if isinstance(im, TensorDicom3D) else 'nearest'
     while im.ndim < 5: im = im.unsqueeze(0)
-    im = F.interpolate(im, size = new_sz, mode = mode, align_corners=True).squeeze()
-    im.restore_metadata()
+    im = F.interpolate(im, size = new_sz, mode = mode, align_corners=True).squeeze() #changes memory address, restore_metadata won't work anymore
+    im.metadata = m
     im.set_spacing((new_spacing, new_spacing, z_sz))
     return im
 
 # Cell
 @patch
 def rescale_pixeldata(t:(TensorDicom3D)):
+    m = t.metadata
     if '0028|1053' in m: # if one tag is present, the other should also
         t = t * m['0028|1053'] + m['0028|1052']
         m.pop('0028|1052')

@@ -10,13 +10,7 @@ import pathlib
 import SimpleITK as sitk
 
 # Cell
-
-from .basics import *
-from .augment import *
-from .data import *
-from .models.unet import *
-from .models.resnet import *
-from .models.losses import *
+from .all import *
 
 # Cell
 class RotateNifti():

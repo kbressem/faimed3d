@@ -5,12 +5,12 @@ __all__ = ['in_channels', 'num_features_model', 'create_cnn_model', 'model_sizes
 
 # Cell
 # default_exp learner
-
 from fastai.basics import *
 from fastai.callback.all import *
 
 # Cell
 from .basics import *
+from .augment import *
 from .preprocess import *
 from .data import *
 from fastai.vision.learner import _default_meta, _add_norm, model_meta, create_body
