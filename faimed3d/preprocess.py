@@ -291,6 +291,8 @@ class PiecewiseHistScaling(RandTransform):
     def encodes(self, x:TensorDicom3D)->TensorDicom3D:
         return x.piecewise_hist(self.landmark_percs, self.standard_scale)
 
+    def encodes(self, x:TensorMask3D)->TensorMask3D: return x
+
 # Cell
 def standard_scale_from_filelist(fns:(list, pd.Series)):
     scales = []
