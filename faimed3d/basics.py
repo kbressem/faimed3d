@@ -12,6 +12,9 @@ import SimpleITK as sitk
 import torchvision
 from fastai.basics import *
 
+# configure sitk (workaround for multithreading issue of sitk 2.0)
+sitk.ProcessObject_SetGlobalDefaultThreader('PLATFORM')
+
 # Cell
 class TensorDicom3D(Tensor):
     "Base class for 3D medical images"
