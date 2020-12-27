@@ -62,7 +62,7 @@ class AddColorChannel(RandTransform):
 # Cell
 def ImageBlock3D(cls=TensorDicom3D, **kwargs):
     "A `TransformBlock` for images of `cls`. For possible kwargs see PreporcessDicom."
-    return TransformBlock(type_tfms=cls.create, batch_tfms=[PreprocessDicom(**kwargs)])
+    return TransformBlock(type_tfms=cls.create, item_tfms=[PreprocessDicom(**kwargs)])
 
 def MaskBlock3D(cls=TensorMask3D, codes=None):
     "A `TransformBlock` for images of `cls`. For possible kwargs see PreporcessDicom."
