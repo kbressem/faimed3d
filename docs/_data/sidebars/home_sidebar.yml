@@ -22,6 +22,9 @@ entries:
       title: faimed3d Dataloaders for 3D images
       url: dataloaders.html
     - output: web,pdf
+      title: faimed3d layers and functions
+      url: layers.html
+    - output: web,pdf
       title: faimed3d wrapper for Learner class
       url: learner.html
     - output: web,pdf
@@ -33,9 +36,6 @@ entries:
     - output: web,pdf
       title: 3D DenseNet
       url: models.densenet.html
-    - output: web,pdf
-      title: 3D Dynamic UNet
-      url: models.DynamicUnet.html
     - output: web,pdf
       title: 3D UNet
       url: models.unet.html
