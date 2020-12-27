@@ -306,7 +306,7 @@ def show_images_3d(t: torch.Tensor,
 
 # Cell
 @patch
-def show(t:(torch.Tensor, TensorDicom3D, TensorMask3D), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, **kwargs):
+def show(t:(Tensor, TensorDicom3D, TensorMask3D), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, **kwargs):
     "displays the 3D image as a mosaik"
     if t.ndim == 3: return show_image_3d(t, axis = axis, figsize=figsize,
                                          cmap=cmap, nrow=nrow, return_grid = False, **kwargs)

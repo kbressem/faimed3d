@@ -150,7 +150,6 @@ class ImageDataLoaders3D(DataLoaders):
 
 
 # Cell
-from fastai.data.core import DataLoaders
 @patch
 def show_batch_3d(dls:DataLoaders, max_n=9, with_mask=False,
                   alpha_mask=0.3, figsize = (15, 15), **kwargs):

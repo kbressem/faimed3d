@@ -2,6 +2,7 @@ from fastai.basics import *
 from .basics import *
 from .augment import *
 from .data import *
+from .layers import *
 from .learner import *
 from .models.alexnet import *
 from .models.resnet import *
