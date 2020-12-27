@@ -10,7 +10,6 @@ import pickle
 
 import SimpleITK as sitk
 import torchvision
-from torch import Tensor
 from fastai.basics import *
 
 # Cell
@@ -226,7 +225,7 @@ def set_direction(t:(TensorDicom3D,TensorMask3D), direction):
 def get_direction(t:(TensorDicom3D,TensorMask3D)): return t.metadata['direction']
 
 # Cell
-def show_image_3d(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, alpha = 1., return_grid = False, add_to_existing = False, **kwargs):
+def show_image_3d(t: (np.ndarray, torch.Tensor), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, alpha = 1., return_grid = False, add_to_existing = False, **kwargs):
     '''
     Plots 2D slices of a 3D image alongside a prior specified axis.
     Args:
@@ -257,29 +256,58 @@ def show_image_3d(t: (np.ndarray, Tensor), axis: int = 0, figsize: int = (15,15)
     plt.imshow(grid[0,:,:], cmap = cmap, alpha = alpha)
 
 # Cell
-def show_images_3d(t: Tensor, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, alpha = 1., return_grid = False, add_to_existing=False, **kwargs):
-    "displays multiple 3D images (e.g. a batch) by flattening the 4th dimension of the tensor and then calling show_image_3d"
-    if t.ndim not in (4,5): raise TypeError('Object is not a rank 4 or rank 5 tensor but a rank {} tensor'.format(t.ndim))
-    if axis > 2: raise ValueError('Axis should be between 0-2, indexing the plane to display each of the multiple 3D images. But axis was {}'.format(axis))
+def show_images_3d(t: torch.Tensor,
+                   axis: int = 0,
+                   figsize: int = (15,15),
+                   cmap: str = 'bone',
+                   nrow: int = 10,
+                   alpha = 1.,
+                   return_grid = False,
+                   add_to_existing=False,
+                   **kwargs):
+    """
+    Displays multiple 3D images (e.g. a batch) by flattening the 4th dimension of the tensor
+    and then calling show_image_3d
+    Args:
+        t (torch.Tensor): input image with dimension B x D x H x W or B x C x D x H x W,
+                          however C is ignored for display
+        axis (int): Axis to split images to multiple 2D slices. `show_images_3d` does not
+                    know about pixel spacing, so choosing a non-standard axis will result in
+                    atypical looking images.
+        figsize, cmap, nrow, alpha: passed to plot function
+        return_grid (bool): return the grid, not the plot for further processing
+        add_to_existing (bool): adds plot to existing plot, not calling plot.new.
+                                Usefull for overlays, e.g. with masks.
+
+    """
+    # TO DO: implement pixel spacing and interpolation for view.
+    if t.ndim not in (4,5):
+        raise TypeError('Object is not a rank 4 or rank 5 tensor but a rank {} tensor'.format(t.ndim))
+    if axis > 2:
+        raise ValueError('Axis should be between 0-2, indexing the plane to display '
+                         'each of the multiple 3D images. But axis was {}'.format(axis))
 
     if t.ndim == 4: t =t.reshape(t.size(0)*t.size(1), t.size(2), t.size(3))
     if t.ndim == 5:
         t = t.permute(1,0,2,3,4)
         t =t.reshape(t.size(0), t.size(1)*t.size(2), t.size(3), t.size(4))
     if return_grid: return t
-    show_image_3d(t, axis = axis, figsize = figsize, cmap = cmap, nrow = nrow, alpha = alpha, add_to_existing = add_to_existing)
+    show_image_3d(t, axis = axis, figsize = figsize, cmap = cmap,
+                  nrow = nrow, alpha = alpha, add_to_existing = add_to_existing)
 
 
 # Cell
 @patch
-def show(t:Tensor, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, **kwargs):
+def show(t:(TensorDicom3D, TensorMask3D), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, **kwargs):
     "displays the 3D image as a mosaik"
-    if t.ndim == 3: return show_image_3d(t, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
-    if t.ndim in (4,5): return show_images_3d(t, axis = axis, figsize=figsize, cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
+    if t.ndim == 3: return show_image_3d(t, axis = axis, figsize=figsize,
+                                         cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
+    if t.ndim in (4,5): return show_images_3d(t, axis = axis, figsize=figsize,
+                                              cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
 
 # Cell
 @patch
-def _strip_along(x:(Tensor), dim):
+def _strip_along(x:torch.Tensor, dim):
     slices = torch.unbind(x, dim)
     slices = [s for s in slices if s.sum() != 0]
     return torch.stack(slices, dim)

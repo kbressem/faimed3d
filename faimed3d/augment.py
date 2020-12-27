@@ -20,7 +20,8 @@ from .basics import *
 # Cell
 
 @patch
-def resize_3d(t: (TensorDicom3D, TensorMask3D), size, scale_factor=None, mode='trilinear', align_corners=True, recompute_scale_factor=None):
+def resize_3d(t: (TensorDicom3D, TensorMask3D), size, scale_factor=None,
+              mode='trilinear', align_corners=True, recompute_scale_factor=None):
     '''
     A function to resize a 3D image using torch.nn.functional.interpolate
 
@@ -166,7 +167,7 @@ class RandomRotate3D(RandTransform):
 
 # Cell
 @patch
-def apply_along(t:Tensor, func, dim):
+def apply_along_dim(t:(TensorDicom3D, TensorMask3D), func, dim):
     img_slices = torch.unbind(t, dim)
     return torch.stack([func(img_slice) for img_slice in img_slices], dim)
 
@@ -190,7 +191,7 @@ class RandomRotate3DBy(RandTransform):
         return _F.rotate(t.unsqueeze(0), angle=self.angle).squeeze()
 
     def encodes(self, x:(TensorDicom3D, TensorMask3D)):
-        return x.apply_along(self.rotate, dim=self.dim)
+        return x.apply_along_dim(self.rotate, dim=self.dim)
 
 # Cell
 
