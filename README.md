@@ -53,8 +53,13 @@ dls = ImageDataLoaders3D.from_df(mrnet_data, '/media/..',
                                  item_tfms = ResizeCrop3D(crop_by = (0., 0.1, 0.1), resize_to = (20, 112, 112), perc_crop = True),
                                  rescale_method = PiecewiseHistScaling(percs, std),
                                  valid_col = 'is_valid',
-                                 bs = 2, val_bs = 2)
+                                 bs = 16, val_bs = 16)
 ```
+
+    Cleaning tmpdir.
+    removing 244 files from /tmp/faimed3d_metadata/
+    You can disable automatic cleanup of the tmpdir (e.g. when doing multiple sessions in parallel) with setting clean_tmpdir=False
+
 
 Construct a learner similar to fastai, even transfer learning is possible using the pretrained resnet18 from torchvision.
 
@@ -63,9 +68,19 @@ learn = cnn_learner_3d(dls,
                        r3d_18,  
                        model_dir='/home/bressekk/Documents/faimed3d/nbs', 
                        metrics = [accuracy, RocAucBinary()])
+learn = learn.to_fp16()
 ```
 
 ```python
 #slow
 learn.lr_find()
 ```
+
+
+    SuggestedLRs(lr_min=0.002754228748381138, lr_steep=3.981071586167673e-06)
+
+
+
+
+![png](docs/images/output_12_3.png)
+
