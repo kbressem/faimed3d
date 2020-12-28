@@ -289,10 +289,12 @@ class PiecewiseHistScaling(RandTransform):
                              'the needed values before the first epoch.')
         store_attr()
 
-    def encodes(self, x:TensorDicom3D)->TensorDicom3D:
-        return x.piecewise_hist(self.landmark_percs, self.standard_scale)
+    def encodes(self, x:TensorDicom3D):
+        x = x.piecewise_hist(self.landmark_percs, self.standard_scale)
+        return (x - x.mean()) / x.std()
 
-    def encodes(self, x:TensorMask3D)->TensorMask3D: return x
+    def encodes(self, x:TensorMask3D): return x
+
 
 # Cell
 def standard_scale_from_filelist(fns:(list, pd.Series)):
