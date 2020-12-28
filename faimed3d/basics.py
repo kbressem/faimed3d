@@ -116,7 +116,9 @@ class TensorDicom3D(Tensor):
 
         # read volume
         if isinstance(fn, str): fn = Path(fn)
-        if fn.is_dir(): im = TensorDicom3D.read_dicom_series(str(fn))
+        if fn.is_dir():
+            sitk.ProcessObject_SetGlobalDefaultThreader('PLATFORM')
+            im = TensorDicom3D.read_dicom_series(str(fn))
         elif fn.is_file(): im = sitk.ReadImage(str(fn), outputPixelType=sitk.sitkFloat32)
         else: raise TypeError('the path "{}" is neither a valid directory nor a file'.format(str(fn)))
         # set basic metadata
