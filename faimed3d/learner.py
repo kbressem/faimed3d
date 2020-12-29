@@ -25,8 +25,9 @@ class AddColorChannel(Callback):
         store_attr()
     def before_batch(self):
         self.learn.xb = (torch.stack(self.learn.xb*3, self.dim), )
-        if detuplify(self.learn.yb).ndim == 4:
-             self.learn.yb = (detuplify(self.learn.yb).unsqueeze(self.dim), )
+        if self.training:
+            if detuplify(self.learn.yb).ndim == 4:
+                 self.learn.yb = (detuplify(self.learn.yb).unsqueeze(self.dim), )
 
 # Cell
 @delegates(Learner.__init__)
