@@ -180,6 +180,7 @@ class TensorDicom3D(Tensor):
     def save(self, fn:str):
         im = self.as_sitk()
         sitk.WriteImage(im, fn)
+        return os.path.isfile(fn)
 
 # Cell
 class TensorMask3D(TensorDicom3D):
