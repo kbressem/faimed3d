@@ -263,6 +263,7 @@ def show_image_3d(t: (np.ndarray, torch.Tensor),
     grid = torchvision.utils.make_grid(t, nrow = nrow)
     if return_grid: return grid
     if not add_to_existing: plt.figure(figsize=figsize)
+    plt.axis('off')
     plt.imshow(grid[0,:,:], cmap = cmap, alpha = alpha)
 
 # Cell
