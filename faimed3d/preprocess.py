@@ -262,7 +262,8 @@ def find_standard_scale(inputs, i_min=1, i_max=99, i_s_min=1, i_s_max=100, l_per
 @patch
 def piecewise_hist(image:Tensor, landmark_percs, standard_scale)->Tensor:
     """
-    do the Nyul and Udupa histogram normalization routine with a given set of learned landmarks
+    Do the Nyul and Udupa histogram normalization routine with a given set of learned landmarks
+
     Args:
         input_image (TensorDicom3D): image on which to find landmarks
         landmark_percs (torch.tensor): corresponding landmark points of standard scale
@@ -278,26 +279,41 @@ def piecewise_hist(image:Tensor, landmark_percs, standard_scale)->Tensor:
     return image.flatten().interp_1d(landmarks, standard_scale).reshape(image.shape)
 
 class PiecewiseHistScaling(RandTransform):
+    """
+    Applies theNyul and Udupa histogram nomalization and rescales the pixel values.
+
+    Args:
+        input_image (TensorDicom3D): image on which to find landmarks
+        landmark_percs (torch.tensor): corresponding landmark points of standard scale
+        final_scale (function): final rescaling of values, if None is provided values are
+                                scaled to a mean of 0 and a std of 1.
+
+    Returns:
+        If input is TensorMask3D returns input unchanged
+        If input is TensorDicom3D returns normalized and rescaled Tensor
+
+    """
     split_idx,order = None, 10
-    def __init__(self, landmark_percs=None, standard_scale=None, p=1., **kwargs):
+    def __init__(self, landmark_percs=None, standard_scale=None, final_scale=None, p=1., **kwargs):
         super().__init__(p, **kwargs)
         if landmark_percs is None or standard_scale is None:
-            raise ValueError('Landmark parcs and standard scale nned to be provided.'
+            raise ValueError('Landmark parcs and standard scale need to be provided.'
                              'You can run `standard_scale_from_filelist` or `standard_scale_from_dls` '
                              'To get an estiamtion of the values. Alternatively you can use the '
-                             '`PiecewiseHistNormalizationCallback` which will automatically calulated '
+                             '`PiecewiseHistNormalizationCallback` which will automatically calculate '
                              'the needed values before the first epoch.')
         store_attr()
 
     def encodes(self, x:TensorDicom3D):
         x = x.piecewise_hist(self.landmark_percs, self.standard_scale)
-        return (x - x.mean()) / x.std()
+        return x.mean_scale() if self.final_scale is None else self.final_scale(x)
 
     def encodes(self, x:TensorMask3D): return x
 
 
 # Cell
 def standard_scale_from_filelist(fns:(list, pd.Series)):
+    "calculates standard scale from images in a filelist"
     scales = []
     for fn in tqdm(fns):
         x = TensorDicom3D.create(fn)
