@@ -51,6 +51,9 @@ entries:
     - output: web,pdf
       title: Task specific functions
       url: tools.html
+    - output: web,pdf
+      title: Title
+      url: widgets.html
     output: web
     title: faimed3d
   output: web

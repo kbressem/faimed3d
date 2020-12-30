@@ -77,6 +77,16 @@ learn.lr_find()
 ```
 
 
+
+
+
+    /home/bressekk/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py:54: UserWarning: Could not load the optimizer state.
+      if with_opt: warn("Could not load the optimizer state.")
+
+
+
+
+
     SuggestedLRs(lr_min=0.002754228748381138, lr_steep=3.981071586167673e-06)
 
 

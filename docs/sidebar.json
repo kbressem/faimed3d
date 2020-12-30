@@ -14,6 +14,7 @@
     "3D DeepLabV3+": "models.deeplabv3.html",
     "Losses and metrics": "models.losses.html",
     "Callbacks": "callback.html",
-    "Task specific functions": "tools.html"
+    "Task specific functions": "tools.html",
+    "Title": "widgets.html"
   }
 }
