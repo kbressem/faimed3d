@@ -16,7 +16,6 @@ from tqdm import tqdm
 @patch
 def size_correction(im:(TensorDicom3D, TensorMask3D), new_spacing=1):
     x_sz, y_sz, z_sz  = im.get_spacing()
-    m = im.metadata
     rescale_factor = new_spacing/x_sz
     new_sz = (im.size(-3),
               int(im.size(-2)*rescale_factor),
@@ -24,19 +23,16 @@ def size_correction(im:(TensorDicom3D, TensorMask3D), new_spacing=1):
     mode = 'trilinear' if isinstance(im, TensorDicom3D) else 'nearest'
     while im.ndim < 5: im = im.unsqueeze(0)
     im = F.interpolate(im, size = new_sz, mode = mode, align_corners=True).squeeze() #changes memory address, restore_metadata won't work anymore
-    im.metadata = m
     im.set_spacing((new_spacing, new_spacing, z_sz))
     return im
 
 # Cell
 @patch
 def rescale_pixeldata(t:TensorDicom3D):
-    m = t.metadata
-    if '0028|1053' in m: # if one tag is present, the other should also
-        t = t * m['0028|1053'] + m['0028|1052']
-        m.pop('0028|1052')
-        m.pop('0028|1053')
-        t.restore_metadata()
+    if '0028|1053' in t._metadata: # if one tag is present, the other should also
+        t = t * t.get_metadata('0028|1053') + t.get_metadata('0028|1052')
+        t.del_metadata('0028|1052')
+        t.del_metadata('0028|1053')
     return t
 
 # Cell
@@ -44,10 +40,9 @@ def rescale_pixeldata(t:TensorDicom3D):
 def mean_scale(t:TensorDicom3D):
     "Scales pixels by subtracting the mean and dividing by std. 0 pixels are ignored"
     t = t - t.min() # set mit to 0
-    mask = t.ne(0.)
+    mask = t.ne(0) # ne not compatible with __torch_function__ reimplementation
     mean, sd = t[mask].mean(), t[mask].std()
     t = (t - mean) / sd
-    t.restore_metadata()
     return t
 
 class MeanScale(RandTransform):
@@ -71,14 +66,12 @@ def median_scale(t:TensorDicom3D):
         mask = F.interpolate(t[mask].view(-1).unsqueeze(0).unsqueeze(0), 2**16)
     median, iqr = mask.median(), mask.quantile(0.75)-mask.quantile(0.25)
     t = (t-median)/iqr
-    t.restore_metadata()
     return t
 
 # Cell
 @patch
 def max_scale(t:TensorDicom3D):
     t = (t - t.min()) / (t.max() - t.min())
-    t.restore_metadata()
     return t
 
 # Cell
@@ -102,12 +95,14 @@ def hist_scaled(t:(TensorDicom3D,Tensor), brks=None):
     taken from https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78
     '''
     if t.device.type=='cuda': return t.hist_scaled_pt(brks)
-    if brks is None: brks = t.freqhist_bins()
+    meta = getattr(t, '_metadata')
+    if brks is None: brks = Tensor(t).freqhist_bins()
     ys = np.linspace(0., 1., len(brks))
-    x = t.numpy().flatten()
+    x = t.numpy().flatten() # will loose meta data in process
     x = np.interp(x, brks.numpy(), ys)
     x = tensor(x).reshape(t.shape).clamp(0.,1.)
-    return x # will loose meta data in process
+    setattr(x, '_metadata', meta)
+    return x
 
 @patch
 def hist_scaled_pt(t:(TensorDicom3D,Tensor), brks=None):
@@ -248,7 +243,7 @@ def find_standard_scale(inputs, i_min=1, i_max=99, i_s_min=1, i_s_max=100, l_per
 
     for input_image in inputs:
         mask_data = input_image > input_image.mean()
-        masked = input_image[mask_data > 0]
+        masked = input_image[mask_data]
         landmarks = get_landmarks(masked, percs)
         min_p = get_percentile(masked, i_min)
         max_p = get_percentile(masked, i_max)
@@ -272,7 +267,7 @@ def piecewise_hist(image:Tensor, landmark_percs, standard_scale)->Tensor:
         normalized (TensorDicom3D): normalized image
     """
     mask_data = image > image.mean()
-    masked = image[mask_data > 0]
+    masked = image[mask_data]
     landmarks = get_landmarks(masked, landmark_percs)
     if landmarks.device != image.device: landmarks = landmarks.to(image.device)
     if standard_scale.device != image.device: standard_scale = standard_scale.to(image.device)

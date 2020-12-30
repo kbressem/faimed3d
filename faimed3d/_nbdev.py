@@ -4,7 +4,6 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"TensorDicom3D": "01_basics.ipynb",
          "TensorMask3D": "01_basics.ipynb",
-         "cleanup_tmpdir": "01_basics.ipynb",
          "TensorDicom3D.set_spacing": "01_basics.ipynb",
          "TensorMask3D.set_spacing": "01_basics.ipynb",
          "TensorDicom3D.get_spacing": "01_basics.ipynb",
@@ -164,7 +163,8 @@ modules = ["basics.py",
            "models/deeplabv3.py",
            "models/losses.py",
            "callback.py",
-           "utils.py"]
+           "utils.py",
+           "widgets.py"]
 
 doc_url = "https://kbressem.github.io/faimed3d/"
 

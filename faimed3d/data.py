@@ -78,11 +78,6 @@ class ImageDataLoaders3D(DataLoaders):
                 y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, clean_tmpdir=True,**kwargs):
         "Create from `df` using `fn_col` and `label_col`"
 
-        if clean_tmpdir:
-            print('Cleaning tmpdir.')
-            cleanup_tmpdir() # clean up tmpdir from last session
-            print('You can disable automatic cleanup of the tmpdir (e.g. when doing multiple sessions in parallel)'
-                  ' with setting clean_tmpdir=False')
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
         if y_block is None:
             is_multi = (is_listy(label_col) and len(label_col) > 1) or label_delim is not None
@@ -172,11 +167,6 @@ class SegmentationDataLoaders3D(DataLoaders):
                 valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, clean_tmpdir=True,**kwargs):
         "Create from `df` using `fn_col` and `label_col`"
 
-        if clean_tmpdir:
-            print('Cleaning tmpdir.')
-            cleanup_tmpdir() # clean up tmpdir from last session
-            print('You can disable automatic cleanup of the tmpdir (e.g. when doing multiple sessions in parallel)'
-                  ' with setting clean_tmpdir=False')
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)
         if rescale_method is None:
