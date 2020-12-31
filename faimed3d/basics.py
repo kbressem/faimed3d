@@ -13,7 +13,7 @@ import torchvision
 from fastai.basics import *
 
 # Cell
-class TensorDicom3D(Tensor):
+class TensorDicom3D(TensorBase):
     "Base class for 3D medical images"
 
     def __init__(self, data, metadata=None, **kwargs):
@@ -27,26 +27,11 @@ class TensorDicom3D(Tensor):
                         }
         self._metadata =  metadata
 
-    @staticmethod
-    def __new__(cls, data, metadata=None, *args, **kwargs):
-        return super().__new__(cls, data, *args, **kwargs)
 
-    def __getitem__(self, item: torch.Tensor):
-        try: instance = super().__getitem__(item)
-        # if above fails, agressive recasting to torch.tensor, then calling the method again
-        except:
-            item = torch.as_tensor(item.__array__())
-            instance = torch.as_tensor(self.__array__())
-            instance = instance.__getitem__(item)
-        if hasattr(self, '_metadata'): setattr(instance, '_metadata', self._metadata)
-        return instance
-
-    def __torch_function__(self, func, types, args=(), kwargs=None):
-        ret = super().__torch_function__(func, types, args=args, kwargs=kwargs)
-        # will fail on operations such as torch.stack
-        try: setattr(ret, '_metadata', self._metadata)
-        except: pass
-        return ret
+    def __new__(cls, x, metadata=None, *args, **kwargs):
+        res = cast(tensor(x), cls)
+        for k,v in kwargs.items(): setattr(res, k, v)
+        return res
 
     @classmethod
     def create(cls, fn:(Path,str,Tensor,ndarray), load_header=False,  **kwargs):
@@ -59,7 +44,7 @@ class TensorDicom3D(Tensor):
             An instance of `cls`
         """
         if isinstance(fn, str):
-            if fn.endswith('.npy'): fn = np.load(fn)
+            if fn.endswith('.npy'): fn = np.float32(np.load(fn))
             else:
                 array, metadata = TensorDicom3D.load(fn,load_header)
                 instance = cls(array, metadata)
@@ -198,8 +183,6 @@ class TensorDicom3D(Tensor):
                     if i == 2:
                         print('\t (...)')
                         break
-
-
 
 # Cell
 class TensorMask3D(TensorDicom3D):

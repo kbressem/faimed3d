@@ -50,14 +50,14 @@ class PreprocessDicom(DisplayedTransform):
         return x.float()
 
 # Cell
-class AddColorChannel(RandTransform):
+class AddColorChannel(DisplayedTransform):
     "Transforms a TensorDicom3D volume to float and normalizes the data"
+    split_idx,order = None, 99
     def __init__(self, p=1.):
         store_attr()
-    def encodes(self, x:(TensorDicom3D, TensorMask3D)):
-        if x.ndim == 3: return torch.stack((x, )*3, 0)
-        elif x.ndim == 4: return torch.stack((x, )*3, 1)
-        else: raise ValueError('expeted Tensor with 3 or four dimensions but got {}'.format(x.ndim))
+    def encodes(self, x:Tensor):
+        if x.ndim == 4: return torch.stack((x, )*3, 1)
+        else: return x
 
 # Cell
 def ImageBlock3D(cls=TensorDicom3D, **kwargs):

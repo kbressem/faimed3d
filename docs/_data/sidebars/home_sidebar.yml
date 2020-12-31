@@ -49,7 +49,7 @@ entries:
       title: Callbacks
       url: callback.html
     - output: web,pdf
-      title: Widgets
+      title: DICOM Viewer
       url: widgets.html
     - output: web,pdf
       title: Task specific functions

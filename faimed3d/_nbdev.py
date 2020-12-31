@@ -99,7 +99,7 @@ index = {"TensorDicom3D": "01_basics.ipynb",
          "TensorMask3D.reduce_classes": "03_transforms.ipynb",
          "ReduceClasses": "03_transforms.ipynb",
          "PreprocessDicom": "04_dataloaders.ipynb",
-         "AddColorChannel": "06_learner.ipynb",
+         "AddColorChannel": "04_dataloaders.ipynb",
          "ImageBlock3D": "04_dataloaders.ipynb",
          "MaskBlock3D": "04_dataloaders.ipynb",
          "ImageDataLoaders3D": "04_dataloaders.ipynb",
@@ -147,6 +147,7 @@ index = {"TensorDicom3D": "01_basics.ipynb",
          "MixUp3D": "07_callback.ipynb",
          "ReloadBestFit": "07_callback.ipynb",
          "PiecewiseHistNormalizationCallback": "07_callback.ipynb",
+         "is_lab": "98_widgets.ipynb",
          "RotateNifti": "99_tools.ipynb",
          "SubvolumeExporter": "99_tools.ipynb",
          "CropOriginalToMask": "99_tools.ipynb",
@@ -166,8 +167,9 @@ modules = ["basics.py",
            "models/deeplabv3.py",
            "models/losses.py",
            "callback.py",
+           "widgets/viewer.py",
            "utils.py",
-           "widgets.py"]
+           "widgets/cam.py"]
 
 doc_url = "https://kbressem.github.io/faimed3d/"
 
