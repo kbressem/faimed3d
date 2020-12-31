@@ -149,7 +149,10 @@ index = {"TensorDicom3D": "01_basics.ipynb",
          "PiecewiseHistNormalizationCallback": "07_callback.ipynb",
          "RotateNifti": "99_tools.ipynb",
          "SubvolumeExporter": "99_tools.ipynb",
-         "CropOriginalToMask": "99_tools.ipynb"}
+         "CropOriginalToMask": "99_tools.ipynb",
+         "HookActivation": "99_widgets.ipynb",
+         "HookGradient": "99_widgets.ipynb",
+         "Learner.grad_cam": "99_widgets.ipynb"}
 
 modules = ["basics.py",
            "preprocess.py",
