@@ -50,9 +50,10 @@ def grad_cam(learn:Learner, img, target_class=None, target_layer=None, *args, **
     print('actual:',pred[0], '\t predicted:', pred[1].numpy(), '\t class probabilities:', *pred[2].numpy())
     if target_class is None: target_class = pred[1].numpy()
     # get images
-    x,  = first(dls.test_dl([img]))
-    x = torch.stack((x, )*3, 1)
-    x_img = TensorDicom3D(dls.train.decode((x,))[0][0])
+    x,  = first(learn.dls.test_dl([img]))
+    if x.ndim == 4: 
+        x = torch.stack((x, )*3, 1)
+    x_img = TensorDicom3D(learn.dls.train.decode((x,))[0][0])
     # create cam
     with HookGradient(target_layer) as hookg:
         with HookActivation(target_layer) as hook:
