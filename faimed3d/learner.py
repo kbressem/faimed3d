@@ -29,7 +29,7 @@ def cnn_learner_3d(dls, arch, loss_func=None, pretrained=True, cut=None, splitte
     meta = model_meta.get(arch, _default_meta)
     if n_out is None: n_out = get_c(dls)
     assert n_out, "`n_out` is not defined, and could not be inferred from data, set `dls.c` or pass `n_out`"
-    if normalize: _add_norm(dls, meta, pretrained)
+    # if normalize: _add_norm(dls, meta, pretrained) # no effect as no TenosrImage is passed in 3d
     if y_range is None and 'y_range' in config: y_range = config.pop('y_range')
     model = create_cnn_model(arch, n_out, ifnone(cut, meta['cut']), pretrained, y_range=y_range, **config)
     learn = Learner(dls, model, loss_func=loss_func, splitter=ifnone(splitter, meta['split']), **kwargs)
@@ -60,7 +60,7 @@ def unet_learner_3d(dls, arch, normalize=True, n_out=None, pretrained=True, conf
         kwargs = {**config, **kwargs}
 
     meta = model_meta.get(arch, _default_meta)
-    if normalize: _add_norm(dls, meta, pretrained)
+    # if normalize: _add_norm(dls, meta, pretrained) # no effect as no TenosrImage is passed in 3d
 
     n_out = ifnone(n_out, get_c(dls))
     assert n_out, "`n_out` is not defined, and could not be inferred from data, set `dls.c` or pass `n_out`"

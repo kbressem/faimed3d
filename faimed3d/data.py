@@ -50,14 +50,26 @@ class PreprocessDicom(DisplayedTransform):
         return x.float()
 
 # Cell
+@patch
+def scale_to(t:TensorDicom3D, mean, std):
+    mask = t.ne(0) # ne not compatible with __torch_function__ reimplementation
+    mean_orig, std_orig = t[mask].mean(), t[mask].std()
+    return mean + (t - mean_orig) * (std/std_orig)
+
 class AddColorChannel(DisplayedTransform):
-    "Transforms a TensorDicom3D volume to float and normalizes the data"
+    "Transforms Tensor to Pseudo RGB and normalizes to Kinteics Stats"
     split_idx,order = None, 99
     def __init__(self, p=1.):
         store_attr()
-    def encodes(self, x:Tensor):
-        if x.ndim == 4: return torch.stack((x, )*3, 1)
+    def encodes(self, x:TensorDicom3D):
+        if x.ndim == 3: x = x.unsqueeze(0) # make bs=2 form bs=1 batches
+        if x.ndim == 4:
+            x1 = torch.stack([item.scale_to(0.43216, 0.22803) for item in torch.unbind(x)])
+            x2 = torch.stack([item.scale_to(0.394666, 0.22145) for item in torch.unbind(x)])
+            x3 = torch.stack([item.scale_to(0.37645, 0.216989) for item in torch.unbind(x)])
+            return torch.stack((x1, x2, x3), 1)
         else: return x
+    def encodes(self, x:TensorMask3D): return x.unsqueeze(1)
 
 # Cell
 def ImageBlock3D(cls=TensorDicom3D, **kwargs):
@@ -83,10 +95,8 @@ class ImageDataLoaders3D(DataLoaders):
             is_multi = (is_listy(label_col) and len(label_col) > 1) or label_delim is not None
             y_block = MultiCategoryBlock if is_multi else CategoryBlock
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)
-        if rescale_method is None:
-            print('No rescale method was used. This is not advisable due to high risk of exploding gradients. '
-                  'Falling back to mean scaling.')
-            rescale_method = MeanScale()
+
+        if rescale_method is None: rescale_method = MaxScale()
         if item_tfms is not None:
             item_tfms = [rescale_method, *item_tfms] if isinstance(item_tfms, list) else [rescale_method, item_tfms]
         else: item_tfms = rescale_method
@@ -146,7 +156,7 @@ class ImageDataLoaders3D(DataLoaders):
 
 # Cell
 @patch
-def show_batch_3d(dls:DataLoaders, max_n=9, with_mask=False,
+def show_batch_3d(dls:DataLoaders, with_mask=False,
                   alpha_mask=0.3, figsize = (15, 15), **kwargs):
     "Workarround, until implemented into dls as dls.show_batch_3d()"
     xb, yb = dls.one_batch()
@@ -156,6 +166,30 @@ def show_batch_3d(dls:DataLoaders, max_n=9, with_mask=False,
     if isinstance(yb, TensorCategory):
         print(yb)
 
+
+# Cell
+@patch
+def to_numpy(x:Tensor): return x.detach().cpu().numpy()
+
+@patch
+def show_hist(dls:DataLoaders, bins=100, with_stats=False):
+    xb, yb = dls.one_batch()
+
+    if with_stats:
+        b_min = xb.min().to_numpy()
+        b_max = xb.max().to_numpy()
+        mean = torch.mean(xb)
+        diffs = xb - mean
+        var = torch.mean(torch.pow(diffs, 2.0))
+        std = torch.pow(var, 0.5)
+        zscores = diffs / std
+        skews = torch.mean(torch.pow(zscores, 3.0))
+        kurt = torch.mean(torch.pow(zscores, 4.0)) - 3.0
+        print('batch mean: {}, std: {}'.format(mean.to_numpy(), std.to_numpy()))
+        print('px range: {} - {}'.format(b_min, b_max))
+        print('skewness: {}, kurtosis:{}'.format(skews.to_numpy(), kurt.to_numpy()))
+
+    plt.hist(xb.detach().cpu().flatten().numpy(), bins = bins)
 
 # Cell
 class SegmentationDataLoaders3D(DataLoaders):
@@ -169,10 +203,8 @@ class SegmentationDataLoaders3D(DataLoaders):
 
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)
-        if rescale_method is None:
-            print('No rescale method was used. This is not advisable, due to high risk of exploding gradients. '
-                  'Falling back to mean scaling.')
-            rescale_method = MeanScale()
+
+        if rescale_method is None: rescale_method = MaxScale()
         if item_tfms is not None:
             item_tfms = [rescale_method, *item_tfms] if isinstance(item_tfms, list) else [rescale_method, item_tfms]
         else: item_tfms = rescale_method
