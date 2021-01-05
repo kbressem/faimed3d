@@ -15,6 +15,8 @@
     "Losses and metrics": "models.losses.html",
     "Callbacks": "callback.html",
     "DICOM Viewer": "widgets.html",
-    "Task specific functions": "tools.html"
+    "Task specific functions": "tools.html",
+    "Grad Cam": "widgets.cam.html",
+    "Image Normalization for MRI Data": "tutorial_mri-normalization.html"
   }
 }

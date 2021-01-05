@@ -4,10 +4,7 @@ __all__ = ['HookActivation', 'HookGradient']
 
 # Cell
 # default_exp widgets.cam
-from ..basics import *
-from ..data import *
-from ..augment import *
-from ..learner import *
+from ..all import *
 from fastai.basics import *
 
 # Cell
@@ -45,14 +42,17 @@ class HookGradient():
 # Cell
 @patch
 def grad_cam(learn:Learner, img, target_class=None, target_layer=None, *args, **kwargs):
+
+
     if target_layer is None: target_layer = learn.model[-2][4]
     pred = learn.predict(img)
     print('actual:',pred[0], '\t predicted:', pred[1].numpy(), '\t class probabilities:', *pred[2].numpy())
     if target_class is None: target_class = pred[1].numpy()
     # get images
-    x,  = first(dls.test_dl([img]))
-    x = torch.stack((x, )*3, 1)
-    x_img = TensorDicom3D(dls.train.decode((x,))[0][0])
+    x,  = first(learn.dls.test_dl([img]))
+    if x.ndim == 4:
+        x = torch.stack((x, )*3, 1)
+    x_img = TensorDicom3D(learn.dls.train.decode((x,))[0][0])
     # create cam
     with HookGradient(target_layer) as hookg:
         with HookActivation(target_layer) as hook:
@@ -62,9 +62,12 @@ def grad_cam(learn:Learner, img, target_class=None, target_layer=None, *args, **
         grad = hookg.stored
         p0, p1 = output.cpu().detach()[0]
 
-    w = grad[0].mean(dim=(1,2), keepdim=True)
+    w = grad[0].mean(dim=(1,2,3), keepdim=True)
+    global gradcam_map
+
     gradcam_map = (w * act[0]).sum(0).detach().cpu()
     gradcam_map = Resize3D(x_img[0].shape)(TensorDicom3D(gradcam_map))
     # plot
     x_img[0].show(*args, **kwargs)
     gradcam_map.clamp(min=0).show(cmap='inferno', alpha = 0.5, add_to_existing = True,*args, **kwargs)
+    plt.axis('off')

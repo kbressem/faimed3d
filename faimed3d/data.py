@@ -40,7 +40,7 @@ class PreprocessDicom(DisplayedTransform):
 
         store_attr()
     def encodes(self, x:(TensorDicom3D, TensorMask3D)):
-        if isinstance(x, TensorMask3D): return x
+        if isinstance(x, TensorMask3D): return x.long()
         if hasattr(x, 'metadata'): # numpy arrays will not have metadata
             if self.rescale: x = x.rescale_pixeldata()
             if self.correct_spacing: x = x.size_correction(self.spacing)
@@ -56,20 +56,26 @@ def scale_to(t:TensorDicom3D, mean, std):
     mean_orig, std_orig = t[mask].mean(), t[mask].std()
     return mean + (t - mean_orig) * (std/std_orig)
 
+
 class AddColorChannel(DisplayedTransform):
     "Transforms Tensor to Pseudo RGB and normalizes to Kinteics Stats"
     split_idx,order = None, 99
     def __init__(self, p=1.):
         store_attr()
+
     def encodes(self, x:TensorDicom3D):
         if x.ndim == 3: x = x.unsqueeze(0) # make bs=2 form bs=1 batches
         if x.ndim == 4:
-            x1 = torch.stack([item.scale_to(0.43216, 0.22803) for item in torch.unbind(x)])
-            x2 = torch.stack([item.scale_to(0.394666, 0.22145) for item in torch.unbind(x)])
-            x3 = torch.stack([item.scale_to(0.37645, 0.216989) for item in torch.unbind(x)])
-            return torch.stack((x1, x2, x3), 1)
+            #x1 = torch.stack([item.scale_to(0.43216, 0.22803) for item in torch.unbind(x)])
+            #x2 = torch.stack([item.scale_to(0.394666, 0.22145) for item in torch.unbind(x)])
+            #x3 = torch.stack([item.scale_to(0.37645, 0.216989) for item in torch.unbind(x)])
+            return torch.stack((x, x, x), 1)
         else: return x
-    def encodes(self, x:TensorMask3D): return x.unsqueeze(1)
+
+    def encodes(self, x:TensorMask3D):
+        if x.ndim == 3: x = x.unsqueeze(0) # make bs=2 form bs=1 batches
+        if x.ndim == 4: x = x.unsqueeze(1)
+        return x
 
 # Cell
 def ImageBlock3D(cls=TensorDicom3D, **kwargs):

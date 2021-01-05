@@ -303,6 +303,7 @@ class PiecewiseHistScaling(RandTransform):
         landmark_percs (torch.tensor): corresponding landmark points of standard scale
         final_scale (function): final rescaling of values, if None is provided values are
                                 scaled to a mean of 0 and a std of 1.
+        slicewise (bool): if the scaling should be applied to each slice individually. Slower but leads to more homogeneous images
 
     Returns:
         If input is TensorMask3D returns input unchanged
@@ -310,20 +311,20 @@ class PiecewiseHistScaling(RandTransform):
 
     """
     split_idx,order = None, 10
-    def __init__(self, landmark_percs=None, standard_scale=None, final_scale=None, p=1., **kwargs):
+    def __init__(self, landmark_percs=None, standard_scale=None, final_scale=None, p=1., slicewise=False, slice_dim=None, **kwargs):
         super().__init__(p, **kwargs)
-        if landmark_percs is None or standard_scale is None:
-            raise ValueError('Landmark parcs and standard scale need to be provided.'
-                             'You can run `standard_scale_from_filelist` or `standard_scale_from_dls` '
-                             'To get an estiamtion of the values. Alternatively you can use the '
-                             '`PiecewiseHistNormalizationCallback` which will automatically calculate '
-                             'the needed values before the first epoch.')
         store_attr()
 
     def encodes(self, x:TensorDicom3D):
-        x = x.piecewise_hist(self.landmark_percs, self.standard_scale)
-        return x.max_scale() if self.final_scale is None else self.final_scale(x)
-
+        if self.landmark_percs is None or self.standard_scale is None:
+            self.standard_scale, self.landmark_percs = find_standard_scale(x)
+        if self.slicewise:
+            if self.slice_dim is None: self.slice_dim = 0
+            x = torch.stack([s.piecewise_hist(self.landmark_percs, self.standard_scale) for s in torch.unbind(x, self.slice_dim)], self.slice_dim)
+        else: x = x.piecewise_hist(self.landmark_percs, self.standard_scale)
+        x = x.clamp(min=0)
+        x = x.sqrt().max_scale() if self.final_scale is None else self.final_scale(x)
+        return x
     def encodes(self, x:TensorMask3D): return x
 
 

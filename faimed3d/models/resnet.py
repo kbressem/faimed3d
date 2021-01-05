@@ -137,11 +137,11 @@ class ResNet3D(nn.Module):
         self.groups = groups
         self.base_width = width_per_group
 
-        self.conv1 = nn.Conv3d(n_channels, self.inplanes, kernel_size=3, stride=1, padding=1, bias=False)
+        self.bn1 = norm_layer(n_channels)
+        self.conv1 = nn.Conv3d(n_channels, self.inplanes, kernel_size=(2, 5, 5), stride=(1, 3, 3), padding=1, bias=False)
              # reduced initial kernel size, stride an padding. Initial ks (3,7,7), stride (1,3,3), pad (1,3,3)
-        self.bn1 = norm_layer(self.inplanes)
         self.relu = act_layer(inplace=True)
-        self.maxpool = nn.MaxPool3d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+        #self.maxpool = nn.MaxPool3d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
 
         self.layer1 = self._make_layer(block, 64, layers[0])
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2,
@@ -220,10 +220,10 @@ class ResNet3D(nn.Module):
 
     def _forward_impl(self, x):
         # See note [TorchScript super()]
-        x = self.conv1(x)
         x = self.bn1(x)
+        x = self.conv1(x)
         x = self.relu(x)
-        x = self.maxpool(x)
+#        x = self.maxpool(x)
 
         x = self.layer1(x)
         x = self.layer2(x)

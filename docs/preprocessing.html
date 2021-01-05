@@ -447,6 +447,31 @@ rescale slope: 0028|1053</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="MedianScale" class="doc_header"><code>class</code> <code>MedianScale</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L71" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MedianScale</code>(<strong><code>p</code></strong>=<em><code>1.0</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>RandTransform</code></p>
+</blockquote>
+<p>A transform that before_call its state at each <code>__call__</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 </div>
     {% endraw %}
 
@@ -461,8 +486,33 @@ rescale slope: 0028|1053</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.max_scale" class="doc_header"><code>TensorDicom3D.max_scale</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L72" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.max_scale</code>(<strong><code>t</code></strong>:<a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
+<h4 id="TensorDicom3D.max_scale" class="doc_header"><code>TensorDicom3D.max_scale</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L81" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.max_scale</code>(<strong><code>t</code></strong>:<a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
 </blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="MaxScale" class="doc_header"><code>class</code> <code>MaxScale</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L86" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MaxScale</code>(<strong><code>p</code></strong>=<em><code>1.0</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>RandTransform</code></p>
+</blockquote>
+<p>A transform that before_call its state at each <code>__call__</code></p>
 
 </div>
 
@@ -524,7 +574,7 @@ Histgram scaling might be used for a more evendistribution of pixel values. Diff
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.freqhist_bins" class="doc_header"><code>TensorDicom3D.freqhist_bins</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L78" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.freqhist_bins</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>n_bins</code></strong>=<em><code>100</code></em>)</p>
+<h4 id="TensorDicom3D.freqhist_bins" class="doc_header"><code>TensorDicom3D.freqhist_bins</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L96" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.freqhist_bins</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>n_bins</code></strong>=<em><code>100</code></em>)</p>
 </blockquote>
 <p>A function to split the range of pixel values into groups, such that each group has around the same number of pixels.
 taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78">https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78</a></p>
@@ -550,7 +600,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Tensor.freqhist_bins" class="doc_header"><code>Tensor.freqhist_bins</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L78" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.freqhist_bins</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>n_bins</code></strong>=<em><code>100</code></em>)</p>
+<h4 id="Tensor.freqhist_bins" class="doc_header"><code>Tensor.freqhist_bins</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L96" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.freqhist_bins</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>n_bins</code></strong>=<em><code>100</code></em>)</p>
 </blockquote>
 <p>A function to split the range of pixel values into groups, such that each group has around the same number of pixels.
 taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78">https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78</a></p>
@@ -576,7 +626,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.hist_scaled" class="doc_header"><code>TensorDicom3D.hist_scaled</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L91" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.hist_scaled</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>brks</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="TensorDicom3D.hist_scaled" class="doc_header"><code>TensorDicom3D.hist_scaled</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L109" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.hist_scaled</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>brks</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Scales a tensor using <code>freqhist_bins</code> to values between 0 and 1
 taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78">https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78</a></p>
@@ -602,7 +652,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Tensor.hist_scaled" class="doc_header"><code>Tensor.hist_scaled</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L91" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.hist_scaled</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>brks</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="Tensor.hist_scaled" class="doc_header"><code>Tensor.hist_scaled</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L109" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.hist_scaled</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>brks</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Scales a tensor using <code>freqhist_bins</code> to values between 0 and 1
 taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78">https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78</a></p>
@@ -628,7 +678,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.hist_scaled_pt" class="doc_header"><code>TensorDicom3D.hist_scaled_pt</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L107" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.hist_scaled_pt</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>brks</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="TensorDicom3D.hist_scaled_pt" class="doc_header"><code>TensorDicom3D.hist_scaled_pt</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L126" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.hist_scaled_pt</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>brks</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>same as fastai fucntion for PILDicom</p>
 
@@ -653,7 +703,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Tensor.hist_scaled_pt" class="doc_header"><code>Tensor.hist_scaled_pt</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L107" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.hist_scaled_pt</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>brks</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="Tensor.hist_scaled_pt" class="doc_header"><code>Tensor.hist_scaled_pt</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L126" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.hist_scaled_pt</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>brks</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>same as fastai fucntion for PILDicom</p>
 
@@ -849,7 +899,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ImageCorrectionWrapper" class="doc_header"><code>class</code> <code>ImageCorrectionWrapper</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L117" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ImageCorrectionWrapper</code>(<strong><code>n4_max_num_it</code></strong>=<em><code>3</code></em>, <strong><code>hist_radius</code></strong>=<em><code>[5, 5, 5]</code></em>, <strong><code>hist_alpha</code></strong>=<em><code>0.3</code></em>, <strong><code>hist_beta</code></strong>=<em><code>0.3</code></em>, <strong><code>do_n4</code></strong>=<em><code>True</code></em>, <strong><code>do_hist</code></strong>=<em><code>True</code></em>, <strong><code>verbose</code></strong>=<em><code>True</code></em>)</p>
+<h2 id="ImageCorrectionWrapper" class="doc_header"><code>class</code> <code>ImageCorrectionWrapper</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L138" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ImageCorrectionWrapper</code>(<strong><code>n4_max_num_it</code></strong>=<em><code>3</code></em>, <strong><code>hist_radius</code></strong>=<em><code>[5, 5, 5]</code></em>, <strong><code>hist_alpha</code></strong>=<em><code>0.3</code></em>, <strong><code>hist_beta</code></strong>=<em><code>0.3</code></em>, <strong><code>do_n4</code></strong>=<em><code>True</code></em>, <strong><code>do_hist</code></strong>=<em><code>True</code></em>, <strong><code>verbose</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -890,7 +940,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_percentile" class="doc_header"><code>get_percentile</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L187" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_percentile</code>(<strong><code>t</code></strong>:<code>Tensor</code>, <strong><code>q</code></strong>:<code>float</code>)</p>
+<h4 id="get_percentile" class="doc_header"><code>get_percentile</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L208" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_percentile</code>(<strong><code>t</code></strong>:<code>Tensor</code>, <strong><code>q</code></strong>:<code>float</code>)</p>
 </blockquote>
 <p>Return the <code>q</code>-th percentile of the flattened input tensor's data.</p>
 <p>CAUTION:</p>
@@ -932,7 +982,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_landmarks" class="doc_header"><code>get_landmarks</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L212" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_landmarks</code>(<strong><code>t</code></strong>:<code>Tensor</code>, <strong><code>percentiles</code></strong>:<code>Tensor</code>)</p>
+<h4 id="get_landmarks" class="doc_header"><code>get_landmarks</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L233" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_landmarks</code>(<strong><code>t</code></strong>:<code>Tensor</code>, <strong><code>percentiles</code></strong>:<code>Tensor</code>)</p>
 </blockquote>
 <p>Returns the input's landmarks.</p>
 <p>:param t (torch.Tensor): Input tensor.
@@ -967,7 +1017,7 @@ taken from <a href="https://github.com/fastai/fastai/blob/master/fastai/medical/
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="find_standard_scale" class="doc_header"><code>find_standard_scale</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L223" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_standard_scale</code>(<strong><code>inputs</code></strong>, <strong><code>i_min</code></strong>=<em><code>1</code></em>, <strong><code>i_max</code></strong>=<em><code>99</code></em>, <strong><code>i_s_min</code></strong>=<em><code>1</code></em>, <strong><code>i_s_max</code></strong>=<em><code>100</code></em>, <strong><code>l_percentile</code></strong>=<em><code>10</code></em>, <strong><code>u_percentile</code></strong>=<em><code>90</code></em>, <strong><code>step</code></strong>=<em><code>10</code></em>)</p>
+<h4 id="find_standard_scale" class="doc_header"><code>find_standard_scale</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L244" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_standard_scale</code>(<strong><code>inputs</code></strong>, <strong><code>i_min</code></strong>=<em><code>1</code></em>, <strong><code>i_max</code></strong>=<em><code>99</code></em>, <strong><code>i_s_min</code></strong>=<em><code>1</code></em>, <strong><code>i_s_max</code></strong>=<em><code>100</code></em>, <strong><code>l_percentile</code></strong>=<em><code>10</code></em>, <strong><code>u_percentile</code></strong>=<em><code>90</code></em>, <strong><code>step</code></strong>=<em><code>10</code></em>)</p>
 </blockquote>
 <p>determine the standard scale for the set of images
 Args:
@@ -1011,7 +1061,7 @@ Returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Tensor.piecewise_hist" class="doc_header"><code>Tensor.piecewise_hist</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L257" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.piecewise_hist</code>(<strong><code>image</code></strong>:<code>Tensor</code>, <strong><code>landmark_percs</code></strong>, <strong><code>standard_scale</code></strong>)</p>
+<h4 id="Tensor.piecewise_hist" class="doc_header"><code>Tensor.piecewise_hist</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L278" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.piecewise_hist</code>(<strong><code>image</code></strong>:<code>Tensor</code>, <strong><code>landmark_percs</code></strong>, <strong><code>standard_scale</code></strong>)</p>
 </blockquote>
 <p>Do the Nyul and Udupa histogram normalization routine with a given set of learned landmarks</p>
 <p>Args:
@@ -1042,14 +1092,15 @@ Returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="PiecewiseHistScaling" class="doc_header"><code>class</code> <code>PiecewiseHistScaling</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L276" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PiecewiseHistScaling</code>(<strong><code>landmark_percs</code></strong>=<em><code>None</code></em>, <strong><code>standard_scale</code></strong>=<em><code>None</code></em>, <strong><code>final_scale</code></strong>=<em><code>None</code></em>, <strong><code>p</code></strong>=<em><code>1.0</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>RandTransform</code></p>
+<h2 id="PiecewiseHistScaling" class="doc_header"><code>class</code> <code>PiecewiseHistScaling</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L297" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PiecewiseHistScaling</code>(<strong><code>landmark_percs</code></strong>=<em><code>None</code></em>, <strong><code>standard_scale</code></strong>=<em><code>None</code></em>, <strong><code>final_scale</code></strong>=<em><code>None</code></em>, <strong><code>p</code></strong>=<em><code>1.0</code></em>, <strong><code>slicewise</code></strong>=<em><code>False</code></em>, <strong><code>slice_dim</code></strong>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>RandTransform</code></p>
 </blockquote>
 <p>Applies theNyul and Udupa histogram nomalization and rescales the pixel values.</p>
 <p>Args:
     input_image (TensorDicom3D): image on which to find landmarks
     landmark_percs (torch.tensor): corresponding landmark points of standard scale
     final_scale (function): final rescaling of values, if None is provided values are
-                            scaled to a mean of 0 and a std of 1.</p>
+                            scaled to a mean of 0 and a std of 1.
+    slicewise (bool): if the scaling should be applied to each slice individually. Slower but leads to more homogeneous images</p>
 <p>Returns:
     If input is TensorMask3D returns input unchanged
     If input is TensorDicom3D returns normalized and rescaled Tensor</p>
@@ -1154,7 +1205,7 @@ Returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="standard_scale_from_filelist" class="doc_header"><code>standard_scale_from_filelist</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L310" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>standard_scale_from_filelist</code>(<strong><code>fns</code></strong>:<code>Series'&gt;)</code>)</p>
+<h4 id="standard_scale_from_filelist" class="doc_header"><code>standard_scale_from_filelist</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L332" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>standard_scale_from_filelist</code>(<strong><code>fns</code></strong>:<code>Series'&gt;)</code>)</p>
 </blockquote>
 <p>calculates standard scale from images in a filelist</p>
 
@@ -1203,7 +1254,7 @@ Returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="DataLoaders.standard_scale_from_dls" class="doc_header"><code>DataLoaders.standard_scale_from_dls</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L320" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DataLoaders.standard_scale_from_dls</code>(<strong><code>dls</code></strong>:<code>DataLoaders</code>)</p>
+<h4 id="DataLoaders.standard_scale_from_dls" class="doc_header"><code>DataLoaders.standard_scale_from_dls</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/preprocess.py#L342" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DataLoaders.standard_scale_from_dls</code>(<strong><code>dls</code></strong>:<code>DataLoaders</code>)</p>
 </blockquote>
 <p>calculates standard scale from images in a dataloader</p>
 

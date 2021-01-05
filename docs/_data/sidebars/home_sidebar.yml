@@ -54,6 +54,12 @@ entries:
     - output: web,pdf
       title: Task specific functions
       url: tools.html
+    - output: web,pdf
+      title: Grad Cam
+      url: widgets.cam.html
+    - output: web,pdf
+      title: Image Normalization for MRI Data
+      url: tutorial_mri-normalization.html
     output: web
     title: faimed3d
   output: web
