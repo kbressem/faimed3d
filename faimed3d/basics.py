@@ -8,9 +8,14 @@ import tempfile
 import os
 import pickle
 
-import SimpleITK as sitk
 import torchvision
 from fastai.basics import *
+
+# for DICOM support
+import SimpleITK as sitk
+
+# for AVI
+import skvideo.io
 
 # Cell
 class TensorDicom3D(TensorBase):
@@ -45,6 +50,10 @@ class TensorDicom3D(TensorBase):
         """
         if isinstance(fn, str):
             if fn.endswith('.npy'): fn = np.float32(np.load(fn))
+            elif fn.endswith('.avi'):
+                fn = skvideo.io.vread(fn)               ## read video into np array
+                fn = np.transpose(fn, (3, 0, 1, 2))     ## transpose to get frame no. first
+                fn = np.float32(fn)                     ## conversion
             else:
                 array, metadata = TensorDicom3D.load(fn,load_header)
                 instance = cls(array, metadata)
