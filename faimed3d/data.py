@@ -167,7 +167,7 @@ def show_batch_3d(dls:DataLoaders, with_mask=False,
     "Workarround, until implemented into dls as dls.show_batch_3d()"
     xb, yb = dls.one_batch()
     xb.show(figsize=figsize, **kwargs)
-    if with_mask: yb.show(add_to_existing = True, alpha = alpha_mask,
+    if with_mask: yb.float().show(add_to_existing = True, alpha = alpha_mask,
                           cmap = 'jet', figsize=figsize, **kwargs)
     if isinstance(yb, TensorCategory):
         print(yb)
