@@ -40,7 +40,7 @@ class PreprocessDicom(DisplayedTransform):
 
         store_attr()
     def encodes(self, x:(TensorDicom3D, TensorMask3D)):
-        if isinstance(x, TensorMask3D): return x.long()
+        if isinstance(x, TensorMask3D): return x
         if hasattr(x, 'metadata'): # numpy arrays will not have metadata
             if self.rescale: x = x.rescale_pixeldata()
             if self.correct_spacing: x = x.size_correction(self.spacing)
@@ -93,7 +93,7 @@ class ImageDataLoaders3D(DataLoaders):
     @classmethod
     @delegates(DataLoaders.from_dblock)
     def from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', label_col=1, label_delim=None,
-                y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, clean_tmpdir=True,**kwargs):
+                y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, **kwargs):
         "Create from `df` using `fn_col` and `label_col`"
 
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
@@ -167,7 +167,7 @@ def show_batch_3d(dls:DataLoaders, with_mask=False,
     "Workarround, until implemented into dls as dls.show_batch_3d()"
     xb, yb = dls.one_batch()
     xb.show(figsize=figsize, **kwargs)
-    if with_mask: yb.float().show(add_to_existing = True, alpha = alpha_mask,
+    if with_mask: yb.show(add_to_existing = True, alpha = alpha_mask,
                           cmap = 'jet', figsize=figsize, **kwargs)
     if isinstance(yb, TensorCategory):
         print(yb)

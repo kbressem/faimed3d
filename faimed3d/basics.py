@@ -39,7 +39,7 @@ class TensorDicom3D(TensorBase):
         return res
 
     @classmethod
-    def create(cls, fn:(Path,str,Tensor,ndarray), load_header=False,  **kwargs):
+    def create(cls, fn:(Path,str,Tensor,ndarray), load_header=True,  **kwargs):
         """
         Open an `3D Image` from path `fn` or create it from an array
         Args:

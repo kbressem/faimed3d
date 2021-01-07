@@ -52,7 +52,7 @@ def unet_learner_3d(dls, arch, normalize=True, n_out=None, pretrained=True, conf
                  loss_func=None, opt_func=Adam, lr=defaults.lr, splitter=None, cbs=None, metrics=None, path=None,
                  model_dir='models', wd=None, wd_bn_bias=False, train_bn=True, moms=(0.95,0.85,0.95),
                  # other model args
-                 **kwargs):
+                 norm_type=NormType.Batch, **kwargs):
     "Build a unet learner from `dls` and `arch`"
 
     if config:
@@ -66,9 +66,9 @@ def unet_learner_3d(dls, arch, normalize=True, n_out=None, pretrained=True, conf
     assert n_out, "`n_out` is not defined, and could not be inferred from data, set `dls.c` or pass `n_out`"
     img_size = dls.one_batch()[0].shape[-3:]
     assert img_size, "image size could not be inferred from data"
-    model = create_unet_model_3d(arch, n_out, img_size, pretrained=pretrained, **kwargs)
+    model = create_unet_model_3d(arch, n_out, img_size, pretrained=pretrained, norm_type=norm_type, **kwargs)
 
-    if loss_func is None: loss_func = DiceLoss()
+    if loss_func is None: loss_func = DiceLoss(smooth=0.)
     splitter=ifnone(splitter, meta['split'])
     learn = Learner(dls=dls, model=model, loss_func=loss_func, opt_func=opt_func, lr=lr, splitter=splitter, cbs=cbs,
                    metrics=metrics, path=path, model_dir=model_dir, wd=wd, wd_bn_bias=wd_bn_bias, train_bn=train_bn,

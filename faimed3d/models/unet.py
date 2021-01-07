@@ -16,10 +16,10 @@ from ..layers import *
 # Cell
 class ConvTranspose3D(nn.Sequential):
     "Upsample by 2` from `ni` filters to `nf` (default `ni`), using `nn.ConvTranspose3D`."
-    def __init__(self, ni, nf=None, scale=2,  blur=False):
+    def __init__(self, ni, nf=None, scale=2, blur=False, act_cls=None, norm_type=None, **kwargs):
         super().__init__()
         nf = ifnone(nf, ni)
-        layers = [nn.ConvTranspose3d(ni, nf, kernel_size=3, stride=scale, padding = 1), nn.ReLU()]
+        layers = [ConvLayer(ni, nf, ndim=3, act_cls=act_cls, norm_type=norm_type, transpose=True, **kwargs)]
       #  layers[0].weight.data.copy_(icnr_init(layers[0].weight.data))
         if blur: layers += [nn.ReplicationPad3d((1,0,1,0,1,0)), nn.AvgPool3d(2, stride=1)]
         super().__init__(*layers)
@@ -31,7 +31,7 @@ class UnetBlock3D(Module):
     def __init__(self, up_in_c, x_in_c, hook, final_div=True, blur=False, act_cls=defaults.activation,
                  self_attention=False, init=nn.init.kaiming_normal_, norm_type=None, **kwargs):
         self.hook = hook
-        self.shuf = ConvTranspose3D(up_in_c, up_in_c//2, blur=blur)
+        self.up = ConvTranspose3D(up_in_c, up_in_c//2, blur=blur, act_cls=act_cls, norm_type=norm_type, **kwargs)
         self.bn = BatchNorm(x_in_c, ndim=3)
         ni = up_in_c//2 + x_in_c
         nf = ni if final_div else ni//2
@@ -43,12 +43,13 @@ class UnetBlock3D(Module):
 
     def forward(self, up_in):
         s = self.hook.stored
-        up_out = self.shuf(up_in)
+        up_out = self.up(up_in)
         ssh = s.shape[-3:]
         if ssh != up_out.shape[-3:]:
             up_out = F.interpolate(up_out, s.shape[-3:], mode='nearest')
         cat_x = self.relu(torch.cat([up_out, self.bn(s)], dim=1))
         return self.conv2(self.conv1(cat_x))
+
 
 # Cell
 class ResizeToOrig(Module):
@@ -65,17 +66,16 @@ class DynamicUnet3D(SequentialEx):
     def __init__(self, encoder, n_out, img_size, blur=False, blur_final=True, self_attention=False,
                  y_range=None, last_cross=True, bottle=False, act_cls=defaults.activation,
                  init=nn.init.kaiming_normal_, norm_type=None, **kwargs):
-        imsize = img_size
-        sizes = model_sizes(encoder, size=imsize)
+        sizes = model_sizes(encoder, size=img_size)
         sz_chg_idxs = list(reversed(_get_sz_change_idxs(sizes)))
         self.sfs = hook_outputs([encoder[i] for i in sz_chg_idxs], detach=False)
-        x = dummy_eval(encoder, imsize).detach()
+        x = dummy_eval(encoder, img_size).detach()
 
         ni = sizes[-1][1]
-        middle_conv = nn.Sequential(ConvLayer(ni, ni*2, act_cls=act_cls, norm_type=norm_type, ndim = len(imsize), **kwargs),
-                                    ConvLayer(ni*2, ni, act_cls=act_cls, norm_type=norm_type, ndim = len(imsize), **kwargs)).eval()
+        middle_conv = nn.Sequential(ConvLayer(ni, ni*2, act_cls=act_cls, norm_type=norm_type, ndim = len(img_size), **kwargs),
+                                    ConvLayer(ni*2, ni, act_cls=act_cls, norm_type=norm_type, ndim = len(img_size), **kwargs)).eval()
         x = middle_conv(x)
-        layers = [encoder, BatchNorm(ni, ndim = len(imsize)), nn.ReLU(), middle_conv]
+        layers = [encoder, BatchNorm(ni, ndim = len(img_size)), nn.ReLU(), middle_conv]
 
         for i,idx in enumerate(sz_chg_idxs):
             not_final = i!=len(sz_chg_idxs)-1
@@ -88,7 +88,7 @@ class DynamicUnet3D(SequentialEx):
             x = unet_block(x)
 
         ni = x.shape[1]
-        if imsize != sizes[0][-3:]: layers.append(ConvTranspose3D(ni))
+        if img_size != sizes[0][-3:]: layers.append(ConvTranspose3D(ni))
         layers.append(ResizeToOrig())
         if last_cross:
             layers.append(MergeLayer(dense=True))
