@@ -54,9 +54,9 @@ class TensorDicom3D(TensorBase):
             elif fn.endswith('.avi') or fn.endswith('.mpg') or fn.endswith('.mpeg'):
                 fn, _, _ = video.read_video(fn)         ## read video frames into tensor
                 fn = fn.type(torch.FloatTensor)         ## convert from ByteTensor to FloatTensor
-                fn = fn.transpose(fn, 3, 1)             ## transpose to get shape in expected format
-                fn = fn.transpose(fn, 1, 0)             ##
-                fn = fn.transpose(fn, 3, 2)             ##
+                fn = fn.transpose(3, 1)             ## transpose to get shape in expected format
+                fn = fn.transpose(1, 0)             ##
+                fn = fn.transpose(3, 2)             ##
                 
             else:
                 array, metadata = TensorDicom3D.load(fn,load_header)
