@@ -51,12 +51,6 @@ class TensorDicom3D(TensorBase):
         """
         if isinstance(fn, str):
             if fn.endswith('.npy'): fn = np.float32(np.load(fn))
-            elif fn.endswith('.avi') or fn.endswith('.mpg') or fn.endswith('.mpeg'):
-                fn, _, _ = video.read_video(fn)         ## read video frames into tensor
-                fn = fn.type(torch.FloatTensor)         ## convert from ByteTensor to FloatTensor
-                fn = fn.transpose(3, 1)             ## transpose to get shape in expected format
-                fn = fn.transpose(1, 0)             ##
-                fn = fn.transpose(3, 2)             ##
             elif fn.endswith(('.avi','.mpg','.mpeg')):
                 fn, _, _ = video.read_video(fn)         ## read video frames into tensor
                 fn = fn.type(torch.FloatTensor)         ## convert from ByteTensor to FloatTensor
