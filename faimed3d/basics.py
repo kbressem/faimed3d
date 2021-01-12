@@ -14,8 +14,9 @@ from fastai.basics import *
 # for DICOM support
 import SimpleITK as sitk
 
-# for AVI
-import skvideo.io
+# for Video support
+# depends on: https://github.com/PyAV-Org/PyAV#installation
+from torchvision.io import video
 
 # Cell
 class TensorDicom3D(TensorBase):
@@ -48,16 +49,16 @@ class TensorDicom3D(TensorBase):
         Returns:
             An instance of `cls`
         """
+        if isinstance(fn, Path): fn = str(fn)
         if isinstance(fn, str):
             if fn.endswith('.npy'): fn = np.float32(np.load(fn))
-            elif fn.endswith('.avi'):
-                fn = skvideo.io.vread(fn)               ## read video into np array
-                fn = np.transpose(fn, (3, 0, 1, 2))     ## transpose to get frame no. first
-                fn = np.float32(fn)                     ## conversion
+            elif fn.endswith(('.avi','.mpg','.mpeg')):
+                fn, _, _ = video.read_video(fn)         ## read video frames into tensor
+                fn = fn.type(torch.FloatTensor)         ## convert from ByteTensor to FloatTensor
+                fn = fn.permute(3,0,1,2)                ## permute tensor to expected shape
             else:
                 array, metadata = TensorDicom3D.load(fn,load_header)
                 instance = cls(array, metadata)
-
         if isinstance(fn,ndarray): instance = cls(fn)
         if isinstance(fn, Tensor): instance = cls(fn)
         return instance
