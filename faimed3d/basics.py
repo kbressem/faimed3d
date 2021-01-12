@@ -57,7 +57,10 @@ class TensorDicom3D(TensorBase):
                 fn = fn.transpose(3, 1)             ## transpose to get shape in expected format
                 fn = fn.transpose(1, 0)             ##
                 fn = fn.transpose(3, 2)             ##
-                
+            elif fn.endswith(('.avi','.mpg','.mpeg')):
+                fn, _, _ = video.read_video(fn)         ## read video frames into tensor
+                fn = fn.type(torch.FloatTensor)         ## convert from ByteTensor to FloatTensor
+                fn = fn.permute(3,0,1,2)                ## permute tensor to expected shape
             else:
                 array, metadata = TensorDicom3D.load(fn,load_header)
                 instance = cls(array, metadata)
