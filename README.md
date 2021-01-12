@@ -46,7 +46,7 @@ std = tensor([173.06963,184.85706,197.57706,210.63336,225.09673,241.43134,260.64
 percs = tensor([1,10,20,30,40,50,60,70,80,90,99,])
 ```
 
-`faimed3d` keeps track of the metadata and stores it in a temporary directory. To avoid clutter, the tmpdir is emptied each time a new Dataloader is constructed
+`faimed3d` keeps track of the metadata until the items are concatenated as a batch. 
 
 ```python
 dls = ImageDataLoaders3D.from_df(mrnet_data, '/media/..',
@@ -55,11 +55,6 @@ dls = ImageDataLoaders3D.from_df(mrnet_data, '/media/..',
                                  valid_col = 'is_valid',
                                  bs = 16, val_bs = 16)
 ```
-
-    Cleaning tmpdir.
-    removing 244 files from /tmp/faimed3d_metadata/
-    You can disable automatic cleanup of the tmpdir (e.g. when doing multiple sessions in parallel) with setting clean_tmpdir=False
-
 
 Construct a learner similar to fastai, even transfer learning is possible using the pretrained resnet18 from torchvision.
 
@@ -87,7 +82,7 @@ learn.lr_find()
 
 
 
-    SuggestedLRs(lr_min=0.002754228748381138, lr_steep=3.981071586167673e-06)
+    SuggestedLRs(lr_min=6.309573450380412e-08, lr_steep=6.918309736647643e-06)
 
 
 

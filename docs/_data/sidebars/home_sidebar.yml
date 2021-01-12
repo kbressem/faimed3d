@@ -49,6 +49,9 @@ entries:
       title: Callbacks
       url: callback.html
     - output: web,pdf
+      title: Parallel UNet
+      url: parallel.unet.html
+    - output: web,pdf
       title: DICOM Viewer
       url: widgets.html
     - output: web,pdf

@@ -14,6 +14,7 @@
     "3D DeepLabV3+": "models.deeplabv3.html",
     "Losses and metrics": "models.losses.html",
     "Callbacks": "callback.html",
+    "Parallel UNet": "parallel.unet.html",
     "DICOM Viewer": "widgets.html",
     "Task specific functions": "tools.html",
     "Grad Cam": "widgets.cam.html",

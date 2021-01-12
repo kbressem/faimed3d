@@ -137,11 +137,9 @@ class ResNet3D(nn.Module):
         self.groups = groups
         self.base_width = width_per_group
 
-        self.bn1 = norm_layer(n_channels)
-        self.conv1 = nn.Conv3d(n_channels, self.inplanes, kernel_size=(2, 5, 5), stride=(1, 3, 3), padding=1, bias=False)
-             # reduced initial kernel size, stride an padding. Initial ks (3,7,7), stride (1,3,3), pad (1,3,3)
-        self.relu = act_layer(inplace=True)
-        #self.maxpool = nn.MaxPool3d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+        self.stem = nn.Sequential(nn.Conv3d(n_channels, self.inplanes, kernel_size=(2, 5, 5), stride=(1, 3, 3), padding=1, bias=False),
+                                  norm_layer(self.inplanes),
+                                  act_layer(inplace=True))
 
         self.layer1 = self._make_layer(block, 64, layers[0])
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2,
@@ -155,7 +153,7 @@ class ResNet3D(nn.Module):
             nn.BatchNorm1d(512 * block.expansion, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),
             nn.Dropout(p=ps/2, inplace=False),
             nn.Linear(512 * block.expansion, 256),
-            self.relu,
+            act_layer(inplace=True),
             nn.BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True),
             nn.Dropout(p=ps, inplace=False),
             nn.Linear(256, num_classes,bias = False))
@@ -220,10 +218,7 @@ class ResNet3D(nn.Module):
 
     def _forward_impl(self, x):
         # See note [TorchScript super()]
-        x = self.bn1(x)
-        x = self.conv1(x)
-        x = self.relu(x)
-#        x = self.maxpool(x)
+        x = self.stem(x)
 
         x = self.layer1(x)
         x = self.layer2(x)
@@ -289,10 +284,7 @@ def resnet152_3d(pretrained=False, progress=False, **kwargs):
 def build_backbone(backbone, output_stride, norm_layer, n_channels, **kwargs):
     model = backbone(n_channels=n_channels, norm_layer=norm_layer, **kwargs) #output_stride, BatchNorm)
     def forward(x):
-        x1=model.conv1(x)
-        x1=model.bn1(x1)
-        x1=model.relu(x1)
-        x1=model.maxpool(x1)
+        x1=model.stem(x)
         x2=model.layer1(x1)
         x3=model.layer2(x2)
         x4=model.layer3(x3)

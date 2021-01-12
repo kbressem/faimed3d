@@ -569,6 +569,7 @@ def clamp_to_range(x:TensorMask3D, lwr, upr):
 
 class ClampMask3D(RandTransform):
     "Clamps/Clips mask value to a range"
+    split_idx = None
     def __init__(self, lwr=0,upr=1,p=1):
         super().__init__(p=p)
         self.lwr=lwr

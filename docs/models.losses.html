@@ -83,15 +83,6 @@ nb_path: "nbs/06f_models.losses.ipynb"
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>../faimed3d/basics.py:244: UserWarning: Object is not a rank 3 tensor but a rank 4 tensor. Removing the first dimension
-  warn(&#39;Object is not a rank 3 tensor but a rank {} tensor. Removing the first dimension&#39;.format(t.ndim))
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
 
 
 <div class="output_png output_subarea ">
@@ -202,7 +193,7 @@ Returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DiceLoss" class="doc_header"><code>class</code> <code>DiceLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiceLoss</code>(<strong><code>method</code></strong>=<em><code>'miletari'</code></em>, <strong><code>alpha</code></strong>=<em><code>0.5</code></em>, <strong><code>beta</code></strong>=<em><code>0.5</code></em>, <strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>1.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
+<h2 id="DiceLoss" class="doc_header"><code>class</code> <code>DiceLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiceLoss</code>(<strong><code>method</code></strong>=<em><code>'miletari'</code></em>, <strong><code>alpha</code></strong>=<em><code>0.5</code></em>, <strong><code>beta</code></strong>=<em><code>0.5</code></em>, <strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
 </blockquote>
 <p>Simple DICE loss as described in:
     <a href="https://arxiv.org/pdf/1911.02855.pdf">https://arxiv.org/pdf/1911.02855.pdf</a></p>
@@ -250,11 +241,66 @@ eps: added to the denominator for numerical stability (acoid division by 0).
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DiceLoss2" class="doc_header"><code>class</code> <code>DiceLoss2</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiceLoss2</code>(<strong><code>epsilon</code></strong>=<em><code>1e-05</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>:ivar training: Boolean represents whether this module is in training or
+                evaluation mode.
+:vartype training: bool</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DiceLoss</span><span class="p">()(</span><span class="n">pred_1</span><span class="p">,</span> <span class="n">mask</span><span class="p">),</span> <span class="n">DiceLoss</span><span class="p">()(</span><span class="n">pred_2</span><span class="p">,</span> <span class="n">mask</span><span class="p">),</span> <span class="n">DiceLoss</span><span class="p">()(</span><span class="n">pred_3</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DiceLoss</span><span class="p">()(</span><span class="n">pred_1</span><span class="p">,</span> <span class="n">mask</span><span class="p">),</span> <span class="n">DiceLoss</span><span class="p">()(</span><span class="n">pred_2</span><span class="p">,</span> <span class="n">one_hot</span><span class="p">(</span><span class="n">mask</span><span class="p">)),</span> <span class="n">DiceLoss</span><span class="p">()(</span><span class="n">pred_3</span><span class="p">,</span> <span class="n">one_hot</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -269,7 +315,48 @@ eps: added to the denominator for numerical stability (acoid division by 0).
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(tensor(1.0082), tensor(0.9960), tensor(0.2550))</pre>
+<pre>(tensor(0.), tensor(1.), tensor(0.2671))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DiceLoss2</span><span class="p">()(</span><span class="n">pred_1</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span><span class="c1">#, DiceLoss2()(pred_2, mask), DiceLoss2()(pred_3, mask)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([1, 2, 5, 10, 10]) torch.Size([1, 2, 5, 10, 10])
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor(0.)</pre>
 </div>
 
 </div>
@@ -313,7 +400,7 @@ and −1 indicates total disagreement between prediction and observation</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="MCCLoss" class="doc_header"><code>class</code> <code>MCCLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MCCLoss</code>(<strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>1.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
+<h2 id="MCCLoss" class="doc_header"><code>class</code> <code>MCCLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L141" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MCCLoss</code>(<strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
 </blockquote>
 <p>Computes the MCC loss.</p>
 <p>For this loss to work best, the input should be in range 0-1, e.g. enforced through a sigmoid or softmax.
@@ -375,7 +462,7 @@ eps:     Added for numerical stability.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(tensor(1.), tensor(1.9999), tensor(0.5342))</pre>
+<pre>(tensor(0.), tensor(2.), tensor(0.5342))</pre>
 </div>
 
 </div>
@@ -450,7 +537,7 @@ eps:     Added for numerical stability.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor(1.)</pre>
+<pre>tensor(0.)</pre>
 </div>
 
 </div>
@@ -530,7 +617,7 @@ eps:     Added for numerical stability.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor(1.)</pre>
+<pre>tensor(0.)</pre>
 </div>
 
 </div>
