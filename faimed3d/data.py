@@ -110,13 +110,14 @@ class ImageDataLoaders3D(DataLoaders):
         if batch_tfms is not None:
             batch_tfms = [*batch_tfms, AddColorChannel()] if isinstance(batch_tfms, list) else [batch_tfms, AddColorChannel()]
         else: batch_tfms = AddColorChannel()
-
-        dblock = DataBlock(blocks=(ImageBlock3D(cls=TensorDicom3D), y_block),
-                           get_x=ColReader(fn_col, pref=pref, suff=suff),
+        if not isinstance(fn_col, list): fn_col = [fn_col]
+        dblock = DataBlock(blocks=(*[ImageBlock3D(cls=TensorDicom3D) for i in fn_col], y_block),
+                           get_x=[ColReader(col, pref=pref, suff=suff) for col in fn_col],
                            get_y=ColReader(label_col, label_delim=label_delim),
                            splitter=splitter,
                            item_tfms=item_tfms,
-                           batch_tfms=batch_tfms)
+                           batch_tfms=batch_tfms,
+                           n_inp = len(fn_col))
         return cls.from_dblock(dblock, df, path=path, **kwargs)
 
     @classmethod
