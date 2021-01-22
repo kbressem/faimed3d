@@ -2,10 +2,14 @@
 
 ## How to get started
 
-Before anything else, please install the git hooks that run automatic scripts during each commit and merge to strip the notebooks of superfluous metadata (and avoid merge conflicts). After cloning the repository, run the following command inside it:
+This repository was initalized from a `nbdev` template. To make simple fixes to the code (e.g. typos) and push working notebooks to Github which pass all tests, one needs at least a basic anaconda enviroment with `nbdev`.
+You can create a working enviroment with `conda create --name <env> -c fastai --file basic-env.txt`. If you want to participate in developement you need to run `conda create --name <env> -c fastai -c pytorch -c simpleitk -c conda-forge --file dev-env.txt  --file dev-env.txt`, to create an enviroment with working fastai, Huggingface and PyTorch modules.  
+Before you start changing code in the notebooks, please install the git hooks that run automatic scripts during each commit and merge to strip the notebooks of superfluous metadata (and avoid merge conflicts). After cloning the repository, run the following command inside it:
+
 ```
 nbdev_install_git_hooks
 ```
+You also need to create a symlink between the libs and nbs by executing `!ln -s ../faimed3d nbs/faimed3d` from within one notebook. 
 
 ## Did you find a bug?
 
