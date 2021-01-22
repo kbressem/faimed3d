@@ -34,35 +34,14 @@ entries:
       title: 3D ResNet
       url: models.resnet.html
     - output: web,pdf
-      title: 3D DenseNet
-      url: models.densenet.html
-    - output: web,pdf
       title: 3D UNet
       url: models.unet.html
-    - output: web,pdf
-      title: 3D DeepLabV3+
-      url: models.deeplabv3.html
     - output: web,pdf
       title: Losses and metrics
       url: models.losses.html
     - output: web,pdf
       title: Callbacks
       url: callback.html
-    - output: web,pdf
-      title: Parallel UNet
-      url: parallel.unet.html
-    - output: web,pdf
-      title: DICOM Viewer
-      url: widgets.html
-    - output: web,pdf
-      title: Task specific functions
-      url: tools.html
-    - output: web,pdf
-      title: Grad Cam
-      url: widgets.cam.html
-    - output: web,pdf
-      title: Image Normalization for MRI Data
-      url: tutorial_mri-normalization.html
     output: web
     title: faimed3d
   output: web

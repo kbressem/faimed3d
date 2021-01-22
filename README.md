@@ -25,8 +25,8 @@ print('SimpleITK: 2.0.0rc3 (ITK 5.1)')
 ```
 
     fastai: 2.1.10
-    fastcore: 1.3.12
-    nbdev: 1.1.5
+    fastcore: 1.3.16
+    nbdev: 1.1.4
     torch: 1.7.0
     torchvision: 0.8.1
     SimpleITK: 2.0.0rc3 (ITK 5.1)
@@ -49,20 +49,15 @@ percs = tensor([1,10,20,30,40,50,60,70,80,90,99,])
 `faimed3d` keeps track of the metadata until the items are concatenated as a batch. 
 
 ```python
-dls = ImageDataLoaders3D.from_df(mrnet_data, '/media/..',
+dls = ImageDataLoaders3D.from_df(d,
                                  item_tfms = ResizeCrop3D(crop_by = (0., 0.1, 0.1), resize_to = (20, 112, 112), perc_crop = True),
-                                 rescale_method = PiecewiseHistScaling(percs, std),
-                                 valid_col = 'is_valid',
-                                 bs = 16, val_bs = 16)
+                                 bs = 2, val_bs = 2)
 ```
 
 Construct a learner similar to fastai, even transfer learning is possible using the pretrained resnet18 from torchvision.
 
 ```python
-learn = cnn_learner_3d(dls, 
-                       r3d_18,  
-                       model_dir='/home/bressekk/Documents/faimed3d/nbs', 
-                       metrics = [accuracy, RocAucBinary()])
+learn = cnn_learner_3d(dls, r3d_18, pretrained=False) 
 learn = learn.to_fp16()
 ```
 
@@ -75,17 +70,13 @@ learn.lr_find()
 
 
 
-    /home/bressekk/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py:54: UserWarning: Could not load the optimizer state.
-      if with_opt: warn("Could not load the optimizer state.")
+
+
+
+    SuggestedLRs(lr_min=0.00043651582673192023, lr_steep=1.3182567499825382e-06)
 
 
 
 
-
-    SuggestedLRs(lr_min=6.309573450380412e-08, lr_steep=6.918309736647643e-06)
-
-
-
-
-![png](docs/images/output_12_3.png)
+![png](docs/images/output_12_2.png)
 
