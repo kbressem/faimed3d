@@ -6,7 +6,6 @@ nbdev==1.1.5
 scikit-image==0.17.2
 pydicom==2.0.0
 torch==1.7.0
-rpy2==2.9.4
 torchvision==0.8.1
 kornia==0.4.1
 simpleitk==2.0.2
