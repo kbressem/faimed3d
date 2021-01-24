@@ -43,8 +43,8 @@ nb_path: "nbs/05_layers.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span>  <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../mri-spa/data/train_knee.csv&#39;</span><span class="p">)</span>
-<span class="n">dls</span> <span class="o">=</span> <span class="n">ImageDataLoaders3D</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/media/..&#39;</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/radiopaedia_cases.csv&#39;</span><span class="p">)</span>
+<span class="n">dls</span> <span class="o">=</span> <span class="n">ImageDataLoaders3D</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> 
                                  <span class="n">item_tfms</span> <span class="o">=</span> <span class="n">ResizeCrop3D</span><span class="p">(</span><span class="n">crop_by</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">resize_to</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">perc_crop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">),</span>
                                  <span class="n">bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> 
                                  <span class="n">val_bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
@@ -62,6 +62,13 @@ nb_path: "nbs/05_layers.ipynb"
 <h2 id="Helper-functions">Helper functions<a class="anchor-link" href="#Helper-functions"> </a></h2><p>Some functions from <code>fastai.layers</code> are needed to construct Learners (see next notebook). For this some slight modifications had to be made. 
 The <code>in_channel</code> function had to be modified to also accept 3D models wich have 5D weights and the <a href="/faimed3d/layers.html#num_features_model"><code>num_features_model</code></a> function was adapted to pass a size tuple of len 3 instead of 2. The other functions were not changed but copied to avoid conflicts when loaded directly from fastai.<br>
 <a href="/faimed3d/learner.html#cnn_learner_3d"><code>cnn_learner_3d</code></a> is essentially the same function as fastais <code>cnn_learner</code>, just adds a new callback.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> form fastai only returns a result if <code>weight.ndim == 4</code> but in 3D convolutional layers, it will be 5 dimensions, so the functions has to be adapted.</p>
 
 </div>
 </div>
@@ -98,6 +105,13 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/faimed3d/layers.html#num_features_model"><code>num_features_model</code></a> is unchanged, but needs to be defined here to correctly call the adapted <a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> function</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -130,6 +144,13 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/faimed3d/layers.html#create_cnn_model"><code>create_cnn_model</code></a> is unchanged, but needs to be redefined to correctly call <a href="/faimed3d/layers.html#num_features_model"><code>num_features_model</code></a> which then calls the changed <a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> function</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -162,89 +183,13 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="Sequential4D" class="doc_header"><code>class</code> <code>Sequential4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L61" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Sequential4D</code>(<strong>*<code>args</code></strong>:<code>Any</code>) :: <code>Sequential</code></p>
-</blockquote>
-<p>A sequential container.
-Modules will be added to it in the order they are passed in the constructor.
-Alternatively, an ordered dict of modules can also be passed in.</p>
-<p>To make it easier to understand, here is a small example::</p>
-
-<pre><code># Example of using Sequential
-model = nn.Sequential(
-          nn.Conv2d(1,20,5),
-          nn.ReLU(),
-          nn.Conv2d(20,64,5),
-          nn.ReLU()
-        )
-
-# Example of using Sequential with OrderedDict
-model = nn.Sequential(OrderedDict([
-          ('conv1', nn.Conv2d(1,20,5)),
-          ('relu1', nn.ReLU()),
-          ('conv2', nn.Conv2d(20,64,5)),
-          ('relu2', nn.ReLU())
-        ]))</code></pre>
-
-</div>
-
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/faimed3d/layers.html#model_sizes"><code>model_sizes</code></a> and <a href="/faimed3d/layers.html#dummy_eval"><code>dummy_eval</code></a> are identical to <code>fastai</code> versions, but needed to be redefined so that the correct <a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> function is called</p>
 
 </div>
 </div>
-
 </div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_cnn_model_4d" class="doc_header"><code>create_cnn_model_4d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_cnn_model_4d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>n_inp</code></strong>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>custom_head</code></strong>=<em><code>None</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
-</blockquote>
-<p>Create custom convnet architecture using <code>arch</code>, <code>n_in</code> and <code>n_out</code>. Identical to fastai func</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -309,6 +254,13 @@ model = nn.Sequential(OrderedDict([
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>fastai</code> performes adaptive concat pooling as first step in the new header, which is adapted to 3D.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -320,7 +272,174 @@ model = nn.Sequential(OrderedDict([
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_head" class="doc_header"><code>create_head</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L95" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_head</code>(<strong><code>nf</code></strong>, <strong><code>n_out</code></strong>, <strong><code>n_inp</code></strong>=<em><code>None</code></em>, <strong><code>lin_ftrs</code></strong>=<em><code>None</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong><code>bn_final</code></strong>=<em><code>False</code></em>, <strong><code>lin_first</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>)</p>
+<h2 id="AdaptiveConcatPool3d" class="doc_header"><code>class</code> <code>AdaptiveConcatPool3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L75" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdaptiveConcatPool3d</code>(<strong><code>size</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>Layer that concats <code>AdaptiveAvgPool3d</code> and <code>AdaptiveMaxPool3d</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Wrapper-for-4D-Models">Wrapper for 4D Models<a class="anchor-link" href="#Wrapper-for-4D-Models"> </a></h2><p>In radiology, often multiple sequences are needed for a diagnosis. For example, while viewing a head MRI DWI and ADC map have to be viewed together for a stroke diagnosis and to advoid false diagnosis from T2 shine trough. The data effectively becomes 4D. There are no modules for 4D convolution, so a workarround needs to be defined which processes the multiple 3D volumes after each other and then pools the information. The models should also still work with available pretrained 3D models, so no completly new architectures are defined in <code>faimed3d</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When using multiple inputs, <code>nn.Sequential</code> will not work as it expects only two inputs (self and input). Therefore a subclass is defined, which accepts multiple inputs and converts those into a tuple, which is then passed to the modules.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="Sequential4D" class="doc_header"><code>class</code> <code>Sequential4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L84" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Sequential4D</code>(<strong>*<code>args</code></strong>:<code>Any</code>) :: <code>Sequential</code></p>
+</blockquote>
+<p>A sequential container.
+Modules will be added to it in the order they are passed in the constructor.
+Alternatively, an ordered dict of modules can also be passed in.</p>
+<p>To make it easier to understand, here is a small example::</p>
+
+<pre><code># Example of using Sequential
+model = nn.Sequential(
+          nn.Conv2d(1,20,5),
+          nn.ReLU(),
+          nn.Conv2d(20,64,5),
+          nn.ReLU()
+        )
+
+# Example of using Sequential with OrderedDict
+model = nn.Sequential(OrderedDict([
+          ('conv1', nn.Conv2d(1,20,5)),
+          ('relu1', nn.ReLU()),
+          ('conv2', nn.Conv2d(20,64,5)),
+          ('relu2', nn.ReLU())
+        ]))</code></pre>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <a href="/faimed3d/layers.html#Arch4D"><code>Arch4D</code></a> is designed to recieve a (pretrained) model arch from the fastai function <code>create_body</code>. It assumes, that the arch is buil following the common structure of PyTorch models. That means it consists out of multiple submodules, where the first is a stem.<br>
+For each element in the input, the stem is copied so that the weights of the different stems can differ. After an element of input is passed through the stem, it is further processed by the <code>main_body</code>. So the inputs are each passed thorugh an individual CNNs which share all weights except for the stem. The output of each individual CNN is captured and stored in a list which is eventually concatenated to a single tensor.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="Arch4D" class="doc_header"><code>class</code> <code>Arch4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L92" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Arch4D</code>(<strong><code>arch</code></strong>, <strong><code>n_inp</code></strong>) :: <code>Module</code></p>
+</blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>:ivar training: Boolean represents whether this module is in training or
+                evaluation mode.
+:vartype training: bool</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When <code>fastai</code> creates a new model head, first the input is pooled with <code>AdaptiveConcatPool</code>, then flattened ans passed trough two linear layers might not be the best approach for multiple inputs, as the first layer would recieve <code>n_inp</code> <em> <code>n_features</code> inputs and reduces it to 512 features. So the first linear layer wil much more reduce the feature information than the second. So in <code>faimed3d</code> an additional convolutional layer with kernel size 1 and stride 1 is used to pool the number of features from <code>n_features</code> </em> <code>n_inp</code> to <code>n_features</code>. Then the normal <code>fastai</code> head is added. We added the last convolutional layer to the head, so that the freeze and unfreeze operations of <code>fastai</code> still work as expected.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="create_head" class="doc_header"><code>create_head</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L109" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_head</code>(<strong><code>nf</code></strong>, <strong><code>n_out</code></strong>, <strong><code>n_inp</code></strong>=<em><code>None</code></em>, <strong><code>lin_ftrs</code></strong>=<em><code>None</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong><code>bn_final</code></strong>=<em><code>False</code></em>, <strong><code>lin_first</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Model head that takes <code>nf</code> features, runs through <code>lin_ftrs</code>, and out <code>n_out</code> classes.</p>
 
@@ -341,6 +460,13 @@ model = nn.Sequential(OrderedDict([
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/faimed3d/layers.html#create_cnn_model_4d"><code>create_cnn_model_4d</code></a> is similar to <a href="/faimed3d/layers.html#create_cnn_model"><code>create_cnn_model</code></a> but expects <code>n_inp</code> as additional argument. Depending on <code>n_inp</code> the respective network is constructed.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -352,9 +478,9 @@ model = nn.Sequential(OrderedDict([
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AdaptiveConcatPool3d" class="doc_header"><code>class</code> <code>AdaptiveConcatPool3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L115" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdaptiveConcatPool3d</code>(<strong><code>size</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h4 id="create_cnn_model_4d" class="doc_header"><code>create_cnn_model_4d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_cnn_model_4d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>n_inp</code></strong>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>custom_head</code></strong>=<em><code>None</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>Layer that concats <code>AdaptiveAvgPool3d</code> and <code>AdaptiveMaxPool3d</code></p>
+<p>Create custom convnet architecture using <code>arch</code>, <code>n_in</code> and <code>n_out</code>. Identical to fastai func</p>
 
 </div>
 
@@ -369,6 +495,41 @@ model = nn.Sequential(OrderedDict([
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">torchvision.models.video</span> <span class="kn">import</span> <span class="n">r3d_18</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">create_cnn_model_4d</span><span class="p">(</span><span class="n">r3d_18</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([2, 2])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
 
 </div>
     {% endraw %}
