@@ -59,9 +59,19 @@ class TensorDicom3D(TensorBase):
             else:
                 array, metadata = TensorDicom3D.load(fn,load_header)
                 instance = cls(array, metadata)
-        if isinstance(fn,ndarray): instance = cls(fn)
+        if isinstance(fn, sitk.Image): instance = cls(*TensorDicom3D.from_sitk(fn))
+        if isinstance(fn, ndarray): instance = cls(fn)
         if isinstance(fn, Tensor): instance = cls(fn)
         return instance
+
+    @staticmethod
+    def from_sitk(im):
+        metadata = {'0008|103E': ['faimed3d TensorDicom3D, pixeldata might have been modified'],
+                    'filename' : []}
+        for k in im.GetMetaDataKeys():
+                    metadata[k] = im.GetMetaData(k).encode(encoding='UTF-8',errors='ignore').decode()
+        return torch.tensor(sitk.GetArrayFromImage(im)), metadata
+
 
     @staticmethod
     def load(fn: (Path, str), load_header:bool):
