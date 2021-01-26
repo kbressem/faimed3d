@@ -102,7 +102,7 @@ class Arch4D(nn.Module):
         for i, x in enumerate(inp):
             x = getattr(self, 'BasicStem_{}'.format(i))(x)
             out.append(self.main_body(x))
-        return torch.cat(out, 1)
+        return TensorDicom3D(torch.cat(out, 1)) # cat removes subclass
 
 
 # Cell
