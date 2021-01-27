@@ -41,11 +41,11 @@ def cnn_learner_3d(dls, arch, loss_func=None, pretrained=True, cut=None, splitte
 
 # Cell
 @delegates(DynamicUnet3D.__init__)
-def create_unet_model_3d(arch, n_out, img_size, pretrained=True, cut=None, n_in=3, **kwargs):
+def create_unet_model_3d(arch, n_out, img_size, n_inp=1, pretrained=True, cut=None, n_in=3, **kwargs):
     "Create custom unet architecture"
     meta = model_meta.get(arch, _default_meta)
     body = create_body(arch, n_in, pretrained, ifnone(cut, meta['cut']))
-    model = DynamicUnet3D(body, n_out, img_size, **kwargs)
+    model = DynamicUnet3D(body, n_out, img_size, n_inp, **kwargs)
     return model
 
 # Cell
@@ -69,7 +69,7 @@ def unet_learner_3d(dls, arch, normalize=True, n_out=None, pretrained=True, conf
     assert n_out, "`n_out` is not defined, and could not be inferred from data, set `dls.c` or pass `n_out`"
     img_size = dls.one_batch()[0].shape[-3:]
     assert img_size, "image size could not be inferred from data"
-    model = create_unet_model_3d(arch, n_out, img_size, pretrained=pretrained, norm_type=norm_type, **kwargs)
+    model = create_unet_model_3d(arch, n_out, img_size, dls.n_inp, pretrained=pretrained, norm_type=norm_type, **kwargs)
 
     if loss_func is None: loss_func = DiceLoss(smooth=0.)
     splitter=ifnone(splitter, meta['split'])

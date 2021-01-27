@@ -63,12 +63,10 @@ nb_path: "nbs/06_learner.ipynb"
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/radiopaedia_cases.csv&#39;</span><span class="p">)</span>
 <span class="n">dls</span> <span class="o">=</span> <span class="n">ImageDataLoaders3D</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">d</span><span class="p">,</span>
-                                 <span class="n">fn_col</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
                                  <span class="n">label_col</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="c1"># in sample data 0: series, 1: segmentation mask, 2: random binary label</span>
                                  <span class="n">item_tfms</span> <span class="o">=</span> <span class="n">ResizeCrop3D</span><span class="p">(</span><span class="n">crop_by</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">resize_to</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">perc_crop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">),</span>
                                  <span class="n">bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> 
-                                 <span class="n">val_bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> 
-                                 <span class="n">n_inp</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                                 <span class="n">val_bs</span> <span class="o">=</span> <span class="mi">2</span>
                                  <span class="p">)</span>
 </pre></div>
 
@@ -144,59 +142,6 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (0): Sequential(
-    (0): AdaptiveConcatPool3d(
-      (ap): AdaptiveAvgPool3d(output_size=1)
-      (mp): AdaptiveMaxPool3d(output_size=1)
-    )
-    (1): ConvLayer(
-      (0): Conv3d(2048, 1024, kernel_size=(1, 1, 1), stride=(1, 1, 1), bias=False)
-      (1): BatchNorm3d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (2): ReLU()
-    )
-  )
-  (1): Flatten(full=False)
-  (2): BatchNorm1d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  (3): Dropout(p=0.25, inplace=False)
-  (4): Linear(in_features=1024, out_features=512, bias=False)
-  (5): ReLU(inplace=True)
-  (6): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  (7): Dropout(p=0.5, inplace=False)
-  (8): Linear(in_features=512, out_features=2, bias=False)
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">learn</span><span class="o">.</span><span class="n">fine_tune</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 </pre></div>
 
@@ -223,30 +168,14 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
   <tbody>
     <tr>
       <td>0</td>
-      <td>1.650403</td>
-      <td>0.565860</td>
+      <td>2.557795</td>
+      <td>0.987009</td>
       <td>00:01</td>
     </tr>
   </tbody>
 </table>
 </div>
 
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(2, 512, 3, 10, 10)
-(2, 512, 3, 10, 10)
-(2, 1024, 3, 10, 10)
-(2, 512, 3, 10, 10)
-(2, 512, 3, 10, 10)
-(2, 1024, 3, 10, 10)
-(1, 512, 3, 10, 10)
-(1, 512, 3, 10, 10)
-(1, 1024, 3, 10, 10)
-</pre>
-</div>
 </div>
 
 <div class="output_area">
@@ -265,30 +194,14 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
   <tbody>
     <tr>
       <td>0</td>
-      <td>0.947395</td>
-      <td>0.629794</td>
+      <td>2.048654</td>
+      <td>1.414773</td>
       <td>00:01</td>
     </tr>
   </tbody>
 </table>
 </div>
 
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(2, 512, 3, 10, 10)
-(2, 512, 3, 10, 10)
-(2, 1024, 3, 10, 10)
-(2, 512, 3, 10, 10)
-(2, 512, 3, 10, 10)
-(2, 1024, 3, 10, 10)
-(1, 512, 3, 10, 10)
-(1, 512, 3, 10, 10)
-(1, 1024, 3, 10, 10)
-</pre>
-</div>
 </div>
 
 </div>
@@ -314,7 +227,7 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_unet_model_3d" class="doc_header"><code>create_unet_model_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/learner.py#L43" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_unet_model_3d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="create_unet_model_3d" class="doc_header"><code>create_unet_model_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/learner.py#L43" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_unet_model_3d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Create custom unet architecture</p>
 
@@ -437,9 +350,9 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
   <tbody>
     <tr>
       <td>0</td>
-      <td>0.566766</td>
-      <td>0.659592</td>
-      <td>00:05</td>
+      <td>0.589208</td>
+      <td>0.784564</td>
+      <td>00:06</td>
     </tr>
   </tbody>
 </table>
