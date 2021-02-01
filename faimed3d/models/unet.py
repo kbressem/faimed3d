@@ -3,6 +3,7 @@
 __all__ = ['ConvTranspose3D', 'UnetBlock3D', 'ResizeToOrig', 'SequentialEx4D', 'MultiStem', 'RepeatedSequential',
            'Arch4D', 'model_sizes', 'dummy_eval_4d', 'Concat', 'DynamicUnet3D']
 
+
 # Cell
 # export
 from fastai.basics import *
@@ -157,6 +158,7 @@ class DynamicUnet3D(SequentialEx4D):
         x = middle_conv(concat(x))
 
         layers = [encoder, concat, middle_conv]
+
 
 
         for i,idx in enumerate(sz_chg_idxs):
