@@ -61,7 +61,7 @@ nb_path: "nbs/06d_models.unet.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Fastais <code>DynamicUnet</code> allows construction of a UNet using any pretrained CNN as backbone/encoder. A key module is <code>nn.PixelShuffle</code> which allows subpixel convolutions for upscaling in the UNet Blocks. However, <code>nn.PixelShuffle</code> is only for 2D images, so in faimed3d <code>nn.ConvTranspose3d</code> is used instead.</p>
+<p>Fastai's <code>DynamicUnet</code> allows construction of a UNet using any pretrained CNN as backbone/encoder. A key module is <code>nn.PixelShuffle</code> which allows subpixel convolutions for upscaling in the UNet Blocks. However, <code>nn.PixelShuffle</code> is only for 2D images, so in faimed3d <code>nn.ConvTranspose3d</code> is used instead.</p>
 
 </div>
 </div>
@@ -174,8 +174,8 @@ nb_path: "nbs/06d_models.unet.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To work with 3D data, the <code>UnetBlock</code> from fastai is adapted, replacing <code>PixelShuffle_ICNR</code> with the above created <a href="/faimed3d/models.unet.html#ConvTranspose3D"><code>ConvTranspose3D</code></a> and also adapting all conv-layers and norm-layers to the 3rd dimension. As small differences in size may appear, <code>forward</code>-func contains a interpolation step, which is also adapted to work with 5D input instead of 4D.<br>
-<a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a> recieves the lower level features as hooks. In contrast to <code>fastai</code> here the hooks are a list of tensors with <code>len(hook) == n_inp</code>, where <code>n_inp</code> is the number of 3D sequences in a 4D dimensional input. <strong>Important</strong> 4D here does not refer to the dimensionality of the Tensor, where 4D would be B x C x H x W but to the dimensionality of the input <strong>before</strong> it was concatenated to a Tensor. 3D means we have one 3D volume with dimensionality (C) x D x H x W and 4D means we have multiple 3D volumes. In medical imaging this is not rare, as we often want to use information from multiple imaging sequences. 
-The information of the different sequences can be assumed to be redundant to some kind, so in the <a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a>, first the different feature maps from the hooks are concatenated and then pooled using a 1x1x1 convolutional layer. After this, the class is build similar to the fastai <code>UnetBlock</code></p>
+<a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a> receives the lower level features as hooks. In contrast to <code>fastai</code> the hooks are a list of tensors with <code>len(hook) == n_inp</code>, where <code>n_inp</code> is the number of 3D sequences in a 4D dimensional input. <strong>Important</strong> 4D here does not refer to the dimensionality of the Tensor, where 4D would be B x C x H x W but to the dimensionality of the input <strong>before</strong> it was concatenated to a Tensor. 3D means we have one 3D volume with dimensionality (C) x D x H x W and 4D means we have multiple 3D volumes. In medical imaging, this is not rare, as we often want to use information from multiple imaging sequences. 
+The information of the different sequences can be assumed to be redundant to some kind, so in the <a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a>, first the different feature maps from the hooks are concatenated and then pooled using a 1x1x1 convolutional layer. After this, the class is built similar to the fastai <code>UnetBlock</code></p>
 
 </div>
 </div>
@@ -292,18 +292,18 @@ The information of the different sequences can be assumed to be redundant to som
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <a href="/faimed3d/models.unet.html#DynamicUnet3D"><code>DynamicUnet3D</code></a> is very similar to fastai's <code>DynamicUnet</code>. Key differences are, that each <code>ConvLayer</code> or <code>BatchNorm</code> got an extra <code>ndim=3</code> argument and <code>UnetBlock</code> is replaced by <a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a>.
-Furthermore, <code>n_dim</code> can be passed to the U-Net allowing the processing of four dimensional input.</p>
+<p>The <a href="/faimed3d/models.unet.html#DynamicUnet3D"><code>DynamicUnet3D</code></a> is very similar to fastai's <code>DynamicUnet</code>. Key differences are that each <code>ConvLayer</code> or <code>BatchNorm</code> got an extra <code>ndim=3</code> argument and <code>UnetBlock</code> is replaced by <a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a>.
+Furthermore, <code>n_dim</code> can be passed to the U-Net allowing the processing of four-dimensional input.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>faimed3d</code> needs to support 4D data, that is multiple 3D inputs. The reason, a radiologist uses multiple sequences, is that some information is only present in a certain sequence. For example, to make the diagnosis of stroke, we need a strong hyperintense signal in the DWI and also a corresponding hypointense signal on the ADC map. It is (nearly) not possible to make a diagnosis only from one sequence. When we build a model, we also want it to have access to all relevant information.<br>
-The way fastai handels mulitple inputs, is to store them in a tuple. So if we have two 3D volumes as input and one mask as target, the batch will be as follows:<br>
+<p><code>faimed3d</code> needs to support 4D data, that is multiple 3D inputs. The reason a radiologist uses multiple sequences is that some information is only present in a certain sequence. For example, to make the diagnosis of stroke, one needs a strong hyperintense signal in the DWI and also a corresponding hypointense signal on the ADC map. It is (nearly) impossible to make a diagnosis only from one sequence. When we build a model, we also want it to have access to all relevant information.<br>
+The way fastai handels mulitple inputs is to store them in a tuple. So if we have two 3D volumes as input and one mask as target, the batch will be as follows:<br>
 (TensorDicom3D of size B x 3 x D x H W, TensorDicom3D of size B x 3 x D x H x W, TensorMask3D of size B x 3 x D x H x W).
-<code>faimed3d</code> assumes, that all sequences are of roughly the same orientation (e.g. all axial) and also of the same region. So, information in the sequences can be assumed to be redundant to some extend and we likely do not need an encoder for each sequence and can re-use the weights of one encoder for all images. This approach saves us a lot of memory, however makes the training longe. However, it might be beneficial to still have some different weights for each sequence. For this reason, <code>faimed3d</code> splits a given encoder into it's stem and main body and duplicated the stem according to the number of inputs using the <a href="/faimed3d/models.unet.html#MultiStem"><code>MultiStem</code></a> class.</p>
+<code>faimed3d</code> assumes, that all sequences are of roughly the same orientation (e.g. all axial) and also of the same region. So, information in the sequences can be assumed to be redundant to some extent and likely one does not need an encoder for each sequence and can re-use the weights of one encoder for all images. This approach saves a lot of memory, but makes the training longer. However, it might be beneficial to still have some different weights for each sequence. For this reason, <code>faimed3d</code> splits a given encoder into it's stem and main body and duplicated the stem according to the number of inputs using the <a href="/faimed3d/models.unet.html#MultiStem"><code>MultiStem</code></a> class.</p>
 
 </div>
 </div>
@@ -342,7 +342,7 @@ The way fastai handels mulitple inputs, is to store them in a tuple. So if we ha
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>After this, we want to send the feature maps from each stem through the same encoder. This is achieved with the <a href="/faimed3d/models.unet.html#RepeatedSequential"><code>RepeatedSequential</code></a> class, which takes a list of tensors and applies it's modules to each element of the list. A list of Tensors is then returned again so that multiple instances of <a href="/faimed3d/models.unet.html#RepeatedSequential"><code>RepeatedSequential</code></a> can be chained after each other.</p>
+<p>After this, we want to send the feature maps from each stem through the same encoder. This is achieved with the <a href="/faimed3d/models.unet.html#RepeatedSequential"><code>RepeatedSequential</code></a> class, which takes a list of tensors and applies it's modules to each element of the list. A list of tensors is then returned again so that multiple instances of <a href="/faimed3d/models.unet.html#RepeatedSequential"><code>RepeatedSequential</code></a> can be chained after each other.</p>
 
 </div>
 </div>

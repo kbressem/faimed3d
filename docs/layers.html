@@ -185,7 +185,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="/faimed3d/layers.html#model_sizes"><code>model_sizes</code></a> and <a href="/faimed3d/layers.html#dummy_eval"><code>dummy_eval</code></a> are identical to <code>fastai</code> versions, but needed to be redefined so that the correct <a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> function is called</p>
+<p><a href="/faimed3d/models.unet.html#model_sizes"><code>model_sizes</code></a> and <a href="/faimed3d/layers.html#dummy_eval"><code>dummy_eval</code></a> are identical to <code>fastai</code> versions, but needed to be redefined so that the correct <a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> function is called</p>
 
 </div>
 </div>
@@ -360,7 +360,7 @@ model = nn.Sequential(OrderedDict([
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <a href="/faimed3d/layers.html#Arch4D"><code>Arch4D</code></a> is designed to recieve a (pretrained) model arch from the fastai function <code>create_body</code>. It assumes, that the arch is buil following the common structure of PyTorch models. That means it consists out of multiple submodules, where the first is a stem.<br>
+<p>The <a href="/faimed3d/models.unet.html#Arch4D"><code>Arch4D</code></a> is designed to recieve a (pretrained) model arch from the fastai function <code>create_body</code>. It assumes, that the arch is buil following the common structure of PyTorch models. That means it consists out of multiple submodules, where the first is a stem.<br>
 For each element in the input, the stem is copied so that the weights of the different stems can differ. After an element of input is passed through the stem, it is further processed by the <code>main_body</code>. So the inputs are each passed thorugh an individual CNNs which share all weights except for the stem. The output of each individual CNN is captured and stored in a list which is eventually concatenated to a single tensor.</p>
 
 </div>
