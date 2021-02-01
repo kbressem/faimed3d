@@ -97,6 +97,8 @@ class DynamicUnet3D(SequentialEx4D):
         encoder = Arch4D(encoder, n_inp)
         layers = [encoder, BatchNorm(ni*n_inp, ndim = len(img_size)), nn.ReLU(), middle_conv]
 
+        print(self.sfs)
+
         for i,idx in enumerate(sz_chg_idxs):
             not_final = i!=len(sz_chg_idxs)-1
             up_in_c, x_in_c = int(x.shape[1]), int(sizes[idx][1])
