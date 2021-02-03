@@ -32,6 +32,7 @@ class UnetBlock3D(Module):
     def __init__(self, up_in_c, x_in_c, hook, final_div=True, blur=False, act_cls=defaults.activation,
                  self_attention=False, init=nn.init.kaiming_normal_, norm_type=None, **kwargs):
         self.hook = hook
+        self.pool_fm = ConvLayer(x_in_c*len(hook.stored), x_in_c, ks = 1, ndim=3, act_cls=act_cls, norm_type=norm_type, **kwargs)
         self.up = ConvTranspose3D(up_in_c, up_in_c//2, blur=blur, act_cls=act_cls, norm_type=norm_type, **kwargs)
         self.bn = BatchNorm(x_in_c, ndim=3)
         ni = up_in_c//2 + x_in_c
@@ -43,7 +44,8 @@ class UnetBlock3D(Module):
         apply_init(nn.Sequential(self.conv1, self.conv2), init)
 
     def forward(self, up_in):
-        s = self.hook.stored
+
+        s = self.pool_fm(torch.cat(self.hook.stored, 1))
         up_out = self.up(up_in)
         ssh = s.shape[-3:]
         if ssh != up_out.shape[-3:]:
@@ -64,19 +66,17 @@ class ResizeToOrig(Module):
 # Cell
 class SequentialEx4D(SequentialEx):
     "Like `SequentialEx`, but handels orig data differently and allows to pass a tuple/list as input"
-
     def forward(self, *inputs):
-        # can't assign attribute to tuple, so passing through encoder outside of loop
-        # TO DO: can L(inputs) replace tuple(inputs). L would allow to set attributes
-        res = self.layers[0](tuple(inputs))
-        for l in self.layers[1:]:
+        # can't assign attribute to tuple/list, so passing through encoder outside of loop
+        res = self.layers[0](tuple(inputs)) # encoder
+        res = self.layers[1](tuple(res)) # concat, after this res is not a list/tuple anymore
+        for l in self.layers[2:]:
             res.orig = inputs[0]
             nres = l(res)
             # We have to remove res.orig to avoid hanging refs and therefore memory leaks
-            res.orig, nres.orig = None, None
+            res.orig, nres[0].orig = None, None
             res = nres
         return res
-
 
 # Cell
 class DynamicUnet3D(SequentialEx4D):
@@ -84,24 +84,32 @@ class DynamicUnet3D(SequentialEx4D):
     def __init__(self, encoder, n_out, img_size, n_inp=1, blur=False, blur_final=True, self_attention=False,
                  y_range=None, last_cross=True, bottle=False, act_cls=defaults.activation,
                  init=nn.init.kaiming_normal_, norm_type=None, **kwargs):
-        sizes = model_sizes(encoder, size=img_size)
-        sz_chg_idxs = list(reversed(_get_sz_change_idxs(sizes)))
-        self.sfs = hook_outputs([encoder[i] for i in sz_chg_idxs], detach=False)
-        x = dummy_eval(encoder, img_size).detach()
 
+        encoder = Arch4D(encoder, n_inp)
+        sizes = model_sizes_4d(encoder, size=img_size, n_inp=n_inp) # return sizes * n_inp
+        sz_chg_idxs = list(reversed(_get_sz_change_idxs(sizes)))
+
+        self.sfs = hook_outputs([encoder[i] for i in sz_chg_idxs], detach=False)
+        x = dummy_eval_4d(encoder, img_size, n_inp)
+        x = [x_.detach() for x_ in x]
         ni = sizes[-1][1]
+
         middle_conv = nn.Sequential(ConvLayer(ni*n_inp, ni*2, act_cls=act_cls, norm_type=norm_type, ndim = len(img_size), **kwargs),
                                     ConvLayer(ni*2, ni, act_cls=act_cls, norm_type=norm_type, ndim = len(img_size), **kwargs)).eval()
 
-        x = middle_conv(torch.cat((x, )*n_inp, 1))
-        encoder = Arch4D(encoder, n_inp)
-        layers = [encoder, BatchNorm(ni*n_inp, ndim = len(img_size)), nn.ReLU(), middle_conv]
+        concat = Concat(ni*n_inp, ndim = len(img_size))
+
+        x = middle_conv(concat(x))
+
+        layers = [encoder, concat, middle_conv]
+
 
         for i,idx in enumerate(sz_chg_idxs):
             not_final = i!=len(sz_chg_idxs)-1
             up_in_c, x_in_c = int(x.shape[1]), int(sizes[idx][1])
             do_blur = blur and (not_final or blur_final)
             sa = self_attention and (i==len(sz_chg_idxs)-3)
+
             unet_block = UnetBlock3D(up_in_c, x_in_c, self.sfs[i], final_div=not_final, blur=do_blur, self_attention=sa,
                                      act_cls=act_cls, init=init, norm_type=norm_type, **kwargs).eval()
             layers.append(unet_block)
