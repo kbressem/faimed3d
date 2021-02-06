@@ -42,7 +42,7 @@ def resize_3d(t: (TensorDicom3D, TensorMask3D), size, scale_factor=None,
             new_spacing = tuple([x/scale_factor for x in spacing])
         t.set_spacing(new_spacing)
 
-    if isinstance(t, TensorMask3D): mode = 'trilinear'
+    #if isinstance(t, TensorMask3D): mode = 'nearest'
     if t.ndim == 3: t=t.unsqueeze(0)   # add fake chanel dim
     if t.ndim == 4: t=t.unsqueeze(0)   # add fake batch dim
 
@@ -69,7 +69,7 @@ class Resize3D(RandTransform):
 
     def encodes(self, x: (TensorMask3D)):
         dev=x.device
-        x = x.resize_3d(self.size, self.scale_factor, 'nearest', self.align_corners, self.recompute_scale_factor)
+        x = x.resize_3d(self.size, self.scale_factor, 'nearest', self.recompute_scale_factor, align_corners=None)
         return x.to(dev)
 
 def _process_sz_3d(size):
@@ -306,12 +306,14 @@ class ResizeCrop3D(RandTransform):
         super().__init__(p=p,**kwargs)
 
     def encodes(self, x:(TensorDicom3D,TensorMask3D)):
+        mode = 'nearest' if isinstance(x, TensorMask3D) else 'trilinear'
+        align_corners = None if mode == 'nearest' else True
         if type(self.crop_by) is tuple and len(self.crop_by) == 3:
             self.margins =  _get_margins(self.crop_by)
 
         else: raise ValueError('"crop_by" must be a tuple with length 3 in the form ox (x,y,z) or ((x1,x2),(y1,y2),(z1,z2))')
         if any(self.margins) < 0: raise ValueError('cannot crop to a negative dimension')
-        return x.crop_3d(crop_by = self.margins, perc_crop = self.perc_crop).resize_3d(self.resize_to)
+        return x.crop_3d(crop_by = self.margins, perc_crop = self.perc_crop).resize_3d(self.resize_to, mode=mode, align_corners=align_corners)
 
 
 # Cell
