@@ -2,7 +2,6 @@
 
 title: faimed3d wrapper for Learner class
 
-
 keywords: fastai
 sidebar: home_sidebar
 
@@ -88,6 +87,13 @@ nb_path: "nbs/06_learner.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -95,10 +101,10 @@ nb_path: "nbs/06_learner.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cnn_learner_3d" class="doc_header"><code>cnn_learner_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/learner.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cnn_learner_3d</code>(<strong><code>dls</code></strong>, <strong><code>arch</code></strong>, <strong><code>loss_func</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>splitter</code></strong>=<em><code>None</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>config</code></strong>=<em><code>None</code></em>, <strong><code>n_out</code></strong>=<em><code>None</code></em>, <strong><code>normalize</code></strong>=<em><code>True</code></em>, <strong><code>opt_func</code></strong>=<em><code>Adam</code></em>, <strong><code>lr</code></strong>=<em><code>0.001</code></em>, <strong><code>cbs</code></strong>=<em><code>None</code></em>, <strong><code>metrics</code></strong>=<em><code>None</code></em>, <strong><code>path</code></strong>=<em><code>None</code></em>, <strong><code>model_dir</code></strong>=<em><code>'models'</code></em>, <strong><code>wd</code></strong>=<em><code>None</code></em>, <strong><code>wd_bn_bias</code></strong>=<em><code>False</code></em>, <strong><code>train_bn</code></strong>=<em><code>True</code></em>, <strong><code>moms</code></strong>=<em><code>(0.95, 0.85, 0.95)</code></em>)</p>
+<h4 id="cnn_learner_3d" class="doc_header"><code>cnn_learner_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/learner.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cnn_learner_3d</code>(<strong><code>dls</code></strong>, <strong><code>arch</code></strong>, <strong><code>loss_func</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>splitter</code></strong>=<em><code>None</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>config</code></strong>=<em><code>None</code></em>, <strong><code>n_out</code></strong>=<em><code>None</code></em>, <strong><code>normalize</code></strong>=<em><code>True</code></em>, <strong><code>opt_func</code></strong>=<em><code>'Adam'</code></em>, <strong><code>lr</code></strong>=<em><code>0.001</code></em>, <strong><code>cbs</code></strong>=<em><code>None</code></em>, <strong><code>metrics</code></strong>=<em><code>None</code></em>, <strong><code>path</code></strong>=<em><code>None</code></em>, <strong><code>model_dir</code></strong>=<em><code>'models'</code></em>, <strong><code>wd</code></strong>=<em><code>None</code></em>, <strong><code>wd_bn_bias</code></strong>=<em><code>False</code></em>, <strong><code>train_bn</code></strong>=<em><code>True</code></em>, <strong><code>moms</code></strong>=<em><code>(0.95, 0.85, 0.95)</code></em>)</p>
 </blockquote>
 <p>Build a convnet style learner from <code>dls</code> and <code>arch</code>
-Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorChannel"><code>AddColorChannel</code></a> callback.</p>
+Same as fastai func but adds the <a href="/faimed3d/dataloaders#AddColorChannel"><code>AddColorChannel</code></a> callback.</p>
 
 </div>
 
@@ -106,13 +112,6 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
 
 </div>
 </div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -129,6 +128,26 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-5-374773517d28&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">from</span> torchvision<span class="ansi-blue-fg">.</span>models<span class="ansi-blue-fg">.</span>video <span class="ansi-green-fg">import</span> r3d_18
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>learn <span class="ansi-blue-fg">=</span> cnn_learner_3d<span class="ansi-blue-fg">(</span>dls<span class="ansi-blue-fg">,</span> r3d_18<span class="ansi-blue-fg">,</span> pretrained<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span> <span class="ansi-red-fg"># pretrained turned off for more speed while testing, default would be to load a pretrained model</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;dls&#39; is not defined</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -168,9 +187,9 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
   <tbody>
     <tr>
       <td>0</td>
-      <td>2.453939</td>
-      <td>0.527504</td>
-      <td>00:01</td>
+      <td>1.117520</td>
+      <td>0.446221</td>
+      <td>00:02</td>
     </tr>
   </tbody>
 </table>
@@ -194,167 +213,14 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
   <tbody>
     <tr>
       <td>0</td>
-      <td>0.934085</td>
-      <td>00:00</td>
+      <td>1.255882</td>
+      <td>0.289898</td>
+      <td>00:02</td>
     </tr>
   </tbody>
 </table>
 </div>
 
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-7-11fe6a74ede2&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg">#slow</span>
-<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>learn<span class="ansi-blue-fg">.</span>fine_tune<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0.001</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/callback/schedule.py</span> in <span class="ansi-cyan-fg">fine_tune</span><span class="ansi-blue-fg">(self, epochs, base_lr, freeze_epochs, lr_mult, pct_start, div, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    158</span>     base_lr <span class="ansi-blue-fg">/=</span> <span class="ansi-cyan-fg">2</span>
-<span class="ansi-green-intense-fg ansi-bold">    159</span>     self<span class="ansi-blue-fg">.</span>unfreeze<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 160</span><span class="ansi-red-fg">     </span>self<span class="ansi-blue-fg">.</span>fit_one_cycle<span class="ansi-blue-fg">(</span>epochs<span class="ansi-blue-fg">,</span> slice<span class="ansi-blue-fg">(</span>base_lr<span class="ansi-blue-fg">/</span>lr_mult<span class="ansi-blue-fg">,</span> base_lr<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> pct_start<span class="ansi-blue-fg">=</span>pct_start<span class="ansi-blue-fg">,</span> div<span class="ansi-blue-fg">=</span>div<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    161</span> 
-<span class="ansi-green-intense-fg ansi-bold">    162</span> <span class="ansi-red-fg"># Cell</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/callback/schedule.py</span> in <span class="ansi-cyan-fg">fit_one_cycle</span><span class="ansi-blue-fg">(self, n_epoch, lr_max, div, div_final, pct_start, wd, moms, cbs, reset_opt)</span>
-<span class="ansi-green-intense-fg ansi-bold">    110</span>     scheds = {&#39;lr&#39;: combined_cos(pct_start, lr_max/div, lr_max, lr_max/div_final),
-<span class="ansi-green-intense-fg ansi-bold">    111</span>               &#39;mom&#39;: combined_cos(pct_start, *(self.moms if moms is None else moms))}
-<span class="ansi-green-fg">--&gt; 112</span><span class="ansi-red-fg">     </span>self<span class="ansi-blue-fg">.</span>fit<span class="ansi-blue-fg">(</span>n_epoch<span class="ansi-blue-fg">,</span> cbs<span class="ansi-blue-fg">=</span>ParamScheduler<span class="ansi-blue-fg">(</span>scheds<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">+</span>L<span class="ansi-blue-fg">(</span>cbs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> reset_opt<span class="ansi-blue-fg">=</span>reset_opt<span class="ansi-blue-fg">,</span> wd<span class="ansi-blue-fg">=</span>wd<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    113</span> 
-<span class="ansi-green-intense-fg ansi-bold">    114</span> <span class="ansi-red-fg"># Cell</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">fit</span><span class="ansi-blue-fg">(self, n_epoch, lr, wd, cbs, reset_opt)</span>
-<span class="ansi-green-intense-fg ansi-bold">    204</span>             self<span class="ansi-blue-fg">.</span>opt<span class="ansi-blue-fg">.</span>set_hypers<span class="ansi-blue-fg">(</span>lr<span class="ansi-blue-fg">=</span>self<span class="ansi-blue-fg">.</span>lr <span class="ansi-green-fg">if</span> lr <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span> <span class="ansi-green-fg">else</span> lr<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    205</span>             self<span class="ansi-blue-fg">.</span>n_epoch <span class="ansi-blue-fg">=</span> n_epoch
-<span class="ansi-green-fg">--&gt; 206</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_do_fit<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;fit&#39;</span><span class="ansi-blue-fg">,</span> CancelFitException<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>_end_cleanup<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    207</span> 
-<span class="ansi-green-intense-fg ansi-bold">    208</span>     <span class="ansi-green-fg">def</span> _end_cleanup<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> self<span class="ansi-blue-fg">.</span>dl<span class="ansi-blue-fg">,</span>self<span class="ansi-blue-fg">.</span>xb<span class="ansi-blue-fg">,</span>self<span class="ansi-blue-fg">.</span>yb<span class="ansi-blue-fg">,</span>self<span class="ansi-blue-fg">.</span>pred<span class="ansi-blue-fg">,</span>self<span class="ansi-blue-fg">.</span>loss <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">(</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span><span class="ansi-green-fg">None</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_with_events</span><span class="ansi-blue-fg">(self, f, event_type, ex, final)</span>
-<span class="ansi-green-intense-fg ansi-bold">    153</span> 
-<span class="ansi-green-intense-fg ansi-bold">    154</span>     <span class="ansi-green-fg">def</span> _with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> f<span class="ansi-blue-fg">,</span> event_type<span class="ansi-blue-fg">,</span> ex<span class="ansi-blue-fg">,</span> final<span class="ansi-blue-fg">=</span>noop<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 155</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>       self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;before_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>       <span class="ansi-blue-fg">;</span>f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    156</span>         <span class="ansi-green-fg">except</span> ex<span class="ansi-blue-fg">:</span> self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;after_cancel_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    157</span>         <span class="ansi-green-fg">finally</span><span class="ansi-blue-fg">:</span>   self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;after_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>        <span class="ansi-blue-fg">;</span>final<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_do_fit</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    195</span>         <span class="ansi-green-fg">for</span> epoch <span class="ansi-green-fg">in</span> range<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>n_epoch<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    196</span>             self<span class="ansi-blue-fg">.</span>epoch<span class="ansi-blue-fg">=</span>epoch
-<span class="ansi-green-fg">--&gt; 197</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_do_epoch<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;epoch&#39;</span><span class="ansi-blue-fg">,</span> CancelEpochException<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    198</span> 
-<span class="ansi-green-intense-fg ansi-bold">    199</span>     <span class="ansi-green-fg">def</span> fit<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> n_epoch<span class="ansi-blue-fg">,</span> lr<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> wd<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> cbs<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span> reset_opt<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_with_events</span><span class="ansi-blue-fg">(self, f, event_type, ex, final)</span>
-<span class="ansi-green-intense-fg ansi-bold">    153</span> 
-<span class="ansi-green-intense-fg ansi-bold">    154</span>     <span class="ansi-green-fg">def</span> _with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> f<span class="ansi-blue-fg">,</span> event_type<span class="ansi-blue-fg">,</span> ex<span class="ansi-blue-fg">,</span> final<span class="ansi-blue-fg">=</span>noop<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 155</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>       self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;before_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>       <span class="ansi-blue-fg">;</span>f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    156</span>         <span class="ansi-green-fg">except</span> ex<span class="ansi-blue-fg">:</span> self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;after_cancel_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    157</span>         <span class="ansi-green-fg">finally</span><span class="ansi-blue-fg">:</span>   self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;after_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>        <span class="ansi-blue-fg">;</span>final<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_do_epoch</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    189</span> 
-<span class="ansi-green-intense-fg ansi-bold">    190</span>     <span class="ansi-green-fg">def</span> _do_epoch<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 191</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_do_epoch_train<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    192</span>         self<span class="ansi-blue-fg">.</span>_do_epoch_validate<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    193</span> 
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_do_epoch_train</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    181</span>     <span class="ansi-green-fg">def</span> _do_epoch_train<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    182</span>         self<span class="ansi-blue-fg">.</span>dl <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>dls<span class="ansi-blue-fg">.</span>train
-<span class="ansi-green-fg">--&gt; 183</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>all_batches<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;train&#39;</span><span class="ansi-blue-fg">,</span> CancelTrainException<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    184</span> 
-<span class="ansi-green-intense-fg ansi-bold">    185</span>     <span class="ansi-green-fg">def</span> _do_epoch_validate<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> ds_idx<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> dl<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_with_events</span><span class="ansi-blue-fg">(self, f, event_type, ex, final)</span>
-<span class="ansi-green-intense-fg ansi-bold">    153</span> 
-<span class="ansi-green-intense-fg ansi-bold">    154</span>     <span class="ansi-green-fg">def</span> _with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> f<span class="ansi-blue-fg">,</span> event_type<span class="ansi-blue-fg">,</span> ex<span class="ansi-blue-fg">,</span> final<span class="ansi-blue-fg">=</span>noop<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 155</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>       self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;before_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>       <span class="ansi-blue-fg">;</span>f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    156</span>         <span class="ansi-green-fg">except</span> ex<span class="ansi-blue-fg">:</span> self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;after_cancel_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    157</span>         <span class="ansi-green-fg">finally</span><span class="ansi-blue-fg">:</span>   self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;after_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>        <span class="ansi-blue-fg">;</span>final<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">all_batches</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    159</span>     <span class="ansi-green-fg">def</span> all_batches<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    160</span>         self<span class="ansi-blue-fg">.</span>n_iter <span class="ansi-blue-fg">=</span> len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>dl<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 161</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">for</span> o <span class="ansi-green-fg">in</span> enumerate<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>dl<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> self<span class="ansi-blue-fg">.</span>one_batch<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>o<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    162</span> 
-<span class="ansi-green-intense-fg ansi-bold">    163</span>     <span class="ansi-green-fg">def</span> _do_one_batch<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">one_batch</span><span class="ansi-blue-fg">(self, i, b)</span>
-<span class="ansi-green-intense-fg ansi-bold">    177</span>         self<span class="ansi-blue-fg">.</span>iter <span class="ansi-blue-fg">=</span> i
-<span class="ansi-green-intense-fg ansi-bold">    178</span>         self<span class="ansi-blue-fg">.</span>_split<span class="ansi-blue-fg">(</span>b<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 179</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_do_one_batch<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;batch&#39;</span><span class="ansi-blue-fg">,</span> CancelBatchException<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    180</span> 
-<span class="ansi-green-intense-fg ansi-bold">    181</span>     <span class="ansi-green-fg">def</span> _do_epoch_train<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_with_events</span><span class="ansi-blue-fg">(self, f, event_type, ex, final)</span>
-<span class="ansi-green-intense-fg ansi-bold">    153</span> 
-<span class="ansi-green-intense-fg ansi-bold">    154</span>     <span class="ansi-green-fg">def</span> _with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> f<span class="ansi-blue-fg">,</span> event_type<span class="ansi-blue-fg">,</span> ex<span class="ansi-blue-fg">,</span> final<span class="ansi-blue-fg">=</span>noop<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 155</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>       self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;before_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>       <span class="ansi-blue-fg">;</span>f<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    156</span>         <span class="ansi-green-fg">except</span> ex<span class="ansi-blue-fg">:</span> self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;after_cancel_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    157</span>         <span class="ansi-green-fg">finally</span><span class="ansi-blue-fg">:</span>   self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#39;after_{event_type}&#39;</span><span class="ansi-blue-fg">)</span>        <span class="ansi-blue-fg">;</span>final<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_do_one_batch</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    168</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> self<span class="ansi-blue-fg">.</span>training <span class="ansi-green-fg">or</span> <span class="ansi-green-fg">not</span> len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>yb<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> <span class="ansi-green-fg">return</span>
-<span class="ansi-green-intense-fg ansi-bold">    169</span>         self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;before_backward&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 170</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_backward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    171</span>         self<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;after_backward&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    172</span>         self<span class="ansi-blue-fg">.</span>_step<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/learner.py</span> in <span class="ansi-cyan-fg">_backward</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    150</span> 
-<span class="ansi-green-intense-fg ansi-bold">    151</span>     <span class="ansi-green-fg">def</span> _step<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> self<span class="ansi-blue-fg">.</span>opt<span class="ansi-blue-fg">.</span>step<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 152</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">def</span> _backward<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> self<span class="ansi-blue-fg">.</span>loss<span class="ansi-blue-fg">.</span>backward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    153</span> 
-<span class="ansi-green-intense-fg ansi-bold">    154</span>     <span class="ansi-green-fg">def</span> _with_events<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> f<span class="ansi-blue-fg">,</span> event_type<span class="ansi-blue-fg">,</span> ex<span class="ansi-blue-fg">,</span> final<span class="ansi-blue-fg">=</span>noop<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/torch/tensor.py</span> in <span class="ansi-cyan-fg">backward</span><span class="ansi-blue-fg">(self, gradient, retain_graph, create_graph)</span>
-<span class="ansi-green-intense-fg ansi-bold">    218</span>                 gradient<span class="ansi-blue-fg">=</span>gradient<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    219</span>                 retain_graph<span class="ansi-blue-fg">=</span>retain_graph<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">--&gt; 220</span><span class="ansi-red-fg">                 create_graph=create_graph)
-</span><span class="ansi-green-intense-fg ansi-bold">    221</span>         torch<span class="ansi-blue-fg">.</span>autograd<span class="ansi-blue-fg">.</span>backward<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> gradient<span class="ansi-blue-fg">,</span> retain_graph<span class="ansi-blue-fg">,</span> create_graph<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    222</span> 
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/torch/overrides.py</span> in <span class="ansi-cyan-fg">handle_torch_function</span><span class="ansi-blue-fg">(public_api, relevant_args, *args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1061</span>         <span class="ansi-red-fg"># Use `public_api` instead of `implementation` so __torch_function__</span>
-<span class="ansi-green-intense-fg ansi-bold">   1062</span>         <span class="ansi-red-fg"># implementations can do equality/identity comparisons.</span>
-<span class="ansi-green-fg">-&gt; 1063</span><span class="ansi-red-fg">         </span>result <span class="ansi-blue-fg">=</span> overloaded_arg<span class="ansi-blue-fg">.</span>__torch_function__<span class="ansi-blue-fg">(</span>public_api<span class="ansi-blue-fg">,</span> types<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">,</span> kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1064</span> 
-<span class="ansi-green-intense-fg ansi-bold">   1065</span>         <span class="ansi-green-fg">if</span> result <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> NotImplemented<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/fastai/torch_core.py</span> in <span class="ansi-cyan-fg">__torch_function__</span><span class="ansi-blue-fg">(self, func, types, args, kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    317</span> <span class="ansi-red-fg">#         if func.__name__[0]!=&#39;_&#39;: print(func, types, args, kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    318</span> <span class="ansi-red-fg">#         with torch._C.DisableTorchFunction(): ret = _convert(func(*args, **(kwargs or {})), self.__class__)</span>
-<span class="ansi-green-fg">--&gt; 319</span><span class="ansi-red-fg">         </span>ret <span class="ansi-blue-fg">=</span> super<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>__torch_function__<span class="ansi-blue-fg">(</span>func<span class="ansi-blue-fg">,</span> types<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">=</span>args<span class="ansi-blue-fg">,</span> kwargs<span class="ansi-blue-fg">=</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    320</span>         <span class="ansi-green-fg">if</span> isinstance<span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">,</span> TensorBase<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> ret<span class="ansi-blue-fg">.</span>set_meta<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> as_copy<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    321</span>         <span class="ansi-green-fg">return</span> ret
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/torch/tensor.py</span> in <span class="ansi-cyan-fg">__torch_function__</span><span class="ansi-blue-fg">(cls, func, types, args, kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    993</span> 
-<span class="ansi-green-intense-fg ansi-bold">    994</span>         <span class="ansi-green-fg">with</span> _C<span class="ansi-blue-fg">.</span>DisableTorchFunction<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 995</span><span class="ansi-red-fg">             </span>ret <span class="ansi-blue-fg">=</span> func<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    996</span>             <span class="ansi-green-fg">return</span> _convert<span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">,</span> cls<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    997</span> 
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/torch/tensor.py</span> in <span class="ansi-cyan-fg">backward</span><span class="ansi-blue-fg">(self, gradient, retain_graph, create_graph)</span>
-<span class="ansi-green-intense-fg ansi-bold">    219</span>                 retain_graph<span class="ansi-blue-fg">=</span>retain_graph<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    220</span>                 create_graph=create_graph)
-<span class="ansi-green-fg">--&gt; 221</span><span class="ansi-red-fg">         </span>torch<span class="ansi-blue-fg">.</span>autograd<span class="ansi-blue-fg">.</span>backward<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> gradient<span class="ansi-blue-fg">,</span> retain_graph<span class="ansi-blue-fg">,</span> create_graph<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    222</span> 
-<span class="ansi-green-intense-fg ansi-bold">    223</span>     <span class="ansi-green-fg">def</span> register_hook<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> hook<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">~/anaconda3/envs/fastai-v2/lib/python3.7/site-packages/torch/autograd/__init__.py</span> in <span class="ansi-cyan-fg">backward</span><span class="ansi-blue-fg">(tensors, grad_tensors, retain_graph, create_graph, grad_variables)</span>
-<span class="ansi-green-intense-fg ansi-bold">    130</span>     Variable._execution_engine.run_backward(
-<span class="ansi-green-intense-fg ansi-bold">    131</span>         tensors<span class="ansi-blue-fg">,</span> grad_tensors_<span class="ansi-blue-fg">,</span> retain_graph<span class="ansi-blue-fg">,</span> create_graph<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">--&gt; 132</span><span class="ansi-red-fg">         allow_unreachable=True)  # allow_unreachable flag
-</span><span class="ansi-green-intense-fg ansi-bold">    133</span> 
-<span class="ansi-green-intense-fg ansi-bold">    134</span> 
-
-<span class="ansi-red-fg">RuntimeError</span>: CUDA out of memory. Tried to allocate 16.00 MiB (GPU 0; 10.76 GiB total capacity; 983.73 MiB already allocated; 21.12 MiB free; 1.02 GiB reserved in total by PyTorch)</pre>
-</div>
 </div>
 
 </div>
@@ -373,6 +239,13 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
     
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -380,7 +253,7 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_unet_model_3d" class="doc_header"><code>create_unet_model_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/learner.py#L41" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_unet_model_3d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="create_unet_model_3d" class="doc_header"><code>create_unet_model_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/learner.py#L41" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_unet_model_3d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>'ReLU'</code></em>, <strong><code>init</code></strong>=<em><code>'kaiming_normal_'</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Create custom unet architecture</p>
 
@@ -412,7 +285,7 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="unet_learner_3d" class="doc_header"><code>unet_learner_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/learner.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unet_learner_3d</code>(<strong><code>dls</code></strong>, <strong><code>arch</code></strong>, <strong><code>normalize</code></strong>=<em><code>True</code></em>, <strong><code>n_out</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>config</code></strong>=<em><code>None</code></em>, <strong><code>loss_func</code></strong>=<em><code>None</code></em>, <strong><code>opt_func</code></strong>=<em><code>Adam</code></em>, <strong><code>lr</code></strong>=<em><code>0.001</code></em>, <strong><code>splitter</code></strong>=<em><code>None</code></em>, <strong><code>cbs</code></strong>=<em><code>None</code></em>, <strong><code>metrics</code></strong>=<em><code>None</code></em>, <strong><code>path</code></strong>=<em><code>None</code></em>, <strong><code>model_dir</code></strong>=<em><code>'models'</code></em>, <strong><code>wd</code></strong>=<em><code>None</code></em>, <strong><code>wd_bn_bias</code></strong>=<em><code>False</code></em>, <strong><code>train_bn</code></strong>=<em><code>True</code></em>, <strong><code>moms</code></strong>=<em><code>(0.95, 0.85, 0.95)</code></em>, <strong><code>norm_type</code></strong>=<em><code>&lt;NormType.Batch: 1&gt;</code></em>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>)</p>
+<h4 id="unet_learner_3d" class="doc_header"><code>unet_learner_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/learner.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unet_learner_3d</code>(<strong><code>dls</code></strong>, <strong><code>arch</code></strong>, <strong><code>normalize</code></strong>=<em><code>True</code></em>, <strong><code>n_out</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>config</code></strong>=<em><code>None</code></em>, <strong><code>loss_func</code></strong>=<em><code>None</code></em>, <strong><code>opt_func</code></strong>=<em><code>'Adam'</code></em>, <strong><code>lr</code></strong>=<em><code>0.001</code></em>, <strong><code>splitter</code></strong>=<em><code>None</code></em>, <strong><code>cbs</code></strong>=<em><code>None</code></em>, <strong><code>metrics</code></strong>=<em><code>None</code></em>, <strong><code>path</code></strong>=<em><code>None</code></em>, <strong><code>model_dir</code></strong>=<em><code>'models'</code></em>, <strong><code>wd</code></strong>=<em><code>None</code></em>, <strong><code>wd_bn_bias</code></strong>=<em><code>False</code></em>, <strong><code>train_bn</code></strong>=<em><code>True</code></em>, <strong><code>moms</code></strong>=<em><code>(0.95, 0.85, 0.95)</code></em>, <strong><code>norm_type</code></strong>=<em><code>NormType.Batch</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Build a unet learner from <code>dls</code> and <code>arch</code></p>
 
@@ -422,13 +295,6 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
 
 </div>
 </div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -481,6 +347,38 @@ Same as fastai func but adds the <a href="/faimed3d/dataloaders.html#AddColorCha
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.597306</td>
+      <td>0.645879</td>
+      <td>00:07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
 </div>
 </div>
 

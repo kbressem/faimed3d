@@ -15,7 +15,7 @@ from .layers import *
 from .data import *
 from .models.unet import DynamicUnet3D
 from .models.losses import DiceLoss
-from fastai.vision.learner import _default_meta, _add_norm, model_meta, create_body, create_unet_model
+from fastai.vision.learner import _default_meta, _add_norm, model_meta, create_body
 
 # Cell
 @delegates(Learner.__init__)
@@ -47,7 +47,6 @@ def create_unet_model_3d(arch, n_out, img_size, n_inp=1, pretrained=True, cut=No
     return model
 
 # Cell
-@delegates(create_unet_model)
 def unet_learner_3d(dls, arch, normalize=True, n_out=None, pretrained=True, config=None,
                  # learner args
                  loss_func=None, opt_func=Adam, lr=defaults.lr, splitter=None, cbs=None, metrics=None, path=None,
