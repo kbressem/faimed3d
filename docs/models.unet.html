@@ -197,7 +197,38 @@ The information of the different sequences can be assumed to be redundant to som
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="UnetBlock3D" class="doc_header"><code>class</code> <code>UnetBlock3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L29" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UnetBlock3D</code>(<strong><code>up_in_c</code></strong>, <strong><code>x_in_c</code></strong>, <strong><code>hook</code></strong>, <strong><code>final_div</code></strong>=<em><code>True</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>'ReLU'</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>init</code></strong>=<em><code>'kaiming_normal_'</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>None</code></em>, <strong><code>ndim</code></strong>=<em><code>2</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>transpose</code></strong>=<em><code>False</code></em>, <strong><code>xtra</code></strong>=<em><code>None</code></em>, <strong><code>bias_std</code></strong>=<em><code>0.01</code></em>, <strong><code>dilation</code></strong>:<code>Union</code>[<code>int</code>, <code>Tuple</code>[<code>int</code>, <code>int</code>]]=<em><code>1</code></em>, <strong><code>groups</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding_mode</code></strong>:<code>str</code>=<em><code>'zeros'</code></em>) :: <code>Module</code></p>
+<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L29" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>x</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="UnetBlock3D" class="doc_header"><code>class</code> <code>UnetBlock3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L32" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UnetBlock3D</code>(<strong><code>up_in_c</code></strong>, <strong><code>x_in_c</code></strong>, <strong><code>hook</code></strong>, <strong><code>final_div</code></strong>=<em><code>True</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>'ReLU'</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>init</code></strong>=<em><code>'kaiming_normal_'</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>None</code></em>, <strong><code>ndim</code></strong>=<em><code>2</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>transpose</code></strong>=<em><code>False</code></em>, <strong><code>xtra</code></strong>=<em><code>None</code></em>, <strong><code>bias_std</code></strong>=<em><code>0.01</code></em>, <strong><code>dilation</code></strong>:<code>Union</code>[<code>int</code>, <code>Tuple</code>[<code>int</code>, <code>int</code>]]=<em><code>1</code></em>, <strong><code>groups</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding_mode</code></strong>:<code>str</code>=<em><code>'zeros'</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>A quasi-UNet block, using <code>ConvTranspose3d</code> for upsampling`.</p>
 
@@ -236,7 +267,7 @@ The information of the different sequences can be assumed to be redundant to som
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResizeToOrig" class="doc_header"><code>class</code> <code>ResizeToOrig</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L58" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResizeToOrig</code>(<strong><code>mode</code></strong>=<em><code>'nearest'</code></em>) :: <code>Module</code></p>
+<h2 id="ResizeToOrig" class="doc_header"><code>class</code> <code>ResizeToOrig</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L63" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResizeToOrig</code>(<strong><code>mode</code></strong>=<em><code>'nearest'</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Merge a shortcut with the result of the module by adding them or concatenating them if <code>dense=True</code>.</p>
 
@@ -275,7 +306,7 @@ The information of the different sequences can be assumed to be redundant to som
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SequentialEx4D" class="doc_header"><code>class</code> <code>SequentialEx4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L67" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SequentialEx4D</code>(<strong>*<code>layers</code></strong>) :: <code>SequentialEx</code></p>
+<h2 id="SequentialEx4D" class="doc_header"><code>class</code> <code>SequentialEx4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L72" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SequentialEx4D</code>(<strong>*<code>layers</code></strong>) :: <code>SequentialEx</code></p>
 </blockquote>
 <p>Like <code>SequentialEx</code>, but handels orig data differently and allows to pass a tuple/list as input</p>
 
@@ -325,7 +356,7 @@ Key differences are the adaption to 3D and 4D inputs. In <code>fastai</code> <co
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DynamicUnet3D" class="doc_header"><code>class</code> <code>DynamicUnet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L82" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DynamicUnet3D</code>(<strong><code>encoder</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>'ReLU'</code></em>, <strong><code>init</code></strong>=<em><code>'kaiming_normal_'</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.unet#SequentialEx4D"><code>SequentialEx4D</code></a></p>
+<h2 id="DynamicUnet3D" class="doc_header"><code>class</code> <code>DynamicUnet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L87" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DynamicUnet3D</code>(<strong><code>encoder</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>'ReLU'</code></em>, <strong><code>init</code></strong>=<em><code>'kaiming_normal_'</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.unet#SequentialEx4D"><code>SequentialEx4D</code></a></p>
 </blockquote>
 <p>Create a U-Net from a given architecture.</p>
 
