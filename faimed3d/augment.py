@@ -69,7 +69,7 @@ class Resize3D(RandTransform):
 
     def encodes(self, x: (TensorMask3D)):
         dev=x.device
-        x = x.resize_3d(self.size, self.scale_factor, 'nearest', self.recompute_scale_factor, align_corners=None)
+        x = x.resize_3d(self.size, self.scale_factor, 'nearest', align_corners=None, recompute_scale_factor=self.recompute_scale_factor)
         return x.to(dev)
 
 def _process_sz_3d(size):

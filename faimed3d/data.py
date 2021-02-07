@@ -193,7 +193,8 @@ class ImageDataLoaders3D(DataLoaders):
     @classmethod
     @delegates(DataLoaders.from_dblock)
     def from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', label_col=1, label_delim=None,
-                y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, size_for_resampling=None, resample_to_first=False, **kwargs):
+                y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, size_for_resampling=None,
+                resample_to_first=False, **kwargs):
         "Create from `df` using `fn_col` and `label_col`"
 
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
