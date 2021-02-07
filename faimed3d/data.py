@@ -25,17 +25,14 @@ class PreprocessDicom(DisplayedTransform):
     "Transforms a TensorDicom3D volume to float and normalizes the data"
     def __init__(self, rescale=True,
                  correct_spacing=True, spacing = 1,
-                 correct_orientation=False, orientation=(0,0,0,0,0,0),
                  clip_high_values=False, clipping_range=(-2000, 10000)):
         """
         Args:
             rescale (bool): if pixel values should be scaled according to the rescale intercept and slope
             correct_spacing (bool): if spacing of all volumes should be set to a unified value.
             spacing (int): new pixel spacing, default is 1.
-            correct_orientation (bool): if orientation of volumes should be the same across all items.
-            orientation (tuple): new porientation.
             clip_high_values (bool): if abriatry high values shoule be clipped
-            clipping_rang (tuple or list): min and maximum to clip values
+            clipping_rang (tuple or list): min and maximum to clip values. important when dealing with beam hardening artifacts.
         """
 
         store_attr()
@@ -44,7 +41,6 @@ class PreprocessDicom(DisplayedTransform):
         if hasattr(x, 'metadata'): # numpy arrays will not have metadata
             if self.rescale: x = x.rescale_pixeldata()
             if self.correct_spacing: x = x.size_correction(self.spacing)
-            if self.correct_orientation: raise NotImplementedError()
         if self.clip_high_values: x = x.clamp(self.clipping_range[0],
                                               self.clipping_range[1])
         return x.float()
@@ -87,7 +83,14 @@ class SequenceResampling(object):
     have to pass `size` as 112 x 112 x 10.
     '''
 
-    def __init__(self, size:(list, tuple), n_inp:int):
+    def __init__(self, size:(list, tuple), n_inp:int, resample_to_first=False):
+        '''
+        Args:
+            size: Size of the resampled images
+            n_inp: number of input images
+            resample_to_fisrt: If true, the origin and direction of the first input image are used as reference
+        '''
+
         if isinstance(size, tuple):size=list(size)
         assert len(size) == 3, 'size must be a list or tuple specifing the Width, Height and Depth of the reference image'
         store_attr()
@@ -134,8 +137,12 @@ class SequenceResampling(object):
         for img in data:
             reference_physical_size[:] = [(sz-1)*spc if sz*spc>mx  else mx for sz,spc,mx in zip(img.GetSize(), img.GetSpacing(), reference_physical_size)]
         # Create the reference image with a zero origin, identity direction cosine matrix and dimension
-        reference_origin = np.zeros(dimension)
-        reference_direction = np.identity(dimension).flatten()
+        if self.resample_to_first:
+            reference_origin = data[0].GetOrigin()
+            reference_direction = data[0].GetDirection()
+        else:
+            reference_origin = np.zeros(dimension)
+            reference_direction = np.identity(dimension).flatten()
         reference_size = self.size
         reference_spacing = [ phys_sz/(sz-1) for sz,phys_sz in zip(reference_size, reference_physical_size) ]
 
@@ -186,7 +193,8 @@ class ImageDataLoaders3D(DataLoaders):
     @classmethod
     @delegates(DataLoaders.from_dblock)
     def from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', label_col=1, label_delim=None,
-                y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, size_for_resampling=None, **kwargs):
+                y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, size_for_resampling=None,
+                resample_to_first=False, **kwargs):
         "Create from `df` using `fn_col` and `label_col`"
 
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
@@ -212,7 +220,7 @@ class ImageDataLoaders3D(DataLoaders):
                                 'orientation and direction. For this you need to pass a `size_for_resampling` in format (width, height, depth). '
                                 'Note, that you should not provide any resizing operations in the `item_tfms` as they may corrupt the '
                                 'physical properties of the input images and will also be overwritten during resampling')
-            Resampler = SequenceResampling(size_for_resampling, len(fn_col))
+            Resampler = SequenceResampling(size_for_resampling, len(fn_col), resample_to_first)
 
         dblock = DataBlock(blocks=(*[ImageBlock3D(cls=TensorDicom3D) for i in fn_col], y_block),
                            get_x=[ColReader(col, pref=pref, suff=suff) for col in fn_col],
@@ -310,7 +318,7 @@ class SegmentationDataLoaders3D(DataLoaders):
     @delegates(DataLoaders.from_dblock)
 
     def from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', label_col=1, codes=None,
-                valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, size_for_resampling=None,**kwargs):
+                valid_col=None, item_tfms=None, batch_tfms=None, rescale_method=None, size_for_resampling=None,resample_to_first=False, **kwargs):
         "Create from `df` using `fn_col` and `label_col`"
 
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
@@ -334,7 +342,7 @@ class SegmentationDataLoaders3D(DataLoaders):
                                 'orientation and direction. For this you need to pass a `size_for_resampling` in format (width, height, depth). '
                                 'Note, that you should not provide any resizing operations in the `item_tfms` as they may corrupt the '
                                 'physical properties of the input images and will also be overwritten during resampling')
-            Resampler = SequenceResampling(size_for_resampling, len(fn_col))
+            Resampler = SequenceResampling(size_for_resampling, len(fn_col), resample_to_first)
 
         dblock = DataBlock(blocks=(*[ImageBlock3D(cls=TensorDicom3D) for i in fn_col],
                                    *[MaskBlock3D(codes=codes) for i in label_col]),

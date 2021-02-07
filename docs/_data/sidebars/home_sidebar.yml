@@ -11,37 +11,37 @@ entries:
       url: /
     - output: web,pdf
       title: Basics
-      url: basics.html
+      url: /basics
     - output: web,pdf
       title: Image Preprocessing
-      url: preprocessing.html
+      url: /preprocessing
     - output: web,pdf
       title: Transformations for 3D medical images
-      url: transforms.html
+      url: /transforms
     - output: web,pdf
       title: faimed3d Dataloaders for 3D images
-      url: dataloaders.html
+      url: /dataloaders
     - output: web,pdf
       title: faimed3d layers and functions
-      url: layers.html
+      url: /layers
     - output: web,pdf
       title: faimed3d wrapper for Learner class
-      url: learner.html
+      url: /learner
     - output: web,pdf
       title: 3D AlexNet
-      url: models.alexnet.html
+      url: /models.alexnet
     - output: web,pdf
       title: 3D ResNet
-      url: models.resnet.html
+      url: /models.resnet
     - output: web,pdf
       title: 3D UNet
-      url: models.unet.html
+      url: /models.unet
     - output: web,pdf
       title: Losses and metrics
-      url: models.losses.html
+      url: /models.losses
     - output: web,pdf
       title: Callbacks
-      url: callback.html
+      url: /callback
     output: web
     title: faimed3d
   output: web
