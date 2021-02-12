@@ -78,11 +78,11 @@ class DiceLoss(BaseLoss):
                  'micro' computes loss for each B and acverages the losses
 
         Unique for `DiceLoss`
-        method:  The method, how the DICE score should be calcualted.
+        method:  The method how the DICE score should be calculated.
                     "simple"   = standard DICE loss
                     "miletari" = squared denominator for faster convergence
                     "tversky"  = variant of the DICE loss which allows to weight FP vs FN.
-        alpha, beta: weights for FP and FN for "tversky" loss, if both values are 0.5 the
+        alpha, beta: weights for FP and FN for "tversky" loss if both values are 0.5 the
                  "tversky" loss corresponds to the "simple" DICE loss
         smooth:  Added smoothing factor.
         eps: added to the denominator for numerical stability (acoid division by 0).
@@ -143,7 +143,7 @@ class MCCLoss(BaseLoss):
 
     For this loss to work best, the input should be in range 0-1, e.g. enforced through a sigmoid or softmax.
     Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.
-    While the MCC score can become negative, the MCC loss should not go below 0
+    While the MCC score can become negative the MCC loss should not go below 0.
 
 
     Args:

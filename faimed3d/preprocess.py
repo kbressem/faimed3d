@@ -96,7 +96,7 @@ class MaxScale(RandTransform):
 @patch
 def freqhist_bins(t:(TensorDicom3D,Tensor), n_bins=100):
     '''
-    A function to split the range of pixel values into groups, such that each group has around the same number of pixels.
+    A function to split the range of pixel values into groups, so that each group has around the same number of pixels.
     taken from https://github.com/fastai/fastai/blob/master/fastai/medical/imaging.py#L78
     '''
     imsd = t.view(-1).sort()[0]
@@ -159,7 +159,7 @@ class ImageCorrectionWrapper(object):
                 except: raise ValueError('Please set a name for the output')
             self._convert(orig_file.as_sitk(), fn_out)
         if self.verbose:
-            print('Coreccted and wrote file to {}'.format(fn_out))
+            print('Corrected and wrote file to {}'.format(fn_out))
 
     def convert_string(self, fn_in, fn_out):
         im = self.read_image(fn_in)
@@ -301,9 +301,9 @@ class PiecewiseHistScaling(RandTransform):
     Args:
         input_image (TensorDicom3D): image on which to find landmarks
         landmark_percs (torch.tensor): corresponding landmark points of standard scale
-        final_scale (function): final rescaling of values, if None is provided values are
+        final_scale (function): final rescaling of values, if none is provided values are
                                 scaled to a mean of 0 and a std of 1.
-        slicewise (bool): if the scaling should be applied to each slice individually. Slower but leads to more homogeneous images
+        slicewise (bool): if the scaling should be applied to each slice individually. Slower but leads to more homogeneous images.
 
     Returns:
         If input is TensorMask3D returns input unchanged

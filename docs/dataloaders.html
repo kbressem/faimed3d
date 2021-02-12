@@ -1,6 +1,6 @@
 ---
 
-title: faimed3d Dataloaders for 3D images
+title: faimed3d dataloaders for 3D images
 
 
 keywords: fastai
@@ -39,8 +39,8 @@ nb_path: "nbs/04_dataloaders.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Get-data-paths-and-labels">Get data paths and labels<a class="anchor-link" href="#Get-data-paths-and-labels"> </a></h2><p>Data is divided into a train, valid and test dataset of different patients, which either have prostate cancer or are healthy. 
-Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ in number of slices and resolution.</p>
-<p>At first the paths to the data are specified:</p>
+Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ regarding the number of slices and resolution.</p>
+<p>At first, the paths to the data are specified:</p>
 
 </div>
 </div>
@@ -64,7 +64,7 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Raw pixel data for DICOM must sometimes undergo affine transformation (e.g. to be converted to Houndsfiel Units). <code>PreProcessDicom</code> is a convenience function which can perform a few frequently needed manipulations with the pixeldata.</p>
+<p>Raw pixel data for DICOM must sometimes undergo affine transformation (e.g. to be converted to Houndsfiel Units). <code>PreProcessDicom</code> is a convenience function which can perform a few frequently needed manipulations with the pixel data.</p>
 
 </div>
 </div>
@@ -160,7 +160,7 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>When using multiple sequences per examination, those sequences can differ in size, pixel spacing, pixel resolution, field of view and even orientation. SimpleITK provides functions to resample multiple images to a reference image, so the different sequences match.<br>
-Resampling assumes, that the images are somewhat in the same plane and show the same region. Resampling axial and sagittal images will not yield good results.</p>
+Resampling assumes that the images are somewhat in the same plane and show the same region. Resampling axial and sagittal images will not yield good results.</p>
 
 </div>
 </div>
@@ -277,7 +277,7 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="ImageDataLoaders3D" class="doc_header"><code>class</code> <code>ImageDataLoaders3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L190" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ImageDataLoaders3D</code>(<strong>*<code>loaders</code></strong>, <strong><code>path</code></strong>=<em><code>'.'</code></em>, <strong><code>device</code></strong>=<em><code>None</code></em>) :: <code>DataLoaders</code></p>
 </blockquote>
-<p>Enarly identitcal to fastai <code>ImageDataLoaders</code> but adapted for 3D data with some preprocessing steps added</p>
+<p>Nearly identical to fastai <code>ImageDataLoaders</code> but adapted for 3D data with some preprocessing steps added</p>
 
 </div>
 
@@ -348,7 +348,7 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="DataLoaders.show_batch_3d" class="doc_header"><code>DataLoaders.show_batch_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L277" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DataLoaders.show_batch_3d</code>(<strong><code>dls</code></strong>:<code>DataLoaders</code>, <strong><code>with_mask</code></strong>=<em><code>False</code></em>, <strong><code>alpha_mask</code></strong>=<em><code>0.3</code></em>, <strong><code>figsize</code></strong>=<em><code>(15, 15)</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>Workarround, until implemented into dls as dls.show_batch_3d()</p>
+<p>Workaround until implemented into dls as dls.show_batch_3d()</p>
 
 </div>
 
@@ -675,8 +675,8 @@ skewness: -0.5420928001403809, kurtosis:-1.4813424348831177
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When displaying the masks it may occure, that Nifti images are rotated and do not fit the original DICOM. Most likely it is due to different frames of reference. 
-in Simple-ITK it is LPS, while NIfTI and FSL use RAS, so those matrices are the same after accounting for frame of reference (taken and adapted from <a href="https://discourse.itk.org/t/nifti-orientation-issues/431">https://discourse.itk.org/t/nifti-orientation-issues/431</a>).
+<p>When displaying the masks it may occure that Nifti images are rotated and do not fit the original DICOM. Most likely this is due to different frames of reference. 
+In Simple-ITK, it is LPS, while NIfTI and FSL use RAS, so those matrices are the same after accounting for frame of reference (taken and adapted from <a href="https://discourse.itk.org/t/nifti-orientation-issues/431">https://discourse.itk.org/t/nifti-orientation-issues/431</a>).
 So, luckly the malrotations are systematic and can be scripted.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
 

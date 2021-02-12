@@ -152,7 +152,7 @@ class SequenceResampling(object):
         reference_image.SetDirection(reference_direction)
 
         # Always use the TransformContinuousIndexToPhysicalPoint to compute an indexed point's physical coordinates as
-        # this takes into account size, spacing and direction cosines. For the vast majority of images the direction
+        # this takes into account size, spacing and direction cosines. For the vast majority of images, the direction
         # cosines are the identity matrix, but when this isn't the case simply multiplying the central index by the
         # spacing will not yield the correct coordinates resulting in a long debugging session.
         reference_center = np.array(reference_image.TransformContinuousIndexToPhysicalPoint(np.array(reference_image.GetSize())/2.0))
@@ -188,7 +188,7 @@ def MaskBlock3D(cls=TensorMask3D, codes=None):
 
 # Cell
 class ImageDataLoaders3D(DataLoaders):
-    "Enarly identitcal to fastai `ImageDataLoaders` but adapted for 3D data with some preprocessing steps added"
+    "Nearly identical to fastai `ImageDataLoaders` but adapted for 3D data with some preprocessing steps added"
 
     @classmethod
     @delegates(DataLoaders.from_dblock)
@@ -277,7 +277,7 @@ class ImageDataLoaders3D(DataLoaders):
 @patch
 def show_batch_3d(dls:DataLoaders, with_mask=False,
                   alpha_mask=0.3, figsize = (15, 15), **kwargs):
-    "Workarround, until implemented into dls as dls.show_batch_3d()"
+    "Workaround until implemented into dls as dls.show_batch_3d()"
     xb, yb = dls.one_batch()
     xb.show(figsize=figsize, **kwargs)
     if with_mask: yb.show(add_to_existing = True, alpha = alpha_mask,
@@ -335,7 +335,7 @@ class SegmentationDataLoaders3D(DataLoaders):
         if not isinstance(label_col, list): label_col = [label_col]
         if len(fn_col) > 1:
             if size_for_resampling is None:
-                raise TypeError('Expected `size_for_resampling` to be a list or tuple but got None. '
+                raise TypeError('Expected `size_for_resampling` to be a list or tuple but got none. '
                                 'If you are using multiple inputs the inputs need to be resampled to a uniform size, spacing, '
                                 'orientation and direction. For this you need to pass a `size_for_resampling` in format (width, height, depth). '
                                 'Note, that you should not provide any resizing operations in the `item_tfms` as they may corrupt the '

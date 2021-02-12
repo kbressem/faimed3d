@@ -22,11 +22,11 @@ from .data import *
 class StackVolumes(Callback):
     """
     Takes multiple 3D volumes and stacks them in the color dim.
-    This is usefull when using mutli-sequence medical data.
+    This is useful when using multi-sequence medical data.
 
     Can also merge multiple segmentation masks, through pooling (max, min or mean) alongside the color dim,
-    then convertes the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
-    appearences
+    then converts the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
+    appearances
 
     Example:
         Having the Tensors of size (10, 1, 5, 25, 25) would lead to a single Tensor of
@@ -61,7 +61,7 @@ class StackVolumes(Callback):
 # Cell
 class SplitVolumes(Callback):
     """
-        Separates a 3D tensor into smaller equal sized subvolumes.
+        Separates a 3D tensor into smaller equal-sized sub-volumes.
 
          o---o---o       o---o---o
          | A | A |       | B | B |        o---o  o---o  o---o  o---o  o---o  o---o  o---o  o---o
@@ -123,7 +123,7 @@ class SplitVolumes(Callback):
 # Cell
 class SubsampleShuffle(SplitVolumes):
     """
-        After splitting rhe volume into multiple subvolumes, draws a radnom amount of subvolumes for training.
+        After splitting the volume into multiple subvolumes, draws a randon amount of subvolumes for training.
         Would allow to train on an effective batch size < 1.
 
         o---o---o        o---o---o
@@ -163,7 +163,7 @@ class SubsampleShuffle(SplitVolumes):
 # Cell
 class MixSubvol(SplitVolumes):
     """
-        After splitting rhe volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.
+        After splitting the volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.
 
         o---o---o        o---o---o        o---o---o        o---o---o
         | A | A |        | B | B |        | B | B |        | A | B |

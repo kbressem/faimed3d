@@ -218,11 +218,11 @@ Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.<
              'micro' computes loss for each B and acverages the losses</p>
 
 <pre><code>Unique for [`DiceLoss`](/faimed3d/models.losses.html#DiceLoss)
-method:  The method, how the DICE score should be calcualted.
+method:  The method how the DICE score should be calculated.
             "simple"   = standard DICE loss
             "miletari" = squared denominator for faster convergence
             "tversky"  = variant of the DICE loss which allows to weight FP vs FN.
-alpha, beta: weights for FP and FN for "tversky" loss, if both values are 0.5 the
+alpha, beta: weights for FP and FN for "tversky" loss if both values are 0.5 the
          "tversky" loss corresponds to the "simple" DICE loss
 smooth:  Added smoothing factor.
 eps: added to the denominator for numerical stability (acoid division by 0).
@@ -370,7 +370,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="MCC-Loss">MCC Loss<a class="anchor-link" href="#MCC-Loss"> </a></h3><p>From Wikipedia (<a href="https://en.wikipedia.org/wiki/Matthews_correlation_coefficient">https://en.wikipedia.org/wiki/Matthews_correlation_coefficient</a>):</p>
+<h3 id="MCC-loss">MCC loss<a class="anchor-link" href="#MCC-loss"> </a></h3><p>From Wikipedia (<a href="https://en.wikipedia.org/wiki/Matthews_correlation_coefficient">https://en.wikipedia.org/wiki/Matthews_correlation_coefficient</a>):</p>
 <blockquote><p>The coefficient takes into account true and false positives and negatives and is generally 
 regarded as a balanced measure which can be used even if the classes are of very different sizes
 The MCC is in essence a correlation coefficient between the observed 
@@ -406,7 +406,7 @@ and −1 indicates total disagreement between prediction and observation</p>
 <p>Computes the MCC loss.</p>
 <p>For this loss to work best, the input should be in range 0-1, e.g. enforced through a sigmoid or softmax.
 Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.
-While the MCC score can become negative, the MCC loss should not go below 0</p>
+While the MCC score can become negative the MCC loss should not go below 0.</p>
 <p>Args:
     inherited from <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a>
     targ:    A tensor of shape [B, C, D, H, W].

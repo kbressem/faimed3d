@@ -14,7 +14,7 @@ from fastai.basics import *
 # for DICOM support
 import SimpleITK as sitk
 
-# for Video support
+# for video support
 # depends on: https://github.com/PyAV-Org/PyAV#installation
 from torchvision.io import video
 
@@ -110,7 +110,7 @@ class TensorDicom3D(TensorBase):
                 Using encode(errors='ignore').decode() the surrogates are removed and the string ist turned into a bytes object.
                 Using decode will turn the bytes back into a string.
         """
-        # Initialize metadata
+        # initialize metadata
         metadata = {'0008|103E': ['faimed3d TensorDicom3D, pixeldata might have been modified'],
                     'filename' : [str(fn)]}
 
@@ -344,7 +344,7 @@ def strip(x:(TensorDicom3D, TensorMask3D)):
 
 # Cell
 class TensorMask3D(TensorDicom3D):
-    "Base class for 3d Segmentation, inherits from TensorDicom3D"
+    "Base class for 3d segmentation, inherits from TensorDicom3D"
 
     @classmethod
     def create(cls, fn:(Path,str,Tensor,ndarray), load_header=False,  **kwargs):
@@ -410,8 +410,8 @@ class TensorMask3D(TensorDicom3D):
 
     def calc_volume(self):
         """
-        Calcualtes the volume for a single class in the mask.
-        Calculation relies on correct spacing onformation in the header.
+        Calculates the volume for a single class in the mask.
+        Calculation relies on correct spacing information in the header.
         Results are given in mm**3
         """
         x,y,z = self._metadata['spacing']

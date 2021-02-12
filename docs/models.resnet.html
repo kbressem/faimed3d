@@ -38,7 +38,7 @@ nb_path: "nbs/06b_models.resnet.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Building-Blocks">Building Blocks<a class="anchor-link" href="#Building-Blocks"> </a></h3>
+<h3 id="Building-blocks">Building blocks<a class="anchor-link" href="#Building-blocks"> </a></h3>
 </div>
 </div>
 </div>
@@ -277,8 +277,8 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Identity-Layer">Identity Layer<a class="anchor-link" href="#Identity-Layer"> </a></h3><p>Medical images, especially 3D images are large so batch size is limited when trainig in normal consumer hardware. This can lead to problems with the normalization layers, as performance can/will decrease for batch sizes under 32/under 8. 
-This is discussed to <a href="https://stackoverflow.com/questions/59648509/batch-normalization-when-batch-size-1">here</a>, <a href="https://luminovo.ai/blog/a-refresher-on-batch-re-normalization">here</a> and <a href="https://www.alexirpan.com/2017/04/26/perils-batch-norm.html">here</a>. Replacing the normalization layer with an indentity layer might be a quick solution without the need to alter the whole architecture.</p>
+<h3 id="Identity-layer">Identity layer<a class="anchor-link" href="#Identity-layer"> </a></h3><p>Medical images, especially 3D images are large so batch size is limited when trainig in normal consumer hardware. This can lead to problems with the normalization layers, as performance can/will decrease for batch sizes under 32/under 8. 
+This is discussed <a href="https://stackoverflow.com/questions/59648509/batch-normalization-when-batch-size-1">here</a>, <a href="https://luminovo.ai/blog/a-refresher-on-batch-re-normalization">here</a> and <a href="https://www.alexirpan.com/2017/04/26/perils-batch-norm.html">here</a>. Replacing the normalization layer with an indentity layer might be a quick solution without the need to alter the whole architecture.</p>
 
 </div>
 </div>
@@ -317,7 +317,7 @@ This is discussed to <a href="https://stackoverflow.com/questions/59648509/batch
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="ResNet-Basic-Module">ResNet Basic Module<a class="anchor-link" href="#ResNet-Basic-Module"> </a></h3><p>Same as the ResNet Module from torchvision, but all 2D submodules have been changed to 3D, and MaxPool has a kernelsize of (1,3,3), to avoid reduction of the depth to 1 (depth of medical images can be very small).</p>
+<h3 id="ResNet-basic-module">ResNet basic module<a class="anchor-link" href="#ResNet-basic-module"> </a></h3><p>Same as the ResNet module from torchvision, but all 2D submodules have been changed to 3D, and MaxPool has a kernel size of (1,3,3), to avoid reduction of the depth to 1 (depth of medical images can be very small).</p>
 
 </div>
 </div>
@@ -412,7 +412,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="ResNet-Architectures">ResNet Architectures<a class="anchor-link" href="#ResNet-Architectures"> </a></h2><p>Note that a pretrained ResNet18 for 3D already exists at <code>torchvision.models.video</code></p>
+<h2 id="ResNet-architectures">ResNet architectures<a class="anchor-link" href="#ResNet-architectures"> </a></h2><p>Note that a pretrained ResNet18 for 3D already exists at <code>torchvision.models.video</code></p>
 
 </div>
 </div>
@@ -629,7 +629,7 @@ adapted to 3d</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Resnet-Encoder">Resnet Encoder<a class="anchor-link" href="#Resnet-Encoder"> </a></h3><p>for UNet or DeepLabV3</p>
+<h3 id="Resnet-encoder">Resnet encoder<a class="anchor-link" href="#Resnet-encoder"> </a></h3><p>for UNet or DeepLabV3</p>
 
 </div>
 </div>

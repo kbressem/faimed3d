@@ -105,12 +105,12 @@ def flip_ll_3d(t: (TensorDicom3D, TensorMask3D)):
 
 @patch
 def flip_ap_3d(t: (TensorDicom3D, TensorMask3D)):
-    "flips an image anterior posterior"
+    "flips an image anterior-posterior"
     return t.flip(-2)
 
 @patch
 def flip_cc_3d(t: (TensorDicom3D, TensorMask3D)):
-    "flips an image cranio caudal"
+    "flips an image cranio-caudal"
     return t.flip(-3)
 
 # Cell
@@ -144,7 +144,7 @@ def rotate_180_3d(t: (TensorDicom3D, TensorMask3D)):
 
 
 class RandomRotate3D(RandTransform):
-    "Randomly flip rotates the axial slices of the 3D image 90/180 or 270 degrees with probability `p`"
+    "Random flip rotates the axial slices of the 3D image 90/180 or 270 degrees with probability `p`"
     def __init__(self, p=0.5):
         super().__init__(p=p)
 
@@ -397,7 +397,7 @@ class RandomWarp3D(RandTransform):
 
 # Cell
 def sheer_3d(h,w, magnitude_h, magnitude_w):
-    "applies a random sheer to the tenspr"
+    "applies a random sheer to the tensor"
     x = torch.linspace(-1, 1, h)
     y = torch.linspace(-1, 1, w)
     magnitude_h = torch.linspace(-magnitude_h, magnitude_h, h)
@@ -432,8 +432,8 @@ class RandomTrapezoid3D(RandomWarp3D):
 # Cell
 @patch
 def gaussian_noise(t:(TensorDicom3D), std):
-    shape = torch.randn(t.shape).to(t.device)
-    return t + (std**0.5)*shape*t
+    noise = torch.randn(t.shape).to(t.device)
+    return t + (std**0.5)*noise*t
 
 class RandomNoise3D(RandTransform):
     def __init__(self, p=0.5, std_range=[0.01, 0.1]):
