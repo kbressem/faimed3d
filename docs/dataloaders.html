@@ -2,6 +2,7 @@
 
 title: faimed3d Dataloaders for 3D images
 
+
 keywords: fastai
 sidebar: home_sidebar
 
@@ -72,13 +73,6 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -118,7 +112,7 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.scale_to" class="doc_header"><code>TensorDicom3D.scale_to</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L49" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.scale_to</code>(<strong><code>t</code></strong>:<a href="/faimed3d/basics#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>mean</code></strong>, <strong><code>std</code></strong>)</p>
+<h4 id="TensorDicom3D.scale_to" class="doc_header"><code>TensorDicom3D.scale_to</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L49" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.scale_to</code>(<strong><code>t</code></strong>:<a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>mean</code></strong>, <strong><code>std</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -156,6 +150,13 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>When using multiple sequences per examination, those sequences can differ in size, pixel spacing, pixel resolution, field of view and even orientation. SimpleITK provides functions to resample multiple images to a reference image, so the different sequences match.<br>
@@ -164,13 +165,6 @@ Resampling assumes, that the images are somewhat in the same plane and show the 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -257,12 +251,6 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Dataloaders-for-image-classification">Dataloaders for image classification<a class="anchor-link" href="#Dataloaders-for-image-classification"> </a></h2>
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -270,6 +258,12 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dataloaders-for-image-classification">Dataloaders for image classification<a class="anchor-link" href="#Dataloaders-for-image-classification"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -291,6 +285,13 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -338,13 +339,6 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -362,6 +356,13 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -439,13 +440,6 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -486,6 +480,13 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -545,13 +546,6 @@ skewness: -0.5420928001403809, kurtosis:-1.4813424348831177
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -569,6 +563,13 @@ skewness: -0.5420928001403809, kurtosis:-1.4813424348831177
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}

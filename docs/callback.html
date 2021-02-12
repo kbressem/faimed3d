@@ -2,6 +2,7 @@
 
 title: Callbacks
 
+
 keywords: fastai
 sidebar: home_sidebar
 
@@ -46,13 +47,6 @@ nb_path: "nbs/07_callback.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -81,6 +75,13 @@ appearences</p>
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Callbacks-for-Volume-Manipulation">Callbacks for Volume Manipulation<a class="anchor-link" href="#Callbacks-for-Volume-Manipulation"> </a></h2>
@@ -94,13 +95,6 @@ appearences</p>
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -134,6 +128,13 @@ appearences</p>
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Subsampling the subvolumes allows for more variability in the image and also training with a batch size &lt; 1.</p>
@@ -145,13 +146,6 @@ appearences</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -159,7 +153,7 @@ appearences</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback#SplitVolumes"><code>SplitVolumes</code></a></p>
+<h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
 <p>After splitting rhe volume into multiple subvolumes, draws a radnom amount of subvolumes for training.
 Would allow to train on an effective batch size &lt; 1.</p>
@@ -181,6 +175,13 @@ o---o---o        o---o---o</p>
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Assuming, a small finding is predominantly located in the, e.g. upper left image region, the model might wrongly learn the location as an important factor for the finding. Mixing subvolumes might help.</p>
@@ -192,13 +193,6 @@ o---o---o        o---o---o</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -206,7 +200,7 @@ o---o---o        o---o---o</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L164" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback#SplitVolumes"><code>SplitVolumes</code></a></p>
+<h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L164" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
 <p>After splitting rhe volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.</p>
 <p>o---o---o        o---o---o        o---o---o        o---o---o
@@ -225,6 +219,13 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -284,29 +285,6 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-7-ddaf90cef815&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-green-fg">from</span> time <span class="ansi-green-fg">import</span> sleep
-<span class="ansi-green-intense-fg ansi-bold">      4</span> 
-<span class="ansi-green-fg">----&gt; 5</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">class</span> MixUp3D<span class="ansi-blue-fg">(</span>Callback<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span>     &#34;&#34;&#34;
-<span class="ansi-green-intense-fg ansi-bold">      7</span>     Implementation of MixUp <span class="ansi-green-fg">for</span> <span class="ansi-cyan-fg">3</span>D images<span class="ansi-blue-fg">.</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;Callback&#39; is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -316,13 +294,6 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -348,12 +319,6 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Callback-for-Pixel-value-rescaling">Callback for Pixel value rescaling<a class="anchor-link" href="#Callback-for-Pixel-value-rescaling"> </a></h2>
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -361,6 +326,12 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Callback-for-Pixel-value-rescaling">Callback for Pixel value rescaling<a class="anchor-link" href="#Callback-for-Pixel-value-rescaling"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -383,6 +354,13 @@ Generates standard_scale and percs before fit, if not provided.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
