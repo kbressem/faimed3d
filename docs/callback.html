@@ -38,7 +38,7 @@ nb_path: "nbs/07_callback.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Channel-Manipulation">Channel Manipulation<a class="anchor-link" href="#Channel-Manipulation"> </a></h2><p>Fpr processing multiple 3D volumes, the volumes can be stacked to the color dimension. This need to be implemented as callback, before the batch is presented to the model.</p>
+<h2 id="Channel-manipulation">Channel manipulation<a class="anchor-link" href="#Channel-manipulation"> </a></h2><p>For processing multiple 3D volumes, the volumes can be stacked to the color dimension. This need to be implemented as callback before the batch is presented to the model.</p>
 
 </div>
 </div>
@@ -57,10 +57,10 @@ nb_path: "nbs/07_callback.ipynb"
 <h2 id="StackVolumes" class="doc_header"><code>class</code> <code>StackVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L22" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>StackVolumes</code>(<strong><code>n_classes</code></strong>, <strong><code>pool_type</code></strong>=<em><code>'max'</code></em>, <strong><code>stack_yb</code></strong>=<em><code>False</code></em>) :: <code>Callback</code></p>
 </blockquote>
 <p>Takes multiple 3D volumes and stacks them in the color dim.
-This is usefull when using mutli-sequence medical data.</p>
+This is useful when using multi-sequence medical data.</p>
 <p>Can also merge multiple segmentation masks, through pooling (max, min or mean) alongside the color dim,
-then convertes the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
-appearences</p>
+then converts the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
+appearances</p>
 <p>Example:
     Having the Tensors of size (10, 1, 5, 25, 25) would lead to a single Tensor of
     size (10, 3, 5, 25, 25).</p>
@@ -84,7 +84,7 @@ appearences</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Callbacks-for-Volume-Manipulation">Callbacks for Volume Manipulation<a class="anchor-link" href="#Callbacks-for-Volume-Manipulation"> </a></h2>
+<h2 id="Callbacks-for-volume-manipulation">Callbacks for volume manipulation<a class="anchor-link" href="#Callbacks-for-volume-manipulation"> </a></h2>
 </div>
 </div>
 </div>
@@ -108,7 +108,7 @@ appearences</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="SplitVolumes" class="doc_header"><code>class</code> <code>SplitVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SplitVolumes</code>(<strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <code>Callback</code></p>
 </blockquote>
-<p>Separates a 3D tensor into smaller equal sized subvolumes.</p>
+<p>Separates a 3D tensor into smaller equal-sized sub-volumes.</p>
 <p>o---o---o       o---o---o
  | A | A |       | B | B |        o---o  o---o  o---o  o---o  o---o  o---o  o---o  o---o
  o---o---o   +   o---o---o  ==&gt;   | A | +| A | +| B | +| B | +| A | +| A | +| B | +| B |
@@ -155,7 +155,7 @@ appearences</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
-<p>After splitting rhe volume into multiple subvolumes, draws a radnom amount of subvolumes for training.
+<p>After splitting the volume into multiple subvolumes, draws a randon amount of subvolumes for training.
 Would allow to train on an effective batch size &lt; 1.</p>
 <p>o---o---o        o---o---o
 | A | A |        | B | B |        o---o  o---o  o---o  o---o  o---o  o---o
@@ -202,7 +202,7 @@ o---o---o        o---o---o</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L164" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
-<p>After splitting rhe volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.</p>
+<p>After splitting the volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.</p>
 <p>o---o---o        o---o---o        o---o---o        o---o---o
 | A | A |        | B | B |        | B | B |        | A | B |
 o---o---o    +   o---o---o  ==&gt;   o---o---o    +   o---o---o
@@ -290,7 +290,7 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tracker-Callbacks">Tracker Callbacks<a class="anchor-link" href="#Tracker-Callbacks"> </a></h2>
+<h2 id="Tracker-callbacks">Tracker callbacks<a class="anchor-link" href="#Tracker-callbacks"> </a></h2>
 </div>
 </div>
 </div>
@@ -328,7 +328,7 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Callback-for-Pixel-value-rescaling">Callback for Pixel value rescaling<a class="anchor-link" href="#Callback-for-Pixel-value-rescaling"> </a></h2>
+<h2 id="Callback-for-pixel-value-rescaling">Callback for pixel value rescaling<a class="anchor-link" href="#Callback-for-pixel-value-rescaling"> </a></h2>
 </div>
 </div>
 </div>

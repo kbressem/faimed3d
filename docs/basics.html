@@ -31,8 +31,8 @@ nb_path: "nbs/01_basics.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Why-a-new-Class?">Why a new Class?<a class="anchor-link" href="#Why-a-new-Class?"> </a></h2><p>Fastai 2 provides support to read and display medical images using pydicom and pillow, however only 2D images can be read. So no direct support of 3D volumes is given in fastai. Furthermore, fastai only allows to read DICOM 2D images, not volumes, DICOM Series or any of the other medical formats such as NIfTI, NRRD, ....  For effective work with medical data, all possible formats should be supported. Therefore, in <code>faimed3d</code> <a href="https://simpleitk.org/">SimpleITK</a>  is used to read images. SimpleITK is a powerfull library which can handle many data formats, including all of the above mentioned and many more. It is widely used for medical applications and very fast, as it is written in pure C++.<br>
-To allow specific augmentations, only to 3D data, two new classes are used in <code>faimed3d</code>: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a> for 3D image volumes and <a href="/faimed3d/basics.html#TensorMask3D"><code>TensorMask3D</code></a> for segmentation masks. Both are subclasses to <code>torch.Tensor</code>. A basic support for Header information will be implemented in both classes, as the header sometimes has important information, e.g. for re-scaling of the pixel values, pixel spacing or patient orientation.</p>
+<h2 id="Why-a-new-class?">Why a new class?<a class="anchor-link" href="#Why-a-new-class?"> </a></h2><p>Fastai 2 provides support to read and display medical images using pydicom and pillow; however, only 2D images can be read. Therefore, no direct support of 3D volumes is provided by fastai. Furthermore, fastai only allows to read DICOM 2D images, not volumes, DICOM series or any of the other medical formats such as NIfTI, NRRD etc. For effective work with medical data, all possible formats should be supported. Therefore, in <code>faimed3d</code>, <a href="https://simpleitk.org/">SimpleITK</a>  is used to read images. SimpleITK is a powerfull library which can handle many data formats, including all of the above mentioned and many more. It is widely used for medical applications and very fast, as it is written in pure C++.<br>
+To allow specific augmentations, only to 3D data, two new classes are used in <code>faimed3d</code>: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a> for 3D image volumes and <a href="/faimed3d/basics.html#TensorMask3D"><code>TensorMask3D</code></a> for segmentation masks. Both are subclasses to <code>torch.Tensor</code>. A basic support for header information will be implemented in both classes, as the header sometimes has important information, e.g. for re-scaling of the pixel values, pixel spacing or patient orientation.</p>
 
 </div>
 </div>
@@ -88,7 +88,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L208" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
 </blockquote>
-<p>Base class for 3d Segmentation, inherits from TensorDicom3D</p>
+<p>Base class for 3d segmentation, inherits from TensorDicom3D</p>
 
 </div>
 
@@ -149,7 +149,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Handlers-for-Metadata">Handlers for Metadata<a class="anchor-link" href="#Handlers-for-Metadata"> </a></h3><p>Some metadata needs to be modified, acessed more than other, so some wrapper functions are supplied.</p>
+<h3 id="Handlers-for-metadata">Handlers for metadata<a class="anchor-link" href="#Handlers-for-metadata"> </a></h3><p>Some metadata needs to be modified, acessed more than other, so some wrapper functions are supplied.</p>
 
 </div>
 </div>
@@ -532,7 +532,7 @@ Args:
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Sometimes multiple 3D images (e.g. a batch) need to be displayed. With a wrapper for <a href="/faimed3d/basics.html#show_image_3d"><code>show_image_3d</code></a> this is conveniently possible.</p>
+<p>Sometimes multiple 3D images (e.g. a batch) need to be displayed. With a wrapper for <a href="/faimed3d/basics.html#show_image_3d"><code>show_image_3d</code></a> this is possible.</p>
 
 </div>
 </div>
@@ -751,9 +751,9 @@ Args:
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Rendering-3D-Objects">Rendering 3D Objects<a class="anchor-link" href="#Rendering-3D-Objects"> </a></h1><p>Somtimes the mask is better viewed as 3D object. Rendering is implemented as described in this example: <a href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_marching_cubes.html">https://scikit-image.org/docs/dev/auto_examples/edges/plot_marching_cubes.html</a>
-A faster, more felxible way might be using <a href="https://github.com/maartenbreddels/ipyvolume/">ipyvolume</a> or <a href="https://pyscience.wordpress.com/2014/09/11/surface-extraction-creating-a-mesh-from-pixel-data-using-python-and-vtk/">vtk</a>.</p>
-<p>To implement 3D rendering for the mask, the TensorMask3D class needs to be expanded</p>
+<h1 id="Rendering-3D-objects">Rendering 3D objects<a class="anchor-link" href="#Rendering-3D-objects"> </a></h1><p>Somtimes the mask is better viewed as a 3D object. Rendering is implemented as described in this example: <a href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_marching_cubes.html">https://scikit-image.org/docs/dev/auto_examples/edges/plot_marching_cubes.html</a>
+A faster, more flexible way might be using <a href="https://github.com/maartenbreddels/ipyvolume/">ipyvolume</a> or <a href="https://pyscience.wordpress.com/2014/09/11/surface-extraction-creating-a-mesh-from-pixel-data-using-python-and-vtk/">vtk</a>.</p>
+<p>To implement 3D rendering for the mask, the TensorMask3D class needs to be expanded.</p>
 
 </div>
 </div>
@@ -826,7 +826,7 @@ A faster, more felxible way might be using <a href="https://github.com/maartenbr
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L208" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
 </blockquote>
-<p>Base class for 3d Segmentation, inherits from TensorDicom3D</p>
+<p>Base class for 3d segmentation, inherits from TensorDicom3D</p>
 
 </div>
 

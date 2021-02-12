@@ -13,19 +13,19 @@ entries:
       title: Basics
       url: basics.html
     - output: web,pdf
-      title: Image Preprocessing
+      title: Image preprocessing
       url: preprocessing.html
     - output: web,pdf
       title: Transformations for 3D medical images
       url: transforms.html
     - output: web,pdf
-      title: faimed3d Dataloaders for 3D images
+      title: faimed3d dataloaders for 3D images
       url: dataloaders.html
     - output: web,pdf
       title: faimed3d layers and functions
       url: layers.html
     - output: web,pdf
-      title: faimed3d wrapper for Learner class
+      title: faimed3d wrapper for learner class
       url: learner.html
     - output: web,pdf
       title: 3D AlexNet
