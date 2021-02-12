@@ -24,7 +24,7 @@ print('torchvision:', torchvision.__version__)
 print('SimpleITK: 2.0.0rc3 (ITK 5.1)')
 ```
 
-    fastai: 2.1.4
+    fastai: 2.2.5
     fastcore: 1.3.2
     nbdev: 0.2.40
     torch: 1.7.1

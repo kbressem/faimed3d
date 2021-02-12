@@ -2,6 +2,7 @@
 
 title: Basics
 
+
 keywords: fastai
 sidebar: home_sidebar
 
@@ -31,7 +32,7 @@ nb_path: "nbs/01_basics.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Why-a-new-Class?">Why a new Class?<a class="anchor-link" href="#Why-a-new-Class?"> </a></h2><p>Fastai 2 provides support to read and display medical images using pydicom and pillow, however only 2D images can be read. So no direct support of 3D volumes is given in fastai. Furthermore, fastai only allows to read DICOM 2D images, not volumes, DICOM Series or any of the other medical formats such as NIfTI, NRRD, ....  For effective work with medical data, all possible formats should be supported. Therefore, in <code>faimed3d</code> <a href="https://simpleitk.org/">SimpleITK</a>  is used to read images. SimpleITK is a powerfull library which can handle many data formats, including all of the above mentioned and many more. It is widely used for medical applications and very fast, as it is written in pure C++.<br>
-To allow specific augmentations, only to 3D data, two new classes are used in <code>faimed3d</code>: <a href="/faimed3d/basics#TensorDicom3D"><code>TensorDicom3D</code></a> for 3D image volumes and <a href="/faimed3d/basics#TensorMask3D"><code>TensorMask3D</code></a> for segmentation masks. Both are subclasses to <code>torch.Tensor</code>. A basic support for Header information will be implemented in both classes, as the header sometimes has important information, e.g. for re-scaling of the pixel values, pixel spacing or patient orientation.</p>
+To allow specific augmentations, only to 3D data, two new classes are used in <code>faimed3d</code>: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a> for 3D image volumes and <a href="/faimed3d/basics.html#TensorMask3D"><code>TensorMask3D</code></a> for segmentation masks. Both are subclasses to <code>torch.Tensor</code>. A basic support for Header information will be implemented in both classes, as the header sometimes has important information, e.g. for re-scaling of the pixel values, pixel spacing or patient orientation.</p>
 
 </div>
 </div>
@@ -42,13 +43,6 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -92,7 +86,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L208" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/basics#TensorDicom3D"><code>TensorDicom3D</code></a></p>
+<h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L208" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
 </blockquote>
 <p>Base class for 3d Segmentation, inherits from TensorDicom3D</p>
 
@@ -102,6 +96,13 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -157,13 +158,6 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -444,6 +438,13 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -455,13 +456,6 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -490,6 +484,13 @@ Args:
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -531,18 +532,11 @@ Args:
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Sometimes multiple 3D images (e.g. a batch) need to be displayed. With a wrapper for <a href="/faimed3d/basics#show_image_3d"><code>show_image_3d</code></a> this is conveniently possible.</p>
+<p>Sometimes multiple 3D images (e.g. a batch) need to be displayed. With a wrapper for <a href="/faimed3d/basics.html#show_image_3d"><code>show_image_3d</code></a> this is conveniently possible.</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -561,7 +555,7 @@ and then calling show_image_3d
 Args:
     t (torch.Tensor): input image with dimension B x D x H x W or B x C x D x H x W,
                       however C is ignored for display
-    axis (int): Axis to split images to multiple 2D slices. <a href="/faimed3d/basics#show_images_3d"><code>show_images_3d</code></a> does not
+    axis (int): Axis to split images to multiple 2D slices. <a href="/faimed3d/basics.html#show_images_3d"><code>show_images_3d</code></a> does not
                 know about pixel spacing, so choosing a non-standard axis will result in
                 atypical looking images.
     figsize, cmap, nrow, alpha: passed to plot function
@@ -575,6 +569,13 @@ Args:
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -627,13 +628,6 @@ Args:
     </div>
 </div>
 </div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -716,6 +710,13 @@ Args:
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
@@ -761,13 +762,6 @@ A faster, more felxible way might be using <a href="https://github.com/maartenbr
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -830,7 +824,7 @@ A faster, more felxible way might be using <a href="https://github.com/maartenbr
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L208" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/basics#TensorDicom3D"><code>TensorDicom3D</code></a></p>
+<h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L208" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
 </blockquote>
 <p>Base class for 3d Segmentation, inherits from TensorDicom3D</p>
 
@@ -840,6 +834,13 @@ A faster, more felxible way might be using <a href="https://github.com/maartenbr
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}

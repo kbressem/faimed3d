@@ -2,6 +2,7 @@
 
 title: Losses and metrics
 
+
 keywords: fastai
 sidebar: home_sidebar
 
@@ -153,13 +154,6 @@ nb_path: "nbs/06f_models.losses.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -208,14 +202,14 @@ Returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DiceLoss" class="doc_header"><code>class</code> <code>DiceLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiceLoss</code>(<strong><code>method</code></strong>=<em><code>'miletari'</code></em>, <strong><code>alpha</code></strong>=<em><code>0.5</code></em>, <strong><code>beta</code></strong>=<em><code>0.5</code></em>, <strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses#BaseLoss"><code>BaseLoss</code></a></p>
+<h2 id="DiceLoss" class="doc_header"><code>class</code> <code>DiceLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiceLoss</code>(<strong><code>method</code></strong>=<em><code>'miletari'</code></em>, <strong><code>alpha</code></strong>=<em><code>0.5</code></em>, <strong><code>beta</code></strong>=<em><code>0.5</code></em>, <strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
 </blockquote>
 <p>Simple DICE loss as described in:
     <a href="https://arxiv.org/pdf/1911.02855.pdf">https://arxiv.org/pdf/1911.02855.pdf</a></p>
 <p>Computes the Sørensen–Dice loss. Larger is better.
 Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.</p>
 <p>Args:
-    inherited from <a href="/faimed3d/models.losses#BaseLoss"><code>BaseLoss</code></a>
+    inherited from <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a>
     targ:    A tensor of shape [B, C, D, H, W].
     pred:    A tensor of shape [B, C, D, H, W]. Corresponds to
              the raw output or logits of the model.
@@ -223,7 +217,7 @@ Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.<
     avg:     'macro' computes loss for each B x C and averages the losses
              'micro' computes loss for each B and acverages the losses</p>
 
-<pre><code>Unique for [`DiceLoss`](/faimed3d/models.losses#DiceLoss)
+<pre><code>Unique for [`DiceLoss`](/faimed3d/models.losses.html#DiceLoss)
 method:  The method, how the DICE score should be calcualted.
             "simple"   = standard DICE loss
             "miletari" = squared denominator for faster convergence
@@ -297,6 +291,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -393,13 +394,6 @@ and −1 indicates total disagreement between prediction and observation</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -407,14 +401,14 @@ and −1 indicates total disagreement between prediction and observation</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="MCCLoss" class="doc_header"><code>class</code> <code>MCCLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L141" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MCCLoss</code>(<strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses#BaseLoss"><code>BaseLoss</code></a></p>
+<h2 id="MCCLoss" class="doc_header"><code>class</code> <code>MCCLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L141" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MCCLoss</code>(<strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
 </blockquote>
 <p>Computes the MCC loss.</p>
 <p>For this loss to work best, the input should be in range 0-1, e.g. enforced through a sigmoid or softmax.
 Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.
 While the MCC score can become negative, the MCC loss should not go below 0</p>
 <p>Args:
-    inherited from <a href="/faimed3d/models.losses#BaseLoss"><code>BaseLoss</code></a>
+    inherited from <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a>
     targ:    A tensor of shape [B, C, D, H, W].
     pred:    A tensor of shape [B, C, D, H, W]. Corresponds to
              the raw output or logits of the model.
@@ -422,7 +416,7 @@ While the MCC score can become negative, the MCC loss should not go below 0</p>
     avg:     'macro' computes loss for each B x C and averages the losses
              'micro' computes loss for each B and acverages the losses</p>
 
-<pre><code>Unique for [`MCCLoss`](/faimed3d/models.losses#MCCLoss)
+<pre><code>Unique for [`MCCLoss`](/faimed3d/models.losses.html#MCCLoss)
 smooth:  Smoothing factor, default is 1.
 eps:     Added for numerical stability.
 
@@ -436,6 +430,13 @@ eps:     Added for numerical stability.
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
