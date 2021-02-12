@@ -118,8 +118,6 @@ class DiceLoss(BaseLoss):
 
         return 1-dice_loss
 
-
-
 # Cell
 class DiceLoss2(nn.Module):
     def __init__(self, epsilon=1e-5):

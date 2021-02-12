@@ -196,7 +196,6 @@ class MixSubvol(SplitVolumes):
     def after_pred(self):
         pass
 
-
 # Cell
 class ReloadBestFit(TrackerCallback):
     "A `TrackerCallback` that reloads the previous best model if not improvement happend for n epochs"

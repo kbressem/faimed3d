@@ -1,6 +1,7 @@
 .ONESHELL:
 SHELL := /bin/bash
 SRC = $(wildcard ./*.ipynb)
+DIST := python setup.py sdist bdist_wheel
 
 all: faimed3d docs
 

@@ -113,7 +113,6 @@ def flip_cc_3d(t: (TensorDicom3D, TensorMask3D)):
     "flips an image cranio caudal"
     return t.flip(-3)
 
-
 # Cell
 
 class RandomFlip3D(RandTransform):
@@ -315,7 +314,6 @@ class ResizeCrop3D(RandTransform):
         if any(self.margins) < 0: raise ValueError('cannot crop to a negative dimension')
         return x.crop_3d(crop_by = self.margins, perc_crop = self.perc_crop).resize_3d(self.resize_to, mode=mode, align_corners=align_corners)
 
-
 # Cell
 class MaskErease(DisplayedTransform):
     "ereases image areas in dependence of a mask. Strips black spaces afterwards"
@@ -498,7 +496,6 @@ class RandomBrightness3D(RandTransform):
 
     def encodes(self, x:TensorMask3D): return x
 
-
 # Cell
 @patch
 def adjust_contrast(x:TensorDicom3D, alpha):
@@ -522,7 +519,6 @@ class RandomContrast3D(RandTransform):
         return x.adjust_contrast(self.alpha)
 
     def encodes(self, x:TensorMask3D): return x
-
 
 # Cell
 def _set_p_tfms(p, p_all):
