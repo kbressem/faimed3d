@@ -1,0 +1,16 @@
+{
+  "faimed3d": {
+    "Overview": "/",
+    "Basics": "basics.html",
+    "Image Preprocessing": "preprocessing.html",
+    "Transformations for 3D medical images": "transforms.html",
+    "faimed3d Dataloaders for 3D images": "dataloaders.html",
+    "faimed3d layers and functions": "layers.html",
+    "faimed3d wrapper for Learner class": "learner.html",
+    "3D AlexNet": "models.alexnet.html",
+    "3D ResNet": "models.resnet.html",
+    "3D UNet": "models.unet.html",
+    "Losses and metrics": "models.losses.html",
+    "Callbacks": "callback.html"
+  }
+}
