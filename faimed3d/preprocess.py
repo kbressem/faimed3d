@@ -327,7 +327,6 @@ class PiecewiseHistScaling(RandTransform):
         return x
     def encodes(self, x:TensorMask3D): return x
 
-
 # Cell
 def standard_scale_from_filelist(fns:(list, pd.Series)):
     "calculates standard scale from images in a filelist"

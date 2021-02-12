@@ -273,7 +273,6 @@ class ImageDataLoaders3D(DataLoaders):
         "Create from the name attrs of `fnames` in `path`s with re expression `pat`"
         return cls.from_name_func(path, fnames, RegexLabeller(pat), **kwargs)
 
-
 # Cell
 @patch
 def show_batch_3d(dls:DataLoaders, with_mask=False,
@@ -285,7 +284,6 @@ def show_batch_3d(dls:DataLoaders, with_mask=False,
                           cmap = 'jet', figsize=figsize, **kwargs)
     if isinstance(yb, TensorCategory):
         print(yb)
-
 
 # Cell
 @patch

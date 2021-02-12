@@ -58,7 +58,6 @@ class UnetBlock3D(Module):
         cat_x = self.relu(torch.cat([up_out, self.bn(s)], dim=1))
         return self.conv2(self.conv1(cat_x))
 
-
 # Cell
 class ResizeToOrig(Module):
     "Merge a shortcut with the result of the module by adding them or concatenating them if `dense=True`."

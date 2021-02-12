@@ -75,7 +75,6 @@ class RepeatedSequential(SequentialEx):
     def forward(self, inputs) -> list:
         return [module(inp) for module in self for inp in inputs]
 
-
 # Cell
 class Arch4D(SequentialEx):
     'repeatedly applies the same network to different inputs'

@@ -233,7 +233,6 @@ class ResNet3D(nn.Module):
     def forward(self, x):
         return self._forward_impl(x)
 
-
 # Cell
 
 def _resnet_3d(arch, block, layers, pretrained=False, progress=False, **kwargs):
