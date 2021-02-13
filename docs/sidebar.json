@@ -1,0 +1,23 @@
+{
+  "faimed3d": {
+    "Overview": "/",
+    "": {
+    	"Examples": {
+    		"3d classification":"classification.html",
+    		"3d segmentation":"segmentation.html"
+    	}
+    },
+    "Core": "basics.html",
+    "Preprocessing": "preprocessing.html",
+    "DataLoaders": "dataloaders.html",
+    "Layers": "layers.html",
+    "Learner": "Learner.html",
+    "Models": {
+      "Alexnet": "models.alexnet.html",
+      "ResNet": "models.resnet.html",
+      "U-Net": "models.unet.html",
+      "Losses": "models.losses.html",
+    }
+    "Callbacks": "callback.html",
+  }
+}
