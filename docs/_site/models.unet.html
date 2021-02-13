@@ -1,4 +1,369 @@
-<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" fastai">
+<title>3D UNet | faimed3d</title>
+<link rel="stylesheet" href="/assets/css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="assets//css/bootstrap.min.css">-->
+<link rel="stylesheet" href="/assets/css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/css/customstyles.css">
+<link rel="stylesheet" href="/assets/css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="/assets/css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="/assets/js/jquery.navgoco.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement( document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "[%", right: "%]", display: true},
+      {left: "$", right: "$", display: false}
+    ]}
+  );
+});
+</script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="/assets/js/toc.js"></script>
+<script src="/assets/js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="faimed3d" href="http://localhost:4000/feed.xml">
+
+<!-- Twitter cards -->
+
+<meta name="twitter:site"    content="@k_bressem">
+<meta name="twitter:creator" content="@k_bressem">
+<meta name="twitter:title"   content="3D UNet">
+
+
+
+<meta name="twitter:description" content="Add on to fastai for volumetric medical data">
+
+
+
+<meta name="twitter:card"  content="summary">
+
+
+<!-- end of Twitter cards -->
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+            // activate menu items where href is matching to current page
+            $("#mysidebar a[href='" + location.pathname.match(/(\/[^\/]*)$/)[1] + "']")
+                .parents('li').addClass('active')
+                .parents('ul').css('display', 'block');
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="http://localhost:4000/">&nbsp;<span class="projectTitle">faimed3d</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/kbressem/faimed3d/tree/main/" target="_blank">github</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                
+                
+                <li>
+                    <script>
+  (function() {
+    var cx = '000837339549978028235:vh0pq0omtgr';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<div id="gcs-search-container">
+    <gcse:search></gcse:search>
+</div>
+
+
+                </li>
+                
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle"> </li>
+  
+  
+  
+  <li>
+      <a href="#">faimed3d</a>
+      <ul>
+          
+          
+          
+          <li><a href="/">Overview</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/basics.html">Basics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/preprocessing.html">Image preprocessing</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/transforms.html">Transformations for 3D medical images</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/dataloaders.html">faimed3d dataloaders for 3D images</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/layers.html">faimed3d layers and functions</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/learner.html">faimed3d wrapper for learner class</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.alexnet.html">3D AlexNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.resnet.html">3D ResNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.unet.html">3D UNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.losses.html">Losses and metrics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/callback.html">Callbacks</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+    <a id="3D UNet"></a>
+    <h1 class="post-title-main">3D UNet</h1>
+    
+        
+    </div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+    
+
+   <!--
 
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
@@ -162,8 +527,8 @@
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To work with 3D data, the <code>UnetBlock</code> from fastai is adapted, replacing <code>PixelShuffle_ICNR</code> with the above created <a href="/faimed3d/models.unet.html#ConvTranspose3D"><code>ConvTranspose3D</code></a> and also adapting all conv-layers and norm-layers to the 3rd dimension. As small differences in size may appear, <code>forward</code>-func contains a interpolation step, which is also adapted to work with 5D input instead of 4D.<br>
-<a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a> receives the lower level features as hooks. In contrast to <code>fastai</code> the hooks are a list of tensors with <code>len(hook) == n_inp</code>, where <code>n_inp</code> is the number of 3D sequences in a 4D dimensional input. <strong>Important</strong> 4D here does not refer to the dimensionality of the Tensor, where 4D would be B x C x H x W but to the dimensionality of the input <strong>before</strong> it was concatenated to a Tensor. 3D means we have one 3D volume with dimensionality (C) x D x H x W and 4D means we have multiple 3D volumes. In medical imaging, this is not rare, as we often want to use information from multiple imaging sequences. 
-The information of the different sequences can be assumed to be redundant to some kind, so in the <a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a>, first the different feature maps from the hooks are concatenated and then pooled using a 1x1x1 convolutional layer. After this, the class is built similar to the fastai <code>UnetBlock</code></p>
+<a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a> receives the lower level features as hooks. In contrast to <code>fastai</code>, the hooks are a list of tensors with <code>len(hook) == n_inp</code>, where <code>n_inp</code> is the number of 3D sequences in a 4D dimensional input. <strong>Important</strong> 4D here does not refer to the dimensionality of the Tensor, where 4D would be B x C x H x W but to the dimensionality of the input <strong>before</strong> it was concatenated to a Tensor. 3D means we have one 3D volume with dimensionality (C) x D x H x W and 4D means we have multiple 3D volumes. In medical imaging, this is not rare, as we often wish to use information from multiple imaging sequences. 
+The information from the different sequences can be assumed to be redundant to some kind, so in the <a href="/faimed3d/models.unet.html#UnetBlock3D"><code>UnetBlock3D</code></a>, first the different feature maps from the hooks are concatenated and then pooled using a 1x1x1 convolutional layer. After this, the class is built similar to the fastai <code>UnetBlock</code></p>
 
 </div>
 </div>
@@ -210,7 +575,7 @@ The information of the different sequences can be assumed to be redundant to som
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="UnetBlock3D" class="doc_header"><code>class</code> <code>UnetBlock3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L32" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UnetBlock3D</code>(<strong><code>up_in_c</code></strong>, <strong><code>x_in_c</code></strong>, <strong><code>hook</code></strong>, <strong><code>final_div</code></strong>=<em><code>True</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>None</code></em>, <strong><code>ndim</code></strong>=<em><code>2</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>transpose</code></strong>=<em><code>False</code></em>, <strong><code>xtra</code></strong>=<em><code>None</code></em>, <strong><code>bias_std</code></strong>=<em><code>0.01</code></em>, <strong><code>dilation</code></strong>:<code>Union</code>[<code>int</code>, <code>Tuple</code>[<code>int</code>, <code>int</code>]]=<em><code>1</code></em>, <strong><code>groups</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding_mode</code></strong>:<code>str</code>=<em><code>'zeros'</code></em>) :: <code>Module</code></p>
+<h2 id="UnetBlock3D" class="doc_header"><code>class</code> <code>UnetBlock3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L32" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UnetBlock3D</code>(<strong><code>up_in_c</code></strong>, <strong><code>x_in_c</code></strong>, <strong><code>hook</code></strong>, <strong><code>final_div</code></strong>=<em><code>True</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>None</code></em>, <strong><code>ndim</code></strong>=<em><code>2</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>transpose</code></strong>=<em><code>False</code></em>, <strong><code>xtra</code></strong>=<em><code>None</code></em>, <strong><code>bias_std</code></strong>=<em><code>0.01</code></em>, <strong><code>dilation</code></strong>:<code>Tuple[~T, ~T]]</code>[<code>int</code>]=<em><code>1</code></em>, <strong><code>groups</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding_mode</code></strong>:<code>str</code>=<em><code>'zeros'</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>A quasi-UNet block, using <code>ConvTranspose3d</code> for upsampling`.</p>
 
@@ -233,7 +598,7 @@ The information of the different sequences can be assumed to be redundant to som
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The output size of the last Unet-Block can be slightly different than the original input size, so one of the lasts steps in <code>DynamicUnet</code> is <a href="/faimed3d/models.unet.html#ResizeToOrig"><code>ResizeToOrig</code></a> which is also adapted to work with 5D instead of 4D input images.</p>
+<p>The output size of the last Unet-Block can be slightly different than the original input size, so one of the last steps in <code>DynamicUnet</code> is <a href="/faimed3d/models.unet.html#ResizeToOrig"><code>ResizeToOrig</code></a> which is also adapted to work with 5D instead of 4D input images.</p>
 
 </div>
 </div>
@@ -249,7 +614,7 @@ The information of the different sequences can be assumed to be redundant to som
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResizeToOrig" class="doc_header"><code>class</code> <code>ResizeToOrig</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L63" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResizeToOrig</code>(<strong><code>mode</code></strong>=<em><code>'nearest'</code></em>) :: <code>Module</code></p>
+<h2 id="ResizeToOrig" class="doc_header"><code>class</code> <code>ResizeToOrig</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResizeToOrig</code>(<strong><code>mode</code></strong>=<em><code>'nearest'</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Merge a shortcut with the result of the module by adding them or concatenating them if <code>dense=True</code>.</p>
 
@@ -288,7 +653,7 @@ The information of the different sequences can be assumed to be redundant to som
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SequentialEx4D" class="doc_header"><code>class</code> <code>SequentialEx4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L72" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SequentialEx4D</code>(<strong>*<code>layers</code></strong>) :: <code>SequentialEx</code></p>
+<h2 id="SequentialEx4D" class="doc_header"><code>class</code> <code>SequentialEx4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L71" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SequentialEx4D</code>(<strong>*<code>layers</code></strong>) :: <code>SequentialEx</code></p>
 </blockquote>
 <p>Like <code>SequentialEx</code>, but handels orig data differently and allows to pass a tuple/list as input</p>
 
@@ -314,7 +679,7 @@ The information of the different sequences can be assumed to be redundant to som
 <p><code>faimed3d</code> needs to support 4D data, that is multiple 3D inputs. The reason a radiologist uses multiple sequences is that some information is only present in a certain sequence. For example, to make the diagnosis of stroke, one needs a strong hyperintense signal in the DWI and also a corresponding hypointense signal on the ADC map. It is (nearly) impossible to make a diagnosis only from one sequence. When we build a model, we also want it to have access to all relevant information.<br>
 The way fastai handels mulitple inputs is to store them in a tuple. So if we have two 3D volumes as input and one mask as target, the batch will be as follows:<br>
 (TensorDicom3D of size B x 3 x D x H W, TensorDicom3D of size B x 3 x D x H x W, TensorMask3D of size B x 3 x D x H x W).
-<code>faimed3d</code> assumes, that all sequences are of roughly the same orientation (e.g. all axial) and also of the same region. So, information in the sequences can be assumed to be redundant to some extent and likely one does not need an encoder for each sequence and can re-use the weights of one encoder for all images. This approach saves a lot of memory, but makes the training longer. However, it might be beneficial to still have some different weights for each sequence. For this reason, <code>faimed3d</code> splits a given encoder into it's stem and main body and duplicated the stem according to the number of inputs using the <a href="/faimed3d/layers.html#MultiStem"><code>MultiStem</code></a> class.</p>
+<code>faimed3d</code> assumes, that all sequences are of roughly the same orientation (e.g. all axial) and also of the same region. So, information in the sequences can be assumed to be redundant to some extent and likely one does not need an encoder for each sequence and can re-use the weights of one encoder for all images. This approach saves a lot of memory, but makes the training longer. However, it might be beneficial to still have some different weights for each sequence. For this reason, <code>faimed3d</code> splits a given encoder into its stem and main body and duplicates the stem according to the number of inputs using the <a href="/faimed3d/layers.html#MultiStem"><code>MultiStem</code></a> class.</p>
 
 </div>
 </div>
@@ -338,7 +703,7 @@ Key differences are the adaption to 3D and 4D inputs. In <code>fastai</code> <co
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DynamicUnet3D" class="doc_header"><code>class</code> <code>DynamicUnet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L87" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DynamicUnet3D</code>(<strong><code>encoder</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.unet.html#SequentialEx4D"><code>SequentialEx4D</code></a></p>
+<h2 id="DynamicUnet3D" class="doc_header"><code>class</code> <code>DynamicUnet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L86" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DynamicUnet3D</code>(<strong><code>encoder</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>blur_final</code></strong>=<em><code>True</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>last_cross</code></strong>=<em><code>True</code></em>, <strong><code>bottle</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.unet.html#SequentialEx4D"><code>SequentialEx4D</code></a></p>
 </blockquote>
 <p>Create a U-Net from a given architecture.</p>
 
@@ -462,3 +827,35 @@ Key differences are the adaption to 3D and 4D inputs. In <code>fastai</code> <co
 </div>
  
 
+
+
+    <div class="tags">
+        
+    </div>
+
+</div>
+
+
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+                  <p><img src="/assets/images/company_logo.png" alt="Company logo"/></p>
+               &copy;2021 Keno Bressem. All rights reserved. <br />
+ Site last generated: Feb 13, 2021 <br />
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>

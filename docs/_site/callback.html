@@ -1,4 +1,369 @@
-<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" fastai">
+<title>Callbacks | faimed3d</title>
+<link rel="stylesheet" href="/assets/css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="assets//css/bootstrap.min.css">-->
+<link rel="stylesheet" href="/assets/css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/css/customstyles.css">
+<link rel="stylesheet" href="/assets/css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="/assets/css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="/assets/js/jquery.navgoco.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement( document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "[%", right: "%]", display: true},
+      {left: "$", right: "$", display: false}
+    ]}
+  );
+});
+</script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="/assets/js/toc.js"></script>
+<script src="/assets/js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="faimed3d" href="http://localhost:4000/feed.xml">
+
+<!-- Twitter cards -->
+
+<meta name="twitter:site"    content="@k_bressem">
+<meta name="twitter:creator" content="@k_bressem">
+<meta name="twitter:title"   content="Callbacks">
+
+
+
+<meta name="twitter:description" content="Add on to fastai for volumetric medical data">
+
+
+
+<meta name="twitter:card"  content="summary">
+
+
+<!-- end of Twitter cards -->
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+            // activate menu items where href is matching to current page
+            $("#mysidebar a[href='" + location.pathname.match(/(\/[^\/]*)$/)[1] + "']")
+                .parents('li').addClass('active')
+                .parents('ul').css('display', 'block');
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="http://localhost:4000/">&nbsp;<span class="projectTitle">faimed3d</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/kbressem/faimed3d/tree/main/" target="_blank">github</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                
+                
+                <li>
+                    <script>
+  (function() {
+    var cx = '000837339549978028235:vh0pq0omtgr';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<div id="gcs-search-container">
+    <gcse:search></gcse:search>
+</div>
+
+
+                </li>
+                
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle"> </li>
+  
+  
+  
+  <li>
+      <a href="#">faimed3d</a>
+      <ul>
+          
+          
+          
+          <li><a href="/">Overview</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/basics.html">Basics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/preprocessing.html">Image preprocessing</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/transforms.html">Transformations for 3D medical images</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/dataloaders.html">faimed3d dataloaders for 3D images</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/layers.html">faimed3d layers and functions</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/learner.html">faimed3d wrapper for learner class</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.alexnet.html">3D AlexNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.resnet.html">3D ResNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.unet.html">3D UNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.losses.html">Losses and metrics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/callback.html">Callbacks</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+    <a id="Callbacks"></a>
+    <h1 class="post-title-main">Callbacks</h1>
+    
+        
+    </div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+    
+
+   <!--
 
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
@@ -26,7 +391,7 @@
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Channel-Manipulation">Channel Manipulation<a class="anchor-link" href="#Channel-Manipulation"> </a></h2><p>Fpr processing multiple 3D volumes, the volumes can be stacked to the color dimension. This need to be implemented as callback, before the batch is presented to the model.</p>
+<h2 id="Channel-manipulation">Channel manipulation<a class="anchor-link" href="#Channel-manipulation"> </a></h2><p>For processing multiple 3D volumes, the volumes can be stacked to the color dimension. This need to be implemented as callback before the batch is presented to the model.</p>
 
 </div>
 </div>
@@ -45,10 +410,10 @@
 <h2 id="StackVolumes" class="doc_header"><code>class</code> <code>StackVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L22" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>StackVolumes</code>(<strong><code>n_classes</code></strong>, <strong><code>pool_type</code></strong>=<em><code>'max'</code></em>, <strong><code>stack_yb</code></strong>=<em><code>False</code></em>) :: <code>Callback</code></p>
 </blockquote>
 <p>Takes multiple 3D volumes and stacks them in the color dim.
-This is usefull when using mutli-sequence medical data.</p>
+This is useful when using multi-sequence medical data.</p>
 <p>Can also merge multiple segmentation masks, through pooling (max, min or mean) alongside the color dim,
-then convertes the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
-appearences</p>
+then converts the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
+appearances</p>
 <p>Example:
     Having the Tensors of size (10, 1, 5, 25, 25) would lead to a single Tensor of
     size (10, 3, 5, 25, 25).</p>
@@ -72,7 +437,7 @@ appearences</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Callbacks-for-Volume-Manipulation">Callbacks for Volume Manipulation<a class="anchor-link" href="#Callbacks-for-Volume-Manipulation"> </a></h2>
+<h2 id="Callbacks-for-volume-manipulation">Callbacks for volume manipulation<a class="anchor-link" href="#Callbacks-for-volume-manipulation"> </a></h2>
 </div>
 </div>
 </div>
@@ -96,7 +461,7 @@ appearences</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="SplitVolumes" class="doc_header"><code>class</code> <code>SplitVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SplitVolumes</code>(<strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <code>Callback</code></p>
 </blockquote>
-<p>Separates a 3D tensor into smaller equal sized subvolumes.</p>
+<p>Separates a 3D tensor into smaller equal-sized sub-volumes.</p>
 <p>o---o---o       o---o---o
  | A | A |       | B | B |        o---o  o---o  o---o  o---o  o---o  o---o  o---o  o---o
  o---o---o   +   o---o---o  ==&gt;   | A | +| A | +| B | +| B | +| A | +| A | +| B | +| B |
@@ -143,7 +508,7 @@ appearences</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
-<p>After splitting rhe volume into multiple subvolumes, draws a radnom amount of subvolumes for training.
+<p>After splitting the volume into multiple subvolumes, draws a randon amount of subvolumes for training.
 Would allow to train on an effective batch size &lt; 1.</p>
 <p>o---o---o        o---o---o
 | A | A |        | B | B |        o---o  o---o  o---o  o---o  o---o  o---o
@@ -190,7 +555,7 @@ o---o---o        o---o---o</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L164" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
-<p>After splitting rhe volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.</p>
+<p>After splitting the volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.</p>
 <p>o---o---o        o---o---o        o---o---o        o---o---o
 | A | A |        | B | B |        | B | B |        | A | B |
 o---o---o    +   o---o---o  ==&gt;   o---o---o    +   o---o---o
@@ -278,7 +643,7 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tracker-Callbacks">Tracker Callbacks<a class="anchor-link" href="#Tracker-Callbacks"> </a></h2>
+<h2 id="Tracker-callbacks">Tracker callbacks<a class="anchor-link" href="#Tracker-callbacks"> </a></h2>
 </div>
 </div>
 </div>
@@ -293,7 +658,7 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ReloadBestFit" class="doc_header"><code>class</code> <code>ReloadBestFit</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L201" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ReloadBestFit</code>(<strong><code>fname</code></strong>, <strong><code>monitor</code></strong>=<em><code>'valid_loss'</code></em>, <strong><code>comp</code></strong>=<em><code>None</code></em>, <strong><code>min_delta</code></strong>=<em><code>0.0</code></em>, <strong><code>patience</code></strong>=<em><code>1</code></em>) :: <code>TrackerCallback</code></p>
+<h2 id="ReloadBestFit" class="doc_header"><code>class</code> <code>ReloadBestFit</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L200" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ReloadBestFit</code>(<strong><code>fname</code></strong>, <strong><code>monitor</code></strong>=<em><code>'valid_loss'</code></em>, <strong><code>comp</code></strong>=<em><code>None</code></em>, <strong><code>min_delta</code></strong>=<em><code>0.0</code></em>, <strong><code>patience</code></strong>=<em><code>1</code></em>) :: <code>TrackerCallback</code></p>
 </blockquote>
 <p>A <code>TrackerCallback</code> that reloads the previous best model if not improvement happend for n epochs</p>
 
@@ -316,7 +681,7 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Callback-for-Pixel-value-rescaling">Callback for Pixel value rescaling<a class="anchor-link" href="#Callback-for-Pixel-value-rescaling"> </a></h2>
+<h2 id="Callback-for-pixel-value-rescaling">Callback for pixel value rescaling<a class="anchor-link" href="#Callback-for-pixel-value-rescaling"> </a></h2>
 </div>
 </div>
 </div>
@@ -331,7 +696,7 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="PiecewiseHistNormalizationCallback" class="doc_header"><code>class</code> <code>PiecewiseHistNormalizationCallback</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L221" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PiecewiseHistNormalizationCallback</code>(<strong><code>standard_scale</code></strong>=<em><code>None</code></em>, <strong><code>percs</code></strong>=<em><code>None</code></em>) :: <code>Callback</code></p>
+<h2 id="PiecewiseHistNormalizationCallback" class="doc_header"><code>class</code> <code>PiecewiseHistNormalizationCallback</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L220" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PiecewiseHistNormalizationCallback</code>(<strong><code>standard_scale</code></strong>=<em><code>None</code></em>, <strong><code>percs</code></strong>=<em><code>None</code></em>) :: <code>Callback</code></p>
 </blockquote>
 <p>Applies Piecewise Histogram Matching to batches.
 Generates standard_scale and percs before fit, if not provided.</p>
@@ -356,3 +721,35 @@ Generates standard_scale and percs before fit, if not provided.</p>
 </div>
  
 
+
+
+    <div class="tags">
+        
+    </div>
+
+</div>
+
+
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+                  <p><img src="/assets/images/company_logo.png" alt="Company logo"/></p>
+               &copy;2021 Keno Bressem. All rights reserved. <br />
+ Site last generated: Feb 13, 2021 <br />
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>

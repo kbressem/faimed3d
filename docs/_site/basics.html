@@ -1,4 +1,369 @@
-<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" fastai">
+<title>Basics | faimed3d</title>
+<link rel="stylesheet" href="/assets/css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="assets//css/bootstrap.min.css">-->
+<link rel="stylesheet" href="/assets/css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/css/customstyles.css">
+<link rel="stylesheet" href="/assets/css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="/assets/css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="/assets/js/jquery.navgoco.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement( document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "[%", right: "%]", display: true},
+      {left: "$", right: "$", display: false}
+    ]}
+  );
+});
+</script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="/assets/js/toc.js"></script>
+<script src="/assets/js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="faimed3d" href="http://localhost:4000/feed.xml">
+
+<!-- Twitter cards -->
+
+<meta name="twitter:site"    content="@k_bressem">
+<meta name="twitter:creator" content="@k_bressem">
+<meta name="twitter:title"   content="Basics">
+
+
+
+<meta name="twitter:description" content="Add on to fastai for volumetric medical data">
+
+
+
+<meta name="twitter:card"  content="summary">
+
+
+<!-- end of Twitter cards -->
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+            // activate menu items where href is matching to current page
+            $("#mysidebar a[href='" + location.pathname.match(/(\/[^\/]*)$/)[1] + "']")
+                .parents('li').addClass('active')
+                .parents('ul').css('display', 'block');
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="http://localhost:4000/">&nbsp;<span class="projectTitle">faimed3d</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/kbressem/faimed3d/tree/main/" target="_blank">github</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                
+                
+                <li>
+                    <script>
+  (function() {
+    var cx = '000837339549978028235:vh0pq0omtgr';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<div id="gcs-search-container">
+    <gcse:search></gcse:search>
+</div>
+
+
+                </li>
+                
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle"> </li>
+  
+  
+  
+  <li>
+      <a href="#">faimed3d</a>
+      <ul>
+          
+          
+          
+          <li><a href="/">Overview</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/basics.html">Basics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/preprocessing.html">Image preprocessing</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/transforms.html">Transformations for 3D medical images</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/dataloaders.html">faimed3d dataloaders for 3D images</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/layers.html">faimed3d layers and functions</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/learner.html">faimed3d wrapper for learner class</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.alexnet.html">3D AlexNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.resnet.html">3D ResNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.unet.html">3D UNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.losses.html">Losses and metrics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/callback.html">Callbacks</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+    <a id="Basics"></a>
+    <h1 class="post-title-main">Basics</h1>
+    
+        
+    </div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+    
+
+   <!--
 
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
@@ -19,8 +384,8 @@
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Why-a-new-Class?">Why a new Class?<a class="anchor-link" href="#Why-a-new-Class?"> </a></h2><p>Fastai 2 provides support to read and display medical images using pydicom and pillow, however only 2D images can be read. So no direct support of 3D volumes is given in fastai. Furthermore, fastai only allows to read DICOM 2D images, not volumes, DICOM Series or any of the other medical formats such as NIfTI, NRRD, ....  For effective work with medical data, all possible formats should be supported. Therefore, in <code>faimed3d</code> <a href="https://simpleitk.org/">SimpleITK</a>  is used to read images. SimpleITK is a powerfull library which can handle many data formats, including all of the above mentioned and many more. It is widely used for medical applications and very fast, as it is written in pure C++.<br>
-To allow specific augmentations, only to 3D data, two new classes are used in <code>faimed3d</code>: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a> for 3D image volumes and <a href="/faimed3d/basics.html#TensorMask3D"><code>TensorMask3D</code></a> for segmentation masks. Both are subclasses to <code>torch.Tensor</code>. A basic support for Header information will be implemented in both classes, as the header sometimes has important information, e.g. for re-scaling of the pixel values, pixel spacing or patient orientation.</p>
+<h2 id="Why-a-new-class?">Why a new class?<a class="anchor-link" href="#Why-a-new-class?"> </a></h2><p>Fastai 2 provides support to read and display medical images using pydicom and pillow; however, only 2D images can be read. Therefore, no direct support of 3D volumes is provided by fastai. Furthermore, fastai only allows to read DICOM 2D images, not volumes, DICOM series or any of the other medical formats such as NIfTI, NRRD etc. For effective work with medical data, all possible formats should be supported. Therefore, in <code>faimed3d</code>, <a href="https://simpleitk.org/">SimpleITK</a>  is used to read images. SimpleITK is a powerfull library which can handle many data formats, including all of the above mentioned and many more. It is widely used for medical applications and very fast, as it is written in pure C++.<br>
+To allow specific augmentations, only to 3D data, two new classes are used in <code>faimed3d</code>: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a> for 3D image volumes and <a href="/faimed3d/basics.html#TensorMask3D"><code>TensorMask3D</code></a> for segmentation masks. Both are subclasses to <code>torch.Tensor</code>. A basic support for header information will be implemented in both classes, as the header sometimes has important information, e.g. for re-scaling of the pixel values, pixel spacing or patient orientation.</p>
 
 </div>
 </div>
@@ -76,7 +441,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L208" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
 </blockquote>
-<p>Base class for 3d Segmentation, inherits from TensorDicom3D</p>
+<p>Base class for 3d segmentation, inherits from TensorDicom3D</p>
 
 </div>
 
@@ -137,7 +502,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Handlers-for-Metadata">Handlers for Metadata<a class="anchor-link" href="#Handlers-for-Metadata"> </a></h3><p>Some metadata needs to be modified, acessed more than other, so some wrapper functions are supplied.</p>
+<h3 id="Handlers-for-metadata">Handlers for metadata<a class="anchor-link" href="#Handlers-for-metadata"> </a></h3><p>Some metadata needs to be modified, acessed more than other, so some wrapper functions are supplied.</p>
 
 </div>
 </div>
@@ -520,7 +885,7 @@ Args:
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Sometimes multiple 3D images (e.g. a batch) need to be displayed. With a wrapper for <a href="/faimed3d/basics.html#show_image_3d"><code>show_image_3d</code></a> this is conveniently possible.</p>
+<p>Sometimes multiple 3D images (e.g. a batch) need to be displayed. With a wrapper for <a href="/faimed3d/basics.html#show_image_3d"><code>show_image_3d</code></a> this is possible.</p>
 
 </div>
 </div>
@@ -631,7 +996,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Tensor.show" class="doc_header"><code>Tensor.show</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L323" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.show</code>(<strong><code>t</code></strong>:<code>TensorMask3D'&gt;)</code>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="Tensor.show" class="doc_header"><code>Tensor.show</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L322" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.show</code>(<strong><code>t</code></strong>:<code>TensorMask3D'&gt;)</code>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>displays the 3D image as a mosaik</p>
 
@@ -656,7 +1021,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.show" class="doc_header"><code>TensorDicom3D.show</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L323" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.show</code>(<strong><code>t</code></strong>:<code>TensorMask3D'&gt;)</code>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="TensorDicom3D.show" class="doc_header"><code>TensorDicom3D.show</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L322" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.show</code>(<strong><code>t</code></strong>:<code>TensorMask3D'&gt;)</code>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>displays the 3D image as a mosaik</p>
 
@@ -681,7 +1046,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.show" class="doc_header"><code>TensorDicom3D.show</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L323" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.show</code>(<strong><code>t</code></strong>:<code>TensorMask3D'&gt;)</code>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="TensorDicom3D.show" class="doc_header"><code>TensorDicom3D.show</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L322" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.show</code>(<strong><code>t</code></strong>:<code>TensorMask3D'&gt;)</code>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>displays the 3D image as a mosaik</p>
 
@@ -739,9 +1104,9 @@ Args:
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Rendering-3D-Objects">Rendering 3D Objects<a class="anchor-link" href="#Rendering-3D-Objects"> </a></h1><p>Somtimes the mask is better viewed as 3D object. Rendering is implemented as described in this example: <a href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_marching_cubes.html">https://scikit-image.org/docs/dev/auto_examples/edges/plot_marching_cubes.html</a>
-A faster, more felxible way might be using <a href="https://github.com/maartenbreddels/ipyvolume/">ipyvolume</a> or <a href="https://pyscience.wordpress.com/2014/09/11/surface-extraction-creating-a-mesh-from-pixel-data-using-python-and-vtk/">vtk</a>.</p>
-<p>To implement 3D rendering for the mask, the TensorMask3D class needs to be expanded</p>
+<h1 id="Rendering-3D-objects">Rendering 3D objects<a class="anchor-link" href="#Rendering-3D-objects"> </a></h1><p>Somtimes the mask is better viewed as a 3D object. Rendering is implemented as described in this example: <a href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_marching_cubes.html">https://scikit-image.org/docs/dev/auto_examples/edges/plot_marching_cubes.html</a>
+A faster, more flexible way might be using <a href="https://github.com/maartenbreddels/ipyvolume/">ipyvolume</a> or <a href="https://pyscience.wordpress.com/2014/09/11/surface-extraction-creating-a-mesh-from-pixel-data-using-python-and-vtk/">vtk</a>.</p>
+<p>To implement 3D rendering for the mask, the TensorMask3D class needs to be expanded.</p>
 
 </div>
 </div>
@@ -757,7 +1122,7 @@ A faster, more felxible way might be using <a href="https://github.com/maartenbr
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.strip" class="doc_header"><code>TensorDicom3D.strip</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L342" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.strip</code>(<strong><code>x</code></strong>:<code>TensorMask3D'&gt;)</code>)</p>
+<h4 id="TensorDicom3D.strip" class="doc_header"><code>TensorDicom3D.strip</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L341" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.strip</code>(<strong><code>x</code></strong>:<code>TensorMask3D'&gt;)</code>)</p>
 </blockquote>
 
 </div>
@@ -781,7 +1146,7 @@ A faster, more felxible way might be using <a href="https://github.com/maartenbr
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.strip" class="doc_header"><code>TensorDicom3D.strip</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L342" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.strip</code>(<strong><code>x</code></strong>:<code>TensorMask3D'&gt;)</code>)</p>
+<h4 id="TensorDicom3D.strip" class="doc_header"><code>TensorDicom3D.strip</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L341" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.strip</code>(<strong><code>x</code></strong>:<code>TensorMask3D'&gt;)</code>)</p>
 </blockquote>
 
 </div>
@@ -814,7 +1179,7 @@ A faster, more felxible way might be using <a href="https://github.com/maartenbr
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L208" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
 </blockquote>
-<p>Base class for 3d Segmentation, inherits from TensorDicom3D</p>
+<p>Base class for 3d segmentation, inherits from TensorDicom3D</p>
 
 </div>
 
@@ -903,3 +1268,35 @@ A faster, more felxible way might be using <a href="https://github.com/maartenbr
 </div>
  
 
+
+
+    <div class="tags">
+        
+    </div>
+
+</div>
+
+
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+                  <p><img src="/assets/images/company_logo.png" alt="Company logo"/></p>
+               &copy;2021 Keno Bressem. All rights reserved. <br />
+ Site last generated: Feb 13, 2021 <br />
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>

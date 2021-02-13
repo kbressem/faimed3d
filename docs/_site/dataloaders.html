@@ -1,4 +1,369 @@
-<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" fastai">
+<title>faimed3d dataloaders for 3D images | faimed3d</title>
+<link rel="stylesheet" href="/assets/css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="assets//css/bootstrap.min.css">-->
+<link rel="stylesheet" href="/assets/css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/css/customstyles.css">
+<link rel="stylesheet" href="/assets/css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="/assets/css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="/assets/js/jquery.navgoco.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement( document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "[%", right: "%]", display: true},
+      {left: "$", right: "$", display: false}
+    ]}
+  );
+});
+</script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="/assets/js/toc.js"></script>
+<script src="/assets/js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="faimed3d" href="http://localhost:4000/feed.xml">
+
+<!-- Twitter cards -->
+
+<meta name="twitter:site"    content="@k_bressem">
+<meta name="twitter:creator" content="@k_bressem">
+<meta name="twitter:title"   content="faimed3d dataloaders for 3D images">
+
+
+
+<meta name="twitter:description" content="Add on to fastai for volumetric medical data">
+
+
+
+<meta name="twitter:card"  content="summary">
+
+
+<!-- end of Twitter cards -->
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+            // activate menu items where href is matching to current page
+            $("#mysidebar a[href='" + location.pathname.match(/(\/[^\/]*)$/)[1] + "']")
+                .parents('li').addClass('active')
+                .parents('ul').css('display', 'block');
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="http://localhost:4000/">&nbsp;<span class="projectTitle">faimed3d</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/kbressem/faimed3d/tree/main/" target="_blank">github</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                
+                
+                <li>
+                    <script>
+  (function() {
+    var cx = '000837339549978028235:vh0pq0omtgr';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<div id="gcs-search-container">
+    <gcse:search></gcse:search>
+</div>
+
+
+                </li>
+                
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle"> </li>
+  
+  
+  
+  <li>
+      <a href="#">faimed3d</a>
+      <ul>
+          
+          
+          
+          <li><a href="/">Overview</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/basics.html">Basics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/preprocessing.html">Image preprocessing</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/transforms.html">Transformations for 3D medical images</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/dataloaders.html">faimed3d dataloaders for 3D images</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/layers.html">faimed3d layers and functions</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/learner.html">faimed3d wrapper for learner class</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.alexnet.html">3D AlexNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.resnet.html">3D ResNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.unet.html">3D UNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.losses.html">Losses and metrics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/callback.html">Callbacks</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+    <a id="faimed3d dataloaders for 3D images"></a>
+    <h1 class="post-title-main">faimed3d dataloaders for 3D images</h1>
+    
+        
+    </div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+    
+
+   <!--
 
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
@@ -27,8 +392,8 @@
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Get-data-paths-and-labels">Get data paths and labels<a class="anchor-link" href="#Get-data-paths-and-labels"> </a></h2><p>Data is divided into a train, valid and test dataset of different patients, which either have prostate cancer or are healthy. 
-Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ in number of slices and resolution.</p>
-<p>At first the paths to the data are specified:</p>
+Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ regarding the number of slices and resolution.</p>
+<p>At first, the paths to the data are specified:</p>
 
 </div>
 </div>
@@ -52,7 +417,7 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Raw pixel data for DICOM must sometimes undergo affine transformation (e.g. to be converted to Houndsfiel Units). <code>PreProcessDicom</code> is a convenience function which can perform a few frequently needed manipulations with the pixeldata.</p>
+<p>Raw pixel data for DICOM must sometimes undergo affine transformation (e.g. to be converted to Houndsfiel Units). <code>PreProcessDicom</code> is a convenience function which can perform a few frequently needed manipulations with the pixel data.</p>
 
 </div>
 </div>
@@ -148,7 +513,7 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>When using multiple sequences per examination, those sequences can differ in size, pixel spacing, pixel resolution, field of view and even orientation. SimpleITK provides functions to resample multiple images to a reference image, so the different sequences match.<br>
-Resampling assumes, that the images are somewhat in the same plane and show the same region. Resampling axial and sagittal images will not yield good results.</p>
+Resampling assumes that the images are somewhat in the same plane and show the same region. Resampling axial and sagittal images will not yield good results.</p>
 
 </div>
 </div>
@@ -265,7 +630,7 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="ImageDataLoaders3D" class="doc_header"><code>class</code> <code>ImageDataLoaders3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L190" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ImageDataLoaders3D</code>(<strong>*<code>loaders</code></strong>, <strong><code>path</code></strong>=<em><code>'.'</code></em>, <strong><code>device</code></strong>=<em><code>None</code></em>) :: <code>DataLoaders</code></p>
 </blockquote>
-<p>Enarly identitcal to fastai <code>ImageDataLoaders</code> but adapted for 3D data with some preprocessing steps added</p>
+<p>Nearly identical to fastai <code>ImageDataLoaders</code> but adapted for 3D data with some preprocessing steps added</p>
 
 </div>
 
@@ -334,9 +699,9 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="DataLoaders.show_batch_3d" class="doc_header"><code>DataLoaders.show_batch_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L278" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DataLoaders.show_batch_3d</code>(<strong><code>dls</code></strong>:<code>DataLoaders</code>, <strong><code>with_mask</code></strong>=<em><code>False</code></em>, <strong><code>alpha_mask</code></strong>=<em><code>0.3</code></em>, <strong><code>figsize</code></strong>=<em><code>(15, 15)</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="DataLoaders.show_batch_3d" class="doc_header"><code>DataLoaders.show_batch_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L277" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DataLoaders.show_batch_3d</code>(<strong><code>dls</code></strong>:<code>DataLoaders</code>, <strong><code>with_mask</code></strong>=<em><code>False</code></em>, <strong><code>alpha_mask</code></strong>=<em><code>0.3</code></em>, <strong><code>figsize</code></strong>=<em><code>(15, 15)</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>Workarround, until implemented into dls as dls.show_batch_3d()</p>
+<p>Workaround until implemented into dls as dls.show_batch_3d()</p>
 
 </div>
 
@@ -435,7 +800,7 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Tensor.to_numpy" class="doc_header"><code>Tensor.to_numpy</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L291" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.to_numpy</code>(<strong><code>x</code></strong>:<code>Tensor</code>)</p>
+<h4 id="Tensor.to_numpy" class="doc_header"><code>Tensor.to_numpy</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L289" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Tensor.to_numpy</code>(<strong><code>x</code></strong>:<code>Tensor</code>)</p>
 </blockquote>
 
 </div>
@@ -459,7 +824,7 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="DataLoaders.show_hist" class="doc_header"><code>DataLoaders.show_hist</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L294" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DataLoaders.show_hist</code>(<strong><code>dls</code></strong>:<code>DataLoaders</code>, <strong><code>bins</code></strong>=<em><code>100</code></em>, <strong><code>with_stats</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="DataLoaders.show_hist" class="doc_header"><code>DataLoaders.show_hist</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L292" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DataLoaders.show_hist</code>(<strong><code>dls</code></strong>:<code>DataLoaders</code>, <strong><code>bins</code></strong>=<em><code>100</code></em>, <strong><code>with_stats</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -541,7 +906,7 @@ skewness: -0.5420928001403809, kurtosis:-1.4813424348831177
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SegmentationDataLoaders3D" class="doc_header"><code>class</code> <code>SegmentationDataLoaders3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L315" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SegmentationDataLoaders3D</code>(<strong>*<code>loaders</code></strong>, <strong><code>path</code></strong>=<em><code>'.'</code></em>, <strong><code>device</code></strong>=<em><code>None</code></em>) :: <code>DataLoaders</code></p>
+<h2 id="SegmentationDataLoaders3D" class="doc_header"><code>class</code> <code>SegmentationDataLoaders3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L313" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SegmentationDataLoaders3D</code>(<strong>*<code>loaders</code></strong>, <strong><code>path</code></strong>=<em><code>'.'</code></em>, <strong><code>device</code></strong>=<em><code>None</code></em>) :: <code>DataLoaders</code></p>
 </blockquote>
 <p>Basic wrapper around several <code>DataLoader</code>s with factory methods for segmentation problems</p>
 
@@ -663,8 +1028,8 @@ skewness: -0.5420928001403809, kurtosis:-1.4813424348831177
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When displaying the masks it may occure, that Nifti images are rotated and do not fit the original DICOM. Most likely it is due to different frames of reference. 
-in Simple-ITK it is LPS, while NIfTI and FSL use RAS, so those matrices are the same after accounting for frame of reference (taken and adapted from <a href="https://discourse.itk.org/t/nifti-orientation-issues/431">https://discourse.itk.org/t/nifti-orientation-issues/431</a>).
+<p>When displaying the masks it may occure that Nifti images are rotated and do not fit the original DICOM. Most likely this is due to different frames of reference. 
+In Simple-ITK, it is LPS, while NIfTI and FSL use RAS, so those matrices are the same after accounting for frame of reference (taken and adapted from <a href="https://discourse.itk.org/t/nifti-orientation-issues/431">https://discourse.itk.org/t/nifti-orientation-issues/431</a>).
 So, luckly the malrotations are systematic and can be scripted.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
 
@@ -693,3 +1058,35 @@ So, luckly the malrotations are systematic and can be scripted.</p>
 </div>
  
 
+
+
+    <div class="tags">
+        
+    </div>
+
+</div>
+
+
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+                  <p><img src="/assets/images/company_logo.png" alt="Company logo"/></p>
+               &copy;2021 Keno Bressem. All rights reserved. <br />
+ Site last generated: Feb 13, 2021 <br />
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>
