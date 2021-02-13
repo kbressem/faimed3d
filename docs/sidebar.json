@@ -17,7 +17,7 @@
       "ResNet": "models.resnet.html",
       "U-Net": "models.unet.html",
       "Losses": "models.losses.html",
-    }
+    },
     "Callbacks": "callback.html",
   }
 }
