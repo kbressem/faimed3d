@@ -16,7 +16,7 @@ entries:
       title: Image preprocessing
       url: preprocessing.html
     - output: web,pdf
-      title: Transformations for 3D medical images
+      title: transforms
       url: transforms.html
     - output: web,pdf
       title: faimed3d dataloaders for 3D images
