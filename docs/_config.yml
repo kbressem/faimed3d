@@ -65,4 +65,4 @@ plugins:
 
 #remote_theme: fastai/nbdev-jekyll-theme
 
-remote_theme: jekyll-theme-minimal
+theme: jekyll-theme-minimal
