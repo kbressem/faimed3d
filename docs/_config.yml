@@ -63,6 +63,6 @@ baseurl: /
 plugins:
     - jekyll-remote-theme
 
-remote_theme: fastai/nbdev-jekyll-theme
+#remote_theme: fastai/nbdev-jekyll-theme
 
-theme: jekyll-theme-minimal
+remote_theme: jekyll-theme-minimal
