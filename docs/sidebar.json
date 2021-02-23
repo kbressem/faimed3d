@@ -9,6 +9,7 @@
     "faimed3d wrapper for Learner class": "learner.html",
     "3D AlexNet": "models.alexnet.html",
     "3D ResNet": "models.resnet.html",
+    "EfficientNet": "model.efficientnet.html",
     "3D UNet": "models.unet.html",
     "Losses and metrics": "models.losses.html",
     "Callbacks": "callback.html"
