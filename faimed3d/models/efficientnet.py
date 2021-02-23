@@ -11,7 +11,7 @@ from fastai.basics import *
 # Cell
 class ConvLayerDynamicPadding(nn.Sequential):
     "Same as fastai ConvLayer, but more accurately padds input according to `ks` and `stride`"
-    @delegates(nn.Conv2d)
+    @delegates(nn.Conv3d)
     def __init__(self,
                  ni, #number of input channels
                  nf, # number of output channels
@@ -122,7 +122,7 @@ class MBConvBlock(nn.Module):
         if self.has_se:
             x_squeezed = F.adaptive_avg_pool3d(x, 1)
             x_squeezed = self.squeeze_expand(x_squeezed)
-            x *= x_squeezed.sigmoid_() # inplace saves a bit of memory
+            x = x * x_squeezed.sigmoid() # inplace saves a bit of memory
 
         # pointwise convolution
         x = self.project_conv(x)
