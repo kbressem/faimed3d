@@ -5,7 +5,7 @@
 In contrast to fastai which uses Pydicom to read medical images, faimed3d uses SimpleITK, as it supports more image formats.  
 Currently, faimed3d is built using the following versions of fastai, fastcore, nbdev, PyTorch, torchvision and SimpleITK
 
-```python
+```
 import fastai
 import pydicom
 import torch
@@ -24,18 +24,18 @@ print('SimpleITK: 2.0.2rc3 (ITK 5.1)')
 
 ## Example 3D classification
 
-```python
+```
 from faimed3d.all import *
 from torchvision.models.video import r3d_18
 ```
 
-```python
+```
 d = pd.read_csv('../data/radiopaedia_cases.csv')
 ```
 
 `faimed3d` keeps track of the metadata until the items are concatenated as a batch. 
 
-```python
+```
 dls = ImageDataLoaders3D.from_df(d,
                                  item_tfms = ResizeCrop3D(crop_by = (0, 6, 6), 
                                                           resize_to = (20, 112, 112)),
@@ -44,11 +44,11 @@ dls = ImageDataLoaders3D.from_df(d,
 
 Construct a learner similar to fastai, even transfer learning is possible using the pretrained resnet18 from torchvision.
 
-```python
+```
 learn = cnn_learner_3d(dls, r3d_18) 
 ```
 
-```python
+```
 #slow
 learn.lr_find()
 ```
