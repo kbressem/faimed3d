@@ -22,7 +22,7 @@ exclude:
 exclude: [vendor]
 
 default_badges:
-  colab: false
+  colab: true
 
 highlighter: rouge
 markdown: kramdown

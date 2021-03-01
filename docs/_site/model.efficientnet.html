@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" fastai">
+<title>EfficientNet | faimed3d</title>
+<link rel="stylesheet" href="/assets/css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="assets//css/bootstrap.min.css">-->
+<link rel="stylesheet" href="/assets/css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/css/customstyles.css">
+<link rel="stylesheet" href="/assets/css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="/assets/css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="/assets/js/jquery.navgoco.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement( document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "[%", right: "%]", display: true},
+      {left: "$", right: "$", display: false}
+    ]}
+  );
+});
+</script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="/assets/js/toc.js"></script>
+<script src="/assets/js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="faimed3d" href="http://localhost:4000/feed.xml">
+
+<!-- Twitter cards -->
+
+<meta name="twitter:site"    content="@k_bressem">
+<meta name="twitter:creator" content="@k_bressem">
+<meta name="twitter:title"   content="EfficientNet">
+
+
+
+<meta name="twitter:description" content="Add on to fastai for volumetric medical data">
+
+
+
+<meta name="twitter:card"  content="summary">
+
+
+<!-- end of Twitter cards -->
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+            // activate menu items where href is matching to current page
+            $("#mysidebar a[href='" + location.pathname.match(/(\/[^\/]*)$/)[1] + "']")
+                .parents('li').addClass('active')
+                .parents('ul').css('display', 'block');
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="http://localhost:4000/">&nbsp;<span class="projectTitle">faimed3d</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/kbressem/faimed3d/tree/main/" target="_blank">github</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                
+                
+                <li>
+                    <script>
+  (function() {
+    var cx = '000837339549978028235:vh0pq0omtgr';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+<div id="gcs-search-container">
+    <gcse:search></gcse:search>
+</div>
+
+
+                </li>
+                
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle"> </li>
+  
+  
+  
+  <li>
+      <a href="#">faimed3d</a>
+      <ul>
+          
+          
+          
+          <li><a href="/">Overview</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/basics.html">Basics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/preprocessing.html">Preprocessing</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/transforms.html">Augmentations</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/dataloaders.html">Dataloaders</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/layers.html">Layers</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/learner.html">Learner</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.alexnet.html">AlexNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.resnet.html">ResNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/model.efficientnet.html">EfficientNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.unet.html">U-Net</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.losses.html">Losses and metrics</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/callback.html">Callbacks</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+    <a id="EfficientNet"></a>
+    <h1 class="post-title-main">EfficientNet</h1>
+    
+        <div class="px-2">
+    <a href="https://colab.research.google.com/github/kbressem/faimed3d/blob/master/nbs/06c_model.efficientnet.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/images/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+
+    </div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+    
+
+   <!--
+
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: nbs/06c_model.efficientnet.ipynb
+# command to build the docs after a change: nbdev_build_docs
+
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The kernel size for the layers in efficientnet changes and can be an odd or even number. If the kernel size is an odd number, margins for padding can be calculated with <code>kernel_size // 2</code>, however if the kernel size is an odd number this won't work. 
+<a href="/faimed3d/model.efficientnet.html#ConvLayerDynamicPadding"><code>ConvLayerDynamicPadding</code></a> expands the fastai <code>ConvLayer</code> function with an extra padding layer, ensuring padding is sufficient regardless of kernel size.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="ConvLayerDynamicPadding" class="doc_header"><code>class</code> <code>ConvLayerDynamicPadding</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L13" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayerDynamicPadding</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>bias</code></strong>=<em><code>None</code></em>, <strong><code>ndim</code></strong>=<em><code>3</code></em>, <strong><code>norm_type</code></strong>=<em><code>&lt;NormType.Batch: 1&gt;</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>transpose</code></strong>=<em><code>False</code></em>, <strong><code>init</code></strong>=<em><code>'auto'</code></em>, <strong><code>xtra</code></strong>=<em><code>None</code></em>, <strong><code>bias_std</code></strong>=<em><code>0.01</code></em>, <strong><code>padding</code></strong>:<code>Union</code>[<code>int</code>, <code>Tuple</code>[<code>int</code>, <code>int</code>, <code>int</code>]]=<em><code>0</code></em>, <strong><code>dilation</code></strong>:<code>Union</code>[<code>int</code>, <code>Tuple</code>[<code>int</code>, <code>int</code>, <code>int</code>]]=<em><code>1</code></em>, <strong><code>groups</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding_mode</code></strong>:<code>str</code>=<em><code>'zeros'</code></em>) :: <code>Sequential</code></p>
+</blockquote>
+<p>Same as fastai ConvLayer, but more accurately padds input according to <code>ks</code> and <code>stride</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ConvLayerDynamicPadding</span><span class="p">(</span><span class="n">ni</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nf</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">ks</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([1, 64, 10, 10, 10])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>EfficientNet uses DopConnect and DropOut. DropConnect needs to be implemented as Module to work with <code>nn.Sequential</code>.
+See <a href="https://arxiv.org/pdf/1603.09382.pdf">paper</a> about stochastic depth for the reason drop connect and skip connections are used.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DropConnect" class="doc_header"><code>class</code> <code>DropConnect</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L50" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DropConnect</code>(<strong><code>p</code></strong>) :: <code>Module</code></p>
+</blockquote>
+<p>Drops connections with probability p</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DropConnect</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([-0.9221, -1.1308, -0.0000,  1.7536,  0.7608, -2.6259,  0.0000, -0.0000,
+        -1.7968, -0.0000, -0.0000,  0.0770, -2.1631,  0.0000,  0.0000, -0.0000])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Mobile Inverted Residual Bottleneck Block is the main block of convolutional layers in each EfficientNet.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Mobile Inverted Residual Bottleneck Block is the main building block of the efficientnet. It is based on this paper: <a href="https://arxiv.org/pdf/1801.04381.pdf">https://arxiv.org/pdf/1801.04381.pdf</a></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="MBConvBlock" class="doc_header"><code>class</code> <code>MBConvBlock</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L66" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MBConvBlock</code>(<strong><code>n_inp</code></strong>, <strong><code>n_out</code></strong>, <strong><code>kernel_size</code></strong>, <strong><code>stride</code></strong>, <strong><code>se_ratio</code></strong>, <strong><code>id_skip</code></strong>, <strong><code>expand_ratio</code></strong>, <strong><code>drop_connect_rate</code></strong>=<em><code>0.2</code></em>, <strong><code>act_cls</code></strong>=<em><code>SiLU</code></em>, <strong><code>norm_type</code></strong>=<em><code>&lt;NormType.Batch: 1&gt;</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+</blockquote>
+<p>Mobile Inverted Residual Bottleneck Block</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MBConvBlock</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">112</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">6</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([1, 112, 10, 14, 14])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="EfficientNet" class="doc_header"><code>class</code> <code>EfficientNet</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L137" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>EfficientNet</code>(<strong><code>ni</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>101</code></em>, <strong><code>width_coefficient</code></strong>=<em><code>1.0</code></em>, <strong><code>depth_coefficient</code></strong>=<em><code>1.0</code></em>, <strong><code>dropout_rate</code></strong>=<em><code>0.2</code></em>, <strong><code>drop_connect_rate</code></strong>=<em><code>0.2</code></em>, <strong><code>depth_divisor</code></strong>=<em><code>8</code></em>, <strong><code>min_depth</code></strong>=<em><code>None</code></em>, <strong><code>act_cls</code></strong>=<em><code>SiLU</code></em>, <strong><code>norm_type</code></strong>=<em><code>&lt;NormType.Batch: 1&gt;</code></em>) :: <code>Sequential</code></p>
+</blockquote>
+<p>EfficientNet implementation into fastai based on
+<a href="https://arxiv.org/abs/1905.11946">https://arxiv.org/abs/1905.11946</a> and the PyTorch
+implementation of lukemelas (GitHub username)
+<a href="https://github.com/lukemelas/EfficientNet-PyTorch">https://github.com/lukemelas/EfficientNet-PyTorch</a></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">EfficientNet</span><span class="p">(</span><span class="n">num_classes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[-0.1863, -0.0720]], grad_fn=&lt;AddmmBackward&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Calling models follows the <code>torchvision</code> approach taken for ResNets. We have private function <code>_efficientnet</code> which passes the building arguments to the <a href="/faimed3d/model.efficientnet.html#EfficientNet"><code>EfficientNet</code></a> class and a single function for each class (<a href="/faimed3d/model.efficientnet.html#efficientnet_b0"><code>efficientnet_b0</code></a>, <a href="/faimed3d/model.efficientnet.html#efficientnet_b1"><code>efficientnet_b1</code></a>) which will give the respective model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Overview of building arguments for the different efficientnets. Keep in mind, that image size is important for the model. Progressize resizing with efficiennets must be done very carefull.</p>
+<table>
+<thead><tr>
+<th>model name</th>
+<th>width_coeff</th>
+<th>depth_coeff</th>
+<th>image_size</th>
+<th>dropout</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'efficientnet_b0'</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>224</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>'efficientnet_b1'</td>
+<td>1.0</td>
+<td>1.1</td>
+<td>240</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>'efficientnet_b2'</td>
+<td>1.1</td>
+<td>1.2</td>
+<td>260</td>
+<td>0.3</td>
+</tr>
+<tr>
+<td>'efficientnet_b3'</td>
+<td>1.2</td>
+<td>1.4</td>
+<td>300</td>
+<td>0.3</td>
+</tr>
+<tr>
+<td>'efficientnet_b4'</td>
+<td>1.4</td>
+<td>1.8</td>
+<td>380</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td>'efficientnet_b5'</td>
+<td>1.6</td>
+<td>2.2</td>
+<td>456</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td>'efficientnet_b6'</td>
+<td>1.8</td>
+<td>2.6</td>
+<td>528</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>'efficientnet_b7'</td>
+<td>2.0</td>
+<td>3.1</td>
+<td>600</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>'efficientnet_b8'</td>
+<td>2.2</td>
+<td>3.6</td>
+<td>672</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>'efficientnet_l2'</td>
+<td>4.3</td>
+<td>5.3</td>
+<td>800</td>
+<td>0.5</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b0" class="doc_header"><code>efficientnet_b0</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L242" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b0</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b1" class="doc_header"><code>efficientnet_b1</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L247" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b1</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b2" class="doc_header"><code>efficientnet_b2</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L252" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b2</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b3" class="doc_header"><code>efficientnet_b3</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L257" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b3</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b4" class="doc_header"><code>efficientnet_b4</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L263" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b4</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b5" class="doc_header"><code>efficientnet_b5</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L269" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b5</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b6" class="doc_header"><code>efficientnet_b6</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L275" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b6</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b7" class="doc_header"><code>efficientnet_b7</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L281" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b7</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_b8" class="doc_header"><code>efficientnet_b8</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L287" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_b8</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="efficientnet_l2" class="doc_header"><code>efficientnet_l2</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L293" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>efficientnet_l2</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>load efficientnet with specific scaling coefficients</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">num_classes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[0.0825, 0.1869]], grad_fn=&lt;AddmmBackward&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+ 
+
+
+
+    <div class="tags">
+        
+    </div>
+
+</div>
+
+
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+                  <p><img src="/assets/images/company_logo.png" alt="Company logo"/></p>
+               &copy;2021 Keno Bressem. All rights reserved. <br />
+ Site last generated: Mar 1, 2021 <br />
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>

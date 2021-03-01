@@ -13,31 +13,31 @@ entries:
       title: Basics
       url: basics.html
     - output: web,pdf
-      title: Image preprocessing
+      title: Preprocessing
       url: preprocessing.html
     - output: web,pdf
-      title: transforms
+      title: Augmentations
       url: transforms.html
     - output: web,pdf
-      title: faimed3d dataloaders for 3D images
+      title: Dataloaders
       url: dataloaders.html
     - output: web,pdf
-      title: faimed3d layers and functions
+      title: Layers
       url: layers.html
     - output: web,pdf
-      title: faimed3d wrapper for learner class
+      title: Learner
       url: learner.html
     - output: web,pdf
-      title: 3D AlexNet
+      title: AlexNet
       url: models.alexnet.html
     - output: web,pdf
-      title: 3D ResNet
+      title: ResNet
       url: models.resnet.html
     - output: web,pdf
       title: EfficientNet
       url: model.efficientnet.html
     - output: web,pdf
-      title: 3D UNet
+      title: U-Net
       url: models.unet.html
     - output: web,pdf
       title: Losses and metrics

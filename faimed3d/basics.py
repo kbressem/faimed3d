@@ -211,31 +211,31 @@ class TensorMask3D(TensorDicom3D):
 
 # Cell
 @patch
-def set_spacing(t:(TensorDicom3D,TensorMask3D), spacing):
+def set_spacing(t:TensorDicom3D, spacing):
     if isinstance(spacing, tuple) and len(spacing) == 3:
         t.set_metadata('spacing', spacing)
     else:  raise ValueError('Spacing must be a tuple of length 3, but got {}'.format(spacing))
 
 @patch
-def get_spacing(t:(TensorDicom3D,TensorMask3D)): return t.get_metadata('spacing')
+def get_spacing(t:TensorDicom3D): return t.get_metadata('spacing')
 
 @patch
-def set_origin(t:(TensorDicom3D,TensorMask3D), origin):
+def set_origin(t:TensorDicom3D, origin):
     if isinstance(origin, tuple) and len(origin) == 3:
         t.set_metadata('origin', origin)
     else: raise ValueError('Origin must be a tuple of length 3, but got {}'.format(spacing))
 
 @patch
-def get_origin(t:(TensorDicom3D,TensorMask3D)): return t.get_metadata('origin')
+def get_origin(t:TensorDicom3D): return t.get_metadata('origin')
 
 @patch
-def set_direction(t:(TensorDicom3D,TensorMask3D), direction):
+def set_direction(t:TensorDicom3D, direction):
     if isinstance(direction, tuple) and len(direction) == 9:
         t.set_metadata('direction', direction)
     else: raise ValueError('Direction must be a tuple of length 3, but got {}'.format(spacing))
 
 @patch
-def get_direction(t:(TensorDicom3D,TensorMask3D)): return t.get_metadata('direction')
+def get_direction(t:TensorDicom3D): return t.get_metadata('direction')
 
 # Cell
 def show_image_3d(t: (np.ndarray, torch.Tensor),
@@ -327,7 +327,7 @@ def show(t:(Tensor, TensorDicom3D, TensorMask3D), axis: int = 0, figsize: int = 
 
 # Cell
 @patch
-def _strip_along(x:(TensorDicom3D, TensorMask3D), dim):
+def _strip_along(x:TensorDicom3D, dim):
     try: meta = x._metadata
     except: pass
     slices = torch.unbind(x, dim)
@@ -337,7 +337,7 @@ def _strip_along(x:(TensorDicom3D, TensorMask3D), dim):
     return out
 
 @patch
-def strip(x:(TensorDicom3D, TensorMask3D)):
+def strip(x:TensorDicom3D):
     return x._strip_along(-1)._strip_along(-2)._strip_along(-3)
 
 # Cell

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="keywords" content=" fastai">
-<title>faimed3d layers and functions | faimed3d</title>
+<title>Layers | faimed3d</title>
 <link rel="stylesheet" href="/assets/css/syntax.css">
 
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <meta name="twitter:site"    content="@k_bressem">
 <meta name="twitter:creator" content="@k_bressem">
-<meta name="twitter:title"   content="faimed3d layers and functions">
+<meta name="twitter:title"   content="Layers">
 
 
 
@@ -233,56 +233,63 @@ document.addEventListener("DOMContentLoaded", function() {
           
           
           
-          <li><a href="/preprocessing.html">Image preprocessing</a></li>
+          <li><a href="/preprocessing.html">Preprocessing</a></li>
           
           
           
           
           
           
-          <li><a href="/transforms.html">transforms</a></li>
+          <li><a href="/transforms.html">Augmentations</a></li>
           
           
           
           
           
           
-          <li><a href="/dataloaders.html">faimed3d dataloaders for 3D images</a></li>
+          <li><a href="/dataloaders.html">Dataloaders</a></li>
           
           
           
           
           
           
-          <li><a href="/layers.html">faimed3d layers and functions</a></li>
+          <li><a href="/layers.html">Layers</a></li>
           
           
           
           
           
           
-          <li><a href="/learner.html">faimed3d wrapper for learner class</a></li>
+          <li><a href="/learner.html">Learner</a></li>
           
           
           
           
           
           
-          <li><a href="/models.alexnet.html">3D AlexNet</a></li>
+          <li><a href="/models.alexnet.html">AlexNet</a></li>
           
           
           
           
           
           
-          <li><a href="/models.resnet.html">3D ResNet</a></li>
+          <li><a href="/models.resnet.html">ResNet</a></li>
           
           
           
           
           
           
-          <li><a href="/models.unet.html">3D UNet</a></li>
+          <li><a href="/model.efficientnet.html">EfficientNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.unet.html">U-Net</a></li>
           
           
           
@@ -323,10 +330,15 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Content Column -->
         <div class="col-md-9" id="tg-sb-content">
             <div class="post-header">
-    <a id="faimed3d layers and functions"></a>
-    <h1 class="post-title-main">faimed3d layers and functions</h1>
+    <a id="Layers"></a>
+    <h1 class="post-title-main">Layers</h1>
     
-        
+        <div class="px-2">
+    <a href="https://colab.research.google.com/github/kbressem/faimed3d/blob/master/nbs/05_layers.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/images/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+
     </div>
 
 
@@ -402,7 +414,7 @@ $('#toc').on('click', 'a', function() {
                                  <span class="n">bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> 
                                  <span class="n">val_bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="n">body_3d</span> <span class="o">=</span> <span class="n">create_body</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">)</span>
+<span class="n">body_3d</span> <span class="o">=</span> <span class="n">create_body</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1038,7 +1050,7 @@ model = nn.Sequential(OrderedDict([
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">create_cnn_model_3d</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">create_cnn_model_3d</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pretrained</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1105,7 +1117,7 @@ model = nn.Sequential(OrderedDict([
                 <div class="col-lg-12 footer">
                   <p><img src="/assets/images/company_logo.png" alt="Company logo"/></p>
                &copy;2021 Keno Bressem. All rights reserved. <br />
- Site last generated: Feb 14, 2021 <br />
+ Site last generated: Mar 1, 2021 <br />
                 </div>
             </div>
 </footer>

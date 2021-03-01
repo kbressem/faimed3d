@@ -1,6 +1,6 @@
 ---
 
-title: faimed3d layers and functions
+title: Layers
 
 
 keywords: fastai
@@ -49,7 +49,7 @@ nb_path: "nbs/05_layers.ipynb"
                                  <span class="n">bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> 
                                  <span class="n">val_bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="n">body_3d</span> <span class="o">=</span> <span class="n">create_body</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">)</span>
+<span class="n">body_3d</span> <span class="o">=</span> <span class="n">create_body</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -685,7 +685,7 @@ model = nn.Sequential(OrderedDict([
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">create_cnn_model_3d</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">create_cnn_model_3d</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pretrained</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="keywords" content=" fastai">
-<title>3D UNet | faimed3d</title>
+<title>U-Net | faimed3d</title>
 <link rel="stylesheet" href="/assets/css/syntax.css">
 
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <meta name="twitter:site"    content="@k_bressem">
 <meta name="twitter:creator" content="@k_bressem">
-<meta name="twitter:title"   content="3D UNet">
+<meta name="twitter:title"   content="U-Net">
 
 
 
@@ -233,56 +233,63 @@ document.addEventListener("DOMContentLoaded", function() {
           
           
           
-          <li><a href="/preprocessing.html">Image preprocessing</a></li>
+          <li><a href="/preprocessing.html">Preprocessing</a></li>
           
           
           
           
           
           
-          <li><a href="/transforms.html">transforms</a></li>
+          <li><a href="/transforms.html">Augmentations</a></li>
           
           
           
           
           
           
-          <li><a href="/dataloaders.html">faimed3d dataloaders for 3D images</a></li>
+          <li><a href="/dataloaders.html">Dataloaders</a></li>
           
           
           
           
           
           
-          <li><a href="/layers.html">faimed3d layers and functions</a></li>
+          <li><a href="/layers.html">Layers</a></li>
           
           
           
           
           
           
-          <li><a href="/learner.html">faimed3d wrapper for learner class</a></li>
+          <li><a href="/learner.html">Learner</a></li>
           
           
           
           
           
           
-          <li><a href="/models.alexnet.html">3D AlexNet</a></li>
+          <li><a href="/models.alexnet.html">AlexNet</a></li>
           
           
           
           
           
           
-          <li><a href="/models.resnet.html">3D ResNet</a></li>
+          <li><a href="/models.resnet.html">ResNet</a></li>
           
           
           
           
           
           
-          <li><a href="/models.unet.html">3D UNet</a></li>
+          <li><a href="/model.efficientnet.html">EfficientNet</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/models.unet.html">U-Net</a></li>
           
           
           
@@ -323,10 +330,15 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Content Column -->
         <div class="col-md-9" id="tg-sb-content">
             <div class="post-header">
-    <a id="3D UNet"></a>
-    <h1 class="post-title-main">3D UNet</h1>
+    <a id="U-Net"></a>
+    <h1 class="post-title-main">U-Net</h1>
     
-        
+        <div class="px-2">
+    <a href="https://colab.research.google.com/github/kbressem/faimed3d/blob/master/nbs/06d_models.unet.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/images/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+
     </div>
 
 
@@ -575,7 +587,7 @@ The information from the different sequences can be assumed to be redundant to s
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="UnetBlock3D" class="doc_header"><code>class</code> <code>UnetBlock3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L32" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UnetBlock3D</code>(<strong><code>up_in_c</code></strong>, <strong><code>x_in_c</code></strong>, <strong><code>hook</code></strong>, <strong><code>final_div</code></strong>=<em><code>True</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>None</code></em>, <strong><code>ndim</code></strong>=<em><code>2</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>transpose</code></strong>=<em><code>False</code></em>, <strong><code>xtra</code></strong>=<em><code>None</code></em>, <strong><code>bias_std</code></strong>=<em><code>0.01</code></em>, <strong><code>dilation</code></strong>:<code>Tuple[~T, ~T]]</code>[<code>int</code>]=<em><code>1</code></em>, <strong><code>groups</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding_mode</code></strong>:<code>str</code>=<em><code>'zeros'</code></em>) :: <code>Module</code></p>
+<h2 id="UnetBlock3D" class="doc_header"><code>class</code> <code>UnetBlock3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/unet.py#L32" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>UnetBlock3D</code>(<strong><code>up_in_c</code></strong>, <strong><code>x_in_c</code></strong>, <strong><code>hook</code></strong>, <strong><code>final_div</code></strong>=<em><code>True</code></em>, <strong><code>blur</code></strong>=<em><code>False</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>self_attention</code></strong>=<em><code>False</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>None</code></em>, <strong><code>ndim</code></strong>=<em><code>2</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>transpose</code></strong>=<em><code>False</code></em>, <strong><code>xtra</code></strong>=<em><code>None</code></em>, <strong><code>bias_std</code></strong>=<em><code>0.01</code></em>, <strong><code>dilation</code></strong>:<code>Union</code>[<code>int</code>, <code>Tuple</code>[<code>int</code>, <code>int</code>]]=<em><code>1</code></em>, <strong><code>groups</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding_mode</code></strong>:<code>str</code>=<em><code>'zeros'</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>A quasi-UNet block, using <code>ConvTranspose3d</code> for upsampling`.</p>
 
@@ -842,7 +854,7 @@ Key differences are the adaption to 3D and 4D inputs. In <code>fastai</code> <co
                 <div class="col-lg-12 footer">
                   <p><img src="/assets/images/company_logo.png" alt="Company logo"/></p>
                &copy;2021 Keno Bressem. All rights reserved. <br />
- Site last generated: Feb 14, 2021 <br />
+ Site last generated: Mar 1, 2021 <br />
                 </div>
             </div>
 </footer>

@@ -44,6 +44,12 @@
   
   
   <url>
+    <loc>http://localhost:4000/model.efficientnet.html</loc>
+  </url>
+  
+  
+  
+  <url>
     <loc>http://localhost:4000/models.alexnet.html</loc>
   </url>
   
@@ -74,6 +80,12 @@
   
   
   
+  
+  
+  
+  <url>
+    <loc>http://localhost:4000/transforms.html</loc>
+  </url>
   
   
 </urlset>
