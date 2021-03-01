@@ -8,6 +8,7 @@ __all__ = ['conv3x3', 'conv1x1', 'BasicBlock3d', 'Bottleneck3d', 'IdentityLayer'
 from fastai.basics import *
 from fastai.layers import *
 from warnings import warn
+from torch.hub import load_state_dict_from_url
 
 # Cell
 from torchvision.models.resnet import Bottleneck, BasicBlock
@@ -117,7 +118,7 @@ class IdentityLayer(nn.Module):
 # Cell
 class ResNet3D(nn.Module):
 
-    def __init__(self, block, layers, n_channels=3, num_classes=100, zero_init_residual=False,
+    def __init__(self, block, layers, n_channels=3, num_classes=101, zero_init_residual=False,
                  groups=1, width_per_group=64, replace_stride_with_dilation=None,
                  norm_layer=None, act_layer=None, final_softmax=False, ps = 0.5):
         super(ResNet3D, self).__init__()
@@ -234,18 +235,31 @@ class ResNet3D(nn.Module):
         return self._forward_impl(x)
 
 # Cell
+_model_urls = {
+           'resnet18_3d': 'https://rad-ai.charite.de/pretrained_models/resnet18_3d.pth',
+           'resnet34_3d': 'https://rad-ai.charite.de/pretrained_models/resnet34_3d.pth',
+           'resnet50_3d': 'https://rad-ai.charite.de/pretrained_models/resnet50_3d.pth',
+           'resnet101_3d': 'https://rad-ai.charite.de/pretrained_models/resnet101_3d.pth'
+          }
+
+# Cell
 
 def _resnet_3d(arch, block, layers, pretrained=False, progress=False, **kwargs):
     "similar to the _resnet function of pytorch. Has same Args as resnet for compatibility, but does not us them all"
-    return ResNet3D(block, layers, **kwargs)
+    model = ResNet3D(block, layers, **kwargs)
+    if pretrained:
+        state_dict = load_state_dict_from_url(_model_urls[arch],
+                                              progress=True)
+        model.load_state_dict(state_dict['model'])
+    return model
 
-
+# Cell
 def resnet18_3d(pretrained=False, progress=False, **kwargs):
     r"""ResNet-34 model from
     `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
     adapted to 3d
     """
-    return _resnet_3d(None, BasicBlock3d, [2, 2, 2, 2], pretrained=False, progress=False,**kwargs)
+    return _resnet_3d('resnet18_3d', BasicBlock3d, [2, 2, 2, 2], pretrained=pretrained, progress=progress,**kwargs)
 
 
 def resnet34_3d(pretrained=False, progress=False, **kwargs):
@@ -253,7 +267,7 @@ def resnet34_3d(pretrained=False, progress=False, **kwargs):
     `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
     adapted to 3d
     """
-    return _resnet_3d(None, BasicBlock3d, [3, 4, 6, 3], pretrained=False, progress=False,**kwargs)
+    return _resnet_3d('resnet34_3d', BasicBlock3d, [3, 4, 6, 3], pretrained=pretrained, progress=progress,**kwargs)
 
 
 def resnet50_3d(pretrained=False, progress=False,**kwargs):
@@ -261,7 +275,7 @@ def resnet50_3d(pretrained=False, progress=False,**kwargs):
     `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
     adapted to 3d
     """
-    return _resnet_3d(None, Bottleneck3d, [3, 4, 6, 3], pretrained=False, progress=False,**kwargs)
+    return _resnet_3d('resnet50_3d', Bottleneck3d, [3, 4, 6, 3], pretrained=pretrained, progress=progress,**kwargs)
 
 
 def resnet101_3d(pretrained=False, progress=False, **kwargs):
@@ -269,14 +283,16 @@ def resnet101_3d(pretrained=False, progress=False, **kwargs):
     `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`
     adapted to 3d
     """
-    return _resnet_3d(None, Bottleneck3d, [3, 4, 23, 3], pretrained=False, progress=False,**kwargs)
+    return _resnet_3d('resnet101_3d', Bottleneck3d, [3, 4, 23, 3], pretrained=pretrained, progress=progress,**kwargs)
 
 
 def resnet152_3d(pretrained=False, progress=False, **kwargs):
     r"""ResNet-152 model from
-    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
+    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`
     adapted to 3d
     """
+    # currently no pretrained version. Might follow in the future
+    if pretrained: warn('Currently there is no pretrained version available for `resnet152_3d`. Will load randomly intilialized weights.')
     return _resnet_3d(None, Bottleneck3d, [3, 8, 36, 3], pretrained=False, progress=False,**kwargs)
 
 # Cell

@@ -164,8 +164,8 @@ See <a href="https://arxiv.org/pdf/1603.09382.pdf">paper</a> about stochastic de
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([ 0.0199,  1.2804, -0.9280,  0.0000, -0.0000,  0.0000, -0.0000, -1.9939,
-        -1.0798,  0.0000,  0.0000,  0.0000, -0.0000, -0.0000,  0.0000, -3.8284])</pre>
+<pre>tensor([-0.9221, -1.1308, -0.0000,  1.7536,  0.7608, -2.6259,  0.0000, -0.0000,
+        -1.7968, -0.0000, -0.0000,  0.0770, -2.1631,  0.0000,  0.0000, -0.0000])</pre>
 </div>
 
 </div>
@@ -266,7 +266,7 @@ See <a href="https://arxiv.org/pdf/1603.09382.pdf">paper</a> about stochastic de
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="EfficientNet" class="doc_header"><code>class</code> <code>EfficientNet</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L136" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>EfficientNet</code>(<strong><code>ni</code></strong>=<em><code>3</code></em>, <strong><code>n_classes</code></strong>=<em><code>1000</code></em>, <strong><code>width_coefficient</code></strong>=<em><code>1.0</code></em>, <strong><code>depth_coefficient</code></strong>=<em><code>1.0</code></em>, <strong><code>dropout_rate</code></strong>=<em><code>0.2</code></em>, <strong><code>drop_connect_rate</code></strong>=<em><code>0.2</code></em>, <strong><code>depth_divisor</code></strong>=<em><code>8</code></em>, <strong><code>min_depth</code></strong>=<em><code>None</code></em>, <strong><code>act_cls</code></strong>=<em><code>SiLU</code></em>, <strong><code>norm_type</code></strong>=<em><code>&lt;NormType.Batch: 1&gt;</code></em>) :: <code>Sequential</code></p>
+<h2 id="EfficientNet" class="doc_header"><code>class</code> <code>EfficientNet</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/efficientnet.py#L136" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>EfficientNet</code>(<strong><code>ni</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>width_coefficient</code></strong>=<em><code>1.0</code></em>, <strong><code>depth_coefficient</code></strong>=<em><code>1.0</code></em>, <strong><code>dropout_rate</code></strong>=<em><code>0.2</code></em>, <strong><code>drop_connect_rate</code></strong>=<em><code>0.2</code></em>, <strong><code>depth_divisor</code></strong>=<em><code>8</code></em>, <strong><code>min_depth</code></strong>=<em><code>None</code></em>, <strong><code>act_cls</code></strong>=<em><code>SiLU</code></em>, <strong><code>norm_type</code></strong>=<em><code>&lt;NormType.Batch: 1&gt;</code></em>) :: <code>Sequential</code></p>
 </blockquote>
 <p>EfficientNet implementation into fastai based on
 <a href="https://arxiv.org/abs/1905.11946">https://arxiv.org/abs/1905.11946</a> and the PyTorch
@@ -314,7 +314,7 @@ implementation of lukemelas (GitHub username)
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">EfficientNet</span><span class="p">(</span><span class="n">n_classes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">EfficientNet</span><span class="p">(</span><span class="n">num_classes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -329,7 +329,7 @@ implementation of lukemelas (GitHub username)
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([[-0.1362,  0.0876]], grad_fn=&lt;AddmmBackward&gt;)</pre>
+<pre>tensor([[-0.1863, -0.0720]], grad_fn=&lt;AddmmBackward&gt;)</pre>
 </div>
 
 </div>
@@ -347,6 +347,13 @@ implementation of lukemelas (GitHub username)
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -697,7 +704,7 @@ implementation of lukemelas (GitHub username)
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">n_classes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">num_classes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -712,11 +719,28 @@ implementation of lukemelas (GitHub username)
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([[-0.1382, -0.1213]], grad_fn=&lt;AddmmBackward&gt;)</pre>
+<pre>tensor([[0.0825, 0.1869]], grad_fn=&lt;AddmmBackward&gt;)</pre>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">pretrained</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">progress</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
