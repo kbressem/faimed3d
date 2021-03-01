@@ -153,7 +153,7 @@ class EfficientNet(nn.Sequential):
     # calling Efficientnet() without any parementers will default to efficientnet_b0
     def __init__(self,
                  ni=3, # number of input channels
-                 n_classes=1000, # number of classes
+                 num_classes=1000, # number of classes
                  width_coefficient=1.0, # width mutliplier
                  depth_coefficient=1.0, # depth multiplier
                  dropout_rate=0.2, # percentage of units to drop
@@ -199,7 +199,7 @@ class EfficientNet(nn.Sequential):
             nn.AdaptiveAvgPool3d(1),
             nn.Flatten(),
             nn.Dropout(dropout_rate),
-            nn.Linear(nf, n_classes)
+            nn.Linear(nf, num_classes)
         )
 
         layers.append(head)

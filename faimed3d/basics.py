@@ -97,8 +97,6 @@ class TensorDicom3D(TensorBase):
 
             load image header (optional):
                 creates a dict with header information.
-                For most purposes, the header information is not needed, and just takes time to load.
-                Is thus turned off by default.
                 For multiple slices, header information for each slice is loaded.
 
                 | tags      | fn_01                        | fn_02             | ...
@@ -135,7 +133,7 @@ class TensorDicom3D(TensorBase):
         return (torch.tensor(sitk.GetArrayFromImage(im)), metadata)
 
     @staticmethod
-    def read_metadata_from_series(fn:str, metadata):
+    def read_metadata_from_series(fn:str, metadata:dict):
         "read metadata from file or Series and returns a pd.DataFrame"
         # iter through slices, collecting remaining metadata
         SeriesReader = sitk.ImageSeriesReader()
