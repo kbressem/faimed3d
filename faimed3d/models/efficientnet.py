@@ -7,6 +7,7 @@ __all__ = ['ConvLayerDynamicPadding', 'DropConnect', 'MBConvBlock', 'EfficientNe
 # Cell
 # export
 from fastai.basics import *
+from torch.hub import load_state_dict_from_url
 
 # Cell
 class ConvLayerDynamicPadding(nn.Sequential):
@@ -153,7 +154,7 @@ class EfficientNet(nn.Sequential):
     # calling Efficientnet() without any parementers will default to efficientnet_b0
     def __init__(self,
                  ni=3, # number of input channels
-                 num_classes=1000, # number of classes
+                 num_classes=101, # number of classes
                  width_coefficient=1.0, # width mutliplier
                  depth_coefficient=1.0, # depth multiplier
                  dropout_rate=0.2, # percentage of units to drop
@@ -219,65 +220,78 @@ class EfficientNet(nn.Sequential):
 
 
 # Cell
+_model_urls = {
+           'efficientnet_b0': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b0.pth',
+           'efficientnet_b1': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b1.pth',
+           'efficientnet_b2': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b2.pth',
+          }
+
+# Cell
 def _efficientnet(arch, width_coefficient, depth_coefficient, dropout_rate, pretrained, progress, **kwargs):
     # arch is currently not used, but will be needed when we can provide pretrained versions.
     model = EfficientNet(width_coefficient=width_coefficient, depth_coefficient=depth_coefficient,
                          dropout_rate=dropout_rate, **kwargs)
     if pretrained:
-        raise NotImplementedError('No pretrained versions available for this model')
-        #state_dict = load_state_dict_from_url(model_urls[arch],
-        #                                      progress=progress)
-        #model.load_state_dict(state_dict)
+        state_dict = load_state_dict_from_url(_model_urls[arch],
+                                              progress=True)
+        model.load_state_dict(state_dict['model'])
     return model
 
 # Cell
 
 def efficientnet_b0(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
     return _efficientnet('efficientnet_b0', width_coefficient=1.0, depth_coefficient=1.0,
-                         dropout_rate=0.2, pretrained=False, progress=False, **kwargs)
+                         dropout_rate=0.2, pretrained=pretrained, progress=progress, **kwargs)
 
 def efficientnet_b1(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
     return _efficientnet('efficientnet_b1', width_coefficient=1.0, depth_coefficient=1.1,
-                         dropout_rate=0.2, pretrained=False, progress=False, **kwargs)
+                         dropout_rate=0.2, pretrained=pretrained, progress=progress, **kwargs)
 
 def efficientnet_b2(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
     return _efficientnet('efficientnet_b2', width_coefficient=1.1, depth_coefficient=1.2,
-                         dropout_rate=0.3, pretrained=False, progress=False, **kwargs)
+                         dropout_rate=0.3, pretrained=pretrained, progress=progress, **kwargs)
 
 def efficientnet_b3(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
+    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_b3`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_b3', width_coefficient=1.2, depth_coefficient=1.4,
                          dropout_rate=0.3, pretrained=False, progress=False, **kwargs)
 
 def efficientnet_b4(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
+    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_b4`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_b4', width_coefficient=1.4, depth_coefficient=2.2,
                          dropout_rate=0.4, pretrained=False, progress=False, **kwargs)
 
 def efficientnet_b5(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
+    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_b5`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_b5', width_coefficient=1.6, depth_coefficient=2.2,
                          dropout_rate=0.4, pretrained=False, progress=False, **kwargs)
 
 def efficientnet_b6(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
+    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_b6`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_b6', width_coefficient=1.8, depth_coefficient=2.6,
                          dropout_rate=0.5, pretrained=False, progress=False, **kwargs)
 
 def efficientnet_b7(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
+    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_b7`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_b7', width_coefficient=2.0, depth_coefficient=3.1,
                          dropout_rate=0.5, pretrained=False, progress=False, **kwargs)
 
 def efficientnet_b8(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
+    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_b8`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_b8', width_coefficient=2.2, depth_coefficient=3.6,
                          dropout_rate=0.5, pretrained=False, progress=False, **kwargs)
 
 def efficientnet_l2(pretrained=False, progress=True, **kwargs):
-    # load efficientnet with specific scaling coefficientss
+    "load efficientnet with specific scaling coefficients"
+    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_l2`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_l2', width_coefficient=4.3, depth_coefficient=5.3,
                          dropout_rate=0.5, pretrained=False, progress=False, **kwargs)

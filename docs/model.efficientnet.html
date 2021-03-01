@@ -164,8 +164,8 @@ See <a href="https://arxiv.org/pdf/1603.09382.pdf">paper</a> about stochastic de
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([ 0.0199,  1.2804, -0.9280,  0.0000, -0.0000,  0.0000, -0.0000, -1.9939,
-        -1.0798,  0.0000,  0.0000,  0.0000, -0.0000, -0.0000,  0.0000, -3.8284])</pre>
+<pre>tensor([-0.9221, -1.1308, -0.0000,  1.7536,  0.7608, -2.6259,  0.0000, -0.0000,
+        -1.7968, -0.0000, -0.0000,  0.0770, -2.1631,  0.0000,  0.0000, -0.0000])</pre>
 </div>
 
 </div>
@@ -329,7 +329,7 @@ implementation of lukemelas (GitHub username)
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([[-0.1362,  0.0876]], grad_fn=&lt;AddmmBackward&gt;)</pre>
+<pre>tensor([[-0.1863, -0.0720]], grad_fn=&lt;AddmmBackward&gt;)</pre>
 </div>
 
 </div>
@@ -347,6 +347,13 @@ implementation of lukemelas (GitHub username)
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -712,11 +719,28 @@ implementation of lukemelas (GitHub username)
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>tensor([[-0.1382, -0.1213]], grad_fn=&lt;AddmmBackward&gt;)</pre>
+<pre>tensor([[0.0825, 0.1869]], grad_fn=&lt;AddmmBackward&gt;)</pre>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">pretrained</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">progress</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 

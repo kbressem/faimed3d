@@ -235,12 +235,20 @@ class ResNet3D(nn.Module):
         return self._forward_impl(x)
 
 # Cell
+_model_urls = {
+           'resnet18_3d': 'https://rad-ai.charite.de/pretrained_models/resnet18_3d.pth',
+           'resnet34_3d': 'https://rad-ai.charite.de/pretrained_models/resnet34_3d.pth',
+           'resnet50_3d': 'https://rad-ai.charite.de/pretrained_models/resnet50_3d.pth',
+           'resnet101_3d': 'https://rad-ai.charite.de/pretrained_models/resnet101_3d.pth'
+          }
+
+# Cell
 
 def _resnet_3d(arch, block, layers, pretrained=False, progress=False, **kwargs):
     "similar to the _resnet function of pytorch. Has same Args as resnet for compatibility, but does not us them all"
     model = ResNet3D(block, layers, **kwargs)
     if pretrained:
-        state_dict = load_state_dict_from_url(model_urls[arch],
+        state_dict = load_state_dict_from_url(_model_urls[arch],
                                               progress=True)
         model.load_state_dict(state_dict['model'])
     return model
