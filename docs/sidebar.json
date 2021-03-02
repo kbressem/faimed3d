@@ -2,15 +2,19 @@
   "faimed3d": {
     "Overview": "/",
     "Basics": "basics.html",
-    "Image preprocessing": "preprocessing.html",
-    "transforms": "transforms.html",
-    "faimed3d dataloaders for 3D images": "dataloaders.html",
-    "faimed3d layers and functions": "layers.html",
-    "faimed3d wrapper for learner class": "learner.html",
-    "3D AlexNet": "models.alexnet.html",
-    "3D ResNet": "models.resnet.html",
-    "EfficientNet": "model.efficientnet.html",
-    "3D UNet": "models.unet.html",
+    "Preprocessing": "preprocessing.html",
+    "Augmentations": "transforms.html",
+    "Dataloaders": "dataloaders.html",
+    "":{
+      "Models": {
+        "Layers": "layers.html",
+        "Learner": "learner.html",
+        "AlexNet": "models.alexnet.html",
+        "ResNet": "models.resnet.html",
+        "EfficientNet": "model.efficientnet.html",
+        "U-Net": "models.unet.html"
+      }
+    },
     "Losses and metrics": "models.losses.html",
     "Callbacks": "callback.html"
   }

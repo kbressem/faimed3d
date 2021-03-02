@@ -1,6 +1,6 @@
 ---
 
-title: faimed3d dataloaders for 3D images
+title: Dataloaders
 
 
 keywords: fastai
@@ -82,7 +82,8 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="PreprocessDicom" class="doc_header"><code>class</code> <code>PreprocessDicom</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L24" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PreprocessDicom</code>(<strong><code>rescale</code></strong>=<em><code>True</code></em>, <strong><code>correct_spacing</code></strong>=<em><code>True</code></em>, <strong><code>spacing</code></strong>=<em><code>1</code></em>, <strong><code>clip_high_values</code></strong>=<em><code>False</code></em>, <strong><code>clipping_range</code></strong>=<em><code>(-2000, 10000)</code></em>) :: <code>DisplayedTransform</code></p>
 </blockquote>
-<p>Transforms a TensorDicom3D volume to float and normalizes the data</p>
+
+<pre><code>Transforms a TensorDicom3D volume to float and normalizes the data</code></pre>
 
 </div>
 
@@ -112,7 +113,7 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.scale_to" class="doc_header"><code>TensorDicom3D.scale_to</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L49" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.scale_to</code>(<strong><code>t</code></strong>:<a href="/faimed3d/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>mean</code></strong>, <strong><code>std</code></strong>)</p>
+<h4 id="TensorDicom3D.scale_to" class="doc_header"><code>TensorDicom3D.scale_to</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L49" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.scale_to</code>(<strong><code>t</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>mean</code></strong>, <strong><code>std</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -138,7 +139,8 @@ Each patient has three MRI sequences: T2, T1map and ADC. These sequences differ 
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="AddColorChannel" class="doc_header"><code>class</code> <code>AddColorChannel</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L56" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AddColorChannel</code>(<strong><code>p</code></strong>=<em><code>1.0</code></em>) :: <code>DisplayedTransform</code></p>
 </blockquote>
-<p>Transforms Tensor to Pseudo RGB and normalizes to Kinteics Stats</p>
+
+<pre><code>Transforms Tensor to Pseudo RGB and normalizes to Kinteics Stats</code></pre>
 
 </div>
 
@@ -178,11 +180,12 @@ Resampling assumes that the images are somewhat in the same plane and show the s
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="SequenceResampling" class="doc_header"><code>class</code> <code>SequenceResampling</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L77" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SequenceResampling</code>(<strong><code>size</code></strong>:<code>(&lt;class 'list'&gt;, &lt;class 'tuple'&gt;)</code>, <strong><code>n_inp</code></strong>:<code>int</code>, <strong><code>resample_to_first</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>resamples different sequences from one examination to the same spacing, orientation and direction and to
+
+<pre><code>resamples different sequences from one examination to the same spacing, orientation and direction and to
 a uniform size.
 IMPORTANT SimpleITK expects axis of the 3D volume to be specified as W x H x D while in PyTorch you would
 specify the axis as (B x C) x D x H x W. So if you want a Tensor of size (B x C) x 10 x 112 x 112 you'll
-have to pass <code>size</code> as 112 x 112 x 10.</p>
+have to pass `size` as 112 x 112 x 10.</code></pre>
 
 </div>
 
@@ -214,7 +217,8 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="ImageBlock3D" class="doc_header"><code>ImageBlock3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L181" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ImageBlock3D</code>(<strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>A <code>TransformBlock</code> for images of <code>cls</code>. For possible kwargs see PreporcessDicom.</p>
+
+<pre><code>A `TransformBlock` for images of `cls`. For possible kwargs see PreporcessDicom.</code></pre>
 
 </div>
 
@@ -239,7 +243,8 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="MaskBlock3D" class="doc_header"><code>MaskBlock3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L185" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>MaskBlock3D</code>(<strong><code>codes</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>A <code>TransformBlock</code> for images of <code>cls</code>. For possible kwargs see PreporcessDicom.</p>
+
+<pre><code>A `TransformBlock` for images of `cls`. For possible kwargs see PreporcessDicom.</code></pre>
 
 </div>
 
@@ -277,7 +282,8 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="ImageDataLoaders3D" class="doc_header"><code>class</code> <code>ImageDataLoaders3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L190" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ImageDataLoaders3D</code>(<strong>*<code>loaders</code></strong>, <strong><code>path</code></strong>=<em><code>'.'</code></em>, <strong><code>device</code></strong>=<em><code>None</code></em>) :: <code>DataLoaders</code></p>
 </blockquote>
-<p>Nearly identical to fastai <code>ImageDataLoaders</code> but adapted for 3D data with some preprocessing steps added</p>
+
+<pre><code>Nearly identical to fastai `ImageDataLoaders` but adapted for 3D data with some preprocessing steps added</code></pre>
 
 </div>
 
@@ -309,7 +315,8 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="get_volumetric_files" class="doc_header"><code>get_volumetric_files</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L295" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_volumetric_files</code>(<strong><code>path</code></strong>, <strong><code>recurse</code></strong>=<em><code>True</code></em>, <strong><code>folders</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Get medical volumetric files or video in <code>path</code> recursively, only in <code>folders</code>, if specified.</p>
+
+<pre><code>Get medical volumetric files or video in `path` recursively, only in `folders`, if specified.</code></pre>
 
 </div>
 
@@ -380,7 +387,8 @@ have to pass <code>size</code> as 112 x 112 x 10.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="DataLoaders.show_batch_3d" class="doc_header"><code>DataLoaders.show_batch_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L300" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DataLoaders.show_batch_3d</code>(<strong><code>dls</code></strong>:<code>DataLoaders</code>, <strong><code>with_mask</code></strong>=<em><code>False</code></em>, <strong><code>alpha_mask</code></strong>=<em><code>0.3</code></em>, <strong><code>figsize</code></strong>=<em><code>(15, 15)</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>Workaround until implemented into dls as dls.show_batch_3d()</p>
+
+<pre><code>Workaround until implemented into dls as dls.show_batch_3d()</code></pre>
 
 </div>
 
@@ -587,7 +595,8 @@ skewness: -0.5420928001403809, kurtosis:-1.4813424348831177
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="SegmentationDataLoaders3D" class="doc_header"><code>class</code> <code>SegmentationDataLoaders3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/data.py#L336" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SegmentationDataLoaders3D</code>(<strong>*<code>loaders</code></strong>, <strong><code>path</code></strong>=<em><code>'.'</code></em>, <strong><code>device</code></strong>=<em><code>None</code></em>) :: <code>DataLoaders</code></p>
 </blockquote>
-<p>Basic wrapper around several <code>DataLoader</code>s with factory methods for segmentation problems</p>
+
+<pre><code>Basic wrapper around several `DataLoader`s with factory methods for segmentation problems</code></pre>
 
 </div>
 

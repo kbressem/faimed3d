@@ -52,7 +52,7 @@ class TensorDicom3D(TensorBase):
         if isinstance(fn, Path): fn = str(fn)
         if isinstance(fn, str):
             if fn.endswith('.npy'): fn = np.float32(np.load(fn))
-            elif fn.endswith(('.avi','.mpg','.mpeg')):
+            elif fn.endswith(('.avi','.mpg','.mpeg', '.mp4')):
                 fn, _, _ = video.read_video(fn)         ## read video frames into tensor
                 fn = fn.type(torch.FloatTensor)         ## convert from ByteTensor to FloatTensor
                 fn = fn.permute(3,0,1,2)                ## permute tensor to expected shape
@@ -211,31 +211,31 @@ class TensorMask3D(TensorDicom3D):
 
 # Cell
 @patch
-def set_spacing(t:(TensorDicom3D,TensorMask3D), spacing):
+def set_spacing(t:TensorDicom3D, spacing):
     if isinstance(spacing, tuple) and len(spacing) == 3:
         t.set_metadata('spacing', spacing)
     else:  raise ValueError('Spacing must be a tuple of length 3, but got {}'.format(spacing))
 
 @patch
-def get_spacing(t:(TensorDicom3D,TensorMask3D)): return t.get_metadata('spacing')
+def get_spacing(t:TensorDicom3D): return t.get_metadata('spacing')
 
 @patch
-def set_origin(t:(TensorDicom3D,TensorMask3D), origin):
+def set_origin(t:TensorDicom3D, origin):
     if isinstance(origin, tuple) and len(origin) == 3:
         t.set_metadata('origin', origin)
     else: raise ValueError('Origin must be a tuple of length 3, but got {}'.format(spacing))
 
 @patch
-def get_origin(t:(TensorDicom3D,TensorMask3D)): return t.get_metadata('origin')
+def get_origin(t:TensorDicom3D): return t.get_metadata('origin')
 
 @patch
-def set_direction(t:(TensorDicom3D,TensorMask3D), direction):
+def set_direction(t:TensorDicom3D, direction):
     if isinstance(direction, tuple) and len(direction) == 9:
         t.set_metadata('direction', direction)
     else: raise ValueError('Direction must be a tuple of length 3, but got {}'.format(spacing))
 
 @patch
-def get_direction(t:(TensorDicom3D,TensorMask3D)): return t.get_metadata('direction')
+def get_direction(t:TensorDicom3D): return t.get_metadata('direction')
 
 # Cell
 def show_image_3d(t: (np.ndarray, torch.Tensor),
@@ -318,7 +318,7 @@ def show_images_3d(t: torch.Tensor,
 
 # Cell
 @patch
-def show(t:(Tensor, TensorDicom3D, TensorMask3D), axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, **kwargs):
+def show(t:TensorDicom3D, axis: int = 0, figsize: int = (15,15), cmap: str = 'bone', nrow: int = 10, **kwargs):
     "displays the 3D image as a mosaik"
     if t.ndim == 3: return show_image_3d(t, axis = axis, figsize=figsize,
                                          cmap=cmap, nrow=nrow, return_grid = False, **kwargs)
@@ -327,7 +327,7 @@ def show(t:(Tensor, TensorDicom3D, TensorMask3D), axis: int = 0, figsize: int = 
 
 # Cell
 @patch
-def _strip_along(x:(TensorDicom3D, TensorMask3D), dim):
+def _strip_along(x:TensorDicom3D, dim):
     try: meta = x._metadata
     except: pass
     slices = torch.unbind(x, dim)
@@ -337,7 +337,7 @@ def _strip_along(x:(TensorDicom3D, TensorMask3D), dim):
     return out
 
 @patch
-def strip(x:(TensorDicom3D, TensorMask3D)):
+def strip(x:TensorDicom3D):
     return x._strip_along(-1)._strip_along(-2)._strip_along(-3)
 
 # Cell
