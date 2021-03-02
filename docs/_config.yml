@@ -2,8 +2,7 @@ repository: kbressem/faimed3d
 output: web
 topnav_title: faimed3d
 site_title: faimed3d
-company_name: Keno Bressem
-description: Add on to fastai for volumetric medical data
+description: A addon to fastai for volumetric medical data
 google_search: 000837339549978028235:vh0pq0omtgr
 use_math: true
 google_analytics:
@@ -22,7 +21,7 @@ exclude:
 exclude: [vendor]
 
 default_badges:
-  colab: true
+  colab: false
 
 highlighter: rouge
 markdown: kramdown
@@ -58,9 +57,8 @@ defaults:
       search: true
       tooltip: true
 
-sidebars:
-    - home_sidebar
-baseurl: /faimed3d
+sidebars: [home_sidebar]
+baseurl: /
 plugins:
     - jekyll-remote-theme
 

@@ -21,24 +21,28 @@ entries:
     - output: web,pdf
       title: Dataloaders
       url: dataloaders.html
-    - output: web,pdf
-      title: Layers
-      url: layers.html
-    - output: web,pdf
-      title: Learner
-      url: learner.html
-    - output: web,pdf
-      title: AlexNet
-      url: models.alexnet.html
-    - output: web,pdf
-      title: ResNet
-      url: models.resnet.html
-    - output: web,pdf
-      title: EfficientNet
-      url: model.efficientnet.html
-    - output: web,pdf
-      title: U-Net
-      url: models.unet.html
+      subfolders:
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: Layers
+          url: layers.html
+        - output: web,pdf
+          title: Learner
+          url: learner.html
+        - output: web,pdf
+          title: AlexNet
+          url: models.alexnet.html
+        - output: web,pdf
+          title: ResNet
+          url: models.resnet.html
+        - output: web,pdf
+          title: EfficientNet
+          url: model.efficientnet.html
+        - output: web,pdf
+          title: U-Net
+          url: models.unet.html
+        title: Models
     - output: web,pdf
       title: Losses and metrics
       url: models.losses.html
