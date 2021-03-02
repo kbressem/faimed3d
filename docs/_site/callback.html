@@ -419,14 +419,17 @@ $('#toc').on('click', 'a', function() {
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="StackVolumes" class="doc_header"><code>class</code> <code>StackVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L22" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>StackVolumes</code>(<strong><code>n_classes</code></strong>, <strong><code>pool_type</code></strong>=<em><code>'max'</code></em>, <strong><code>stack_yb</code></strong>=<em><code>False</code></em>) :: <code>Callback</code></p>
 </blockquote>
-<p>Takes multiple 3D volumes and stacks them in the color dim.
-This is useful when using multi-sequence medical data.</p>
-<p>Can also merge multiple segmentation masks, through pooling (max, min or mean) alongside the color dim,
+
+<pre><code>Takes multiple 3D volumes and stacks them in the color dim.
+This is useful when using multi-sequence medical data.
+
+Can also merge multiple segmentation masks, through pooling (max, min or mean) alongside the color dim,
 then converts the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
-appearances</p>
-<p>Example:
+appearances
+
+Example:
     Having the Tensors of size (10, 1, 5, 25, 25) would lead to a single Tensor of
-    size (10, 3, 5, 25, 25).</p>
+    size (10, 3, 5, 25, 25).</code></pre>
 
 </div>
 
@@ -471,15 +474,19 @@ appearances</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="SplitVolumes" class="doc_header"><code>class</code> <code>SplitVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SplitVolumes</code>(<strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <code>Callback</code></p>
 </blockquote>
-<p>Separates a 3D tensor into smaller equal-sized sub-volumes.</p>
-<p>o---o---o       o---o---o
+
+<pre><code>Separates a 3D tensor into smaller equal-sized sub-volumes.
+
+ o---o---o       o---o---o
  | A | A |       | B | B |        o---o  o---o  o---o  o---o  o---o  o---o  o---o  o---o
  o---o---o   +   o---o---o  ==&gt;   | A | +| A | +| B | +| B | +| A | +| A | +| B | +| B |
  | A | A |       | B | B |        o---o  o---o  o---o  o---o  o---o  o---o  o---o  o---o
- o---o---o       o---o---o</p>
-<p>Args:
+ o---o---o       o---o---o
+
+
+Args:
     n_subvol = number of subvolumes
-    split_along_depth = whether volumes should also be split along the D dimension fpr a [B, C, D, H, W] tensor</p>
+    split_along_depth = whether volumes should also be split along the D dimension fpr a [B, C, D, H, W] tensor</code></pre>
 
 </div>
 
@@ -516,17 +523,20 @@ appearances</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
+<h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
-<p>After splitting the volume into multiple subvolumes, draws a randon amount of subvolumes for training.
-Would allow to train on an effective batch size &lt; 1.</p>
-<p>o---o---o        o---o---o
+
+<pre><code>After splitting the volume into multiple subvolumes, draws a randon amount of subvolumes for training.
+Would allow to train on an effective batch size &lt; 1.
+
+o---o---o        o---o---o
 | A | A |        | B | B |        o---o  o---o  o---o  o---o  o---o  o---o
 o---o---o    +   o---o---o  ==&gt;   | B | +| A | +| A | +| A | +| B | +| A |
 | A | A |        | B | B |        o---o  o---o  o---o  o---o  o---o  o---o
-o---o---o        o---o---o</p>
-<p>Args:
-    p: percentage of subvolumes to train on</p>
+o---o---o        o---o---o
+
+Args:
+    p: percentage of subvolumes to train on</code></pre>
 
 </div>
 
@@ -563,18 +573,22 @@ o---o---o        o---o---o</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L164" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/faimed3d/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
+<h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L164" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
-<p>After splitting the volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.</p>
-<p>o---o---o        o---o---o        o---o---o        o---o---o
+
+<pre><code>After splitting the volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.
+
+o---o---o        o---o---o        o---o---o        o---o---o
 | A | A |        | B | B |        | B | B |        | A | B |
 o---o---o    +   o---o---o  ==&gt;   o---o---o    +   o---o---o
 | A | A |        | B | B |        | A | A |        | B | A |
-o---o---o        o---o---o        o---o---o        o---o---o</p>
-<p>Args:
+o---o---o        o---o---o        o---o---o        o---o---o
+
+
+Args:
     p: probability that the callback will be applied
     n_subvol: number of subvolumina to create
-    split_along_depth: whether the depth dimension should be included</p>
+    split_along_depth: whether the depth dimension should be included</code></pre>
 
 </div>
 
@@ -670,7 +684,8 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="ReloadBestFit" class="doc_header"><code>class</code> <code>ReloadBestFit</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L200" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ReloadBestFit</code>(<strong><code>fname</code></strong>, <strong><code>monitor</code></strong>=<em><code>'valid_loss'</code></em>, <strong><code>comp</code></strong>=<em><code>None</code></em>, <strong><code>min_delta</code></strong>=<em><code>0.0</code></em>, <strong><code>patience</code></strong>=<em><code>1</code></em>) :: <code>TrackerCallback</code></p>
 </blockquote>
-<p>A <code>TrackerCallback</code> that reloads the previous best model if not improvement happend for n epochs</p>
+
+<pre><code>A `TrackerCallback` that reloads the previous best model if not improvement happend for n epochs</code></pre>
 
 </div>
 
@@ -708,8 +723,9 @@ o---o---o        o---o---o        o---o---o        o---o---o</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="PiecewiseHistNormalizationCallback" class="doc_header"><code>class</code> <code>PiecewiseHistNormalizationCallback</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L220" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PiecewiseHistNormalizationCallback</code>(<strong><code>standard_scale</code></strong>=<em><code>None</code></em>, <strong><code>percs</code></strong>=<em><code>None</code></em>) :: <code>Callback</code></p>
 </blockquote>
-<p>Applies Piecewise Histogram Matching to batches.
-Generates standard_scale and percs before fit, if not provided.</p>
+
+<pre><code>Applies Piecewise Histogram Matching to batches.
+Generates standard_scale and percs before fit, if not provided.</code></pre>
 
 </div>
 

@@ -526,8 +526,10 @@ $('#toc').on('click', 'a', function() {
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="BaseLoss" class="doc_header"><code>class</code> <code>BaseLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L13" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BaseLoss</code>(<strong><code>weights</code></strong>=<em><code>None</code></em>, <strong><code>avg</code></strong>=<em><code>'macro'</code></em>)</p>
 </blockquote>
-<p>Base class for loss functions</p>
-<p>Args:
+
+<pre><code>Base class for loss functions
+
+Args:
     targ:    A tensor of shape [B, C, D, H, W].
     pred:    A tensor of shape [B, C, D, H, W]. Corresponds to
              the raw output or logits of the model.
@@ -535,7 +537,7 @@ $('#toc').on('click', 'a', function() {
     avg:     'macro' computes loss for each B x C and averages the losses
              'micro' computes loss for each B and acverages the losses
 Returns:
-    loss:    computed loss (scalar)</p>
+    loss:    computed loss (scalar)</code></pre>
 
 </div>
 
@@ -565,33 +567,35 @@ Returns:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DiceLoss" class="doc_header"><code>class</code> <code>DiceLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiceLoss</code>(<strong><code>method</code></strong>=<em><code>'miletari'</code></em>, <strong><code>alpha</code></strong>=<em><code>0.5</code></em>, <strong><code>beta</code></strong>=<em><code>0.5</code></em>, <strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
+<h2 id="DiceLoss" class="doc_header"><code>class</code> <code>DiceLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiceLoss</code>(<strong><code>method</code></strong>=<em><code>'miletari'</code></em>, <strong><code>alpha</code></strong>=<em><code>0.5</code></em>, <strong><code>beta</code></strong>=<em><code>0.5</code></em>, <strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
 </blockquote>
-<p>Simple DICE loss as described in:
-    <a href="https://arxiv.org/pdf/1911.02855.pdf">https://arxiv.org/pdf/1911.02855.pdf</a></p>
-<p>Computes the Sørensen–Dice loss. Larger is better.
-Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.</p>
-<p>Args:
-    inherited from <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a>
+
+<pre><code>Simple DICE loss as described in:
+    https://arxiv.org/pdf/1911.02855.pdf
+
+Computes the Sørensen–Dice loss. Larger is better.
+Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.
+
+Args:
+    inherited from `BaseLoss`
     targ:    A tensor of shape [B, C, D, H, W].
     pred:    A tensor of shape [B, C, D, H, W]. Corresponds to
              the raw output or logits of the model.
     weights: A list ot tuple, giving weights for each class or None
     avg:     'macro' computes loss for each B x C and averages the losses
-             'micro' computes loss for each B and acverages the losses</p>
+             'micro' computes loss for each B and acverages the losses
 
-<pre><code>Unique for [`DiceLoss`](/faimed3d/models.losses.html#DiceLoss)
-method:  The method how the DICE score should be calculated.
-            "simple"   = standard DICE loss
-            "miletari" = squared denominator for faster convergence
-            "tversky"  = variant of the DICE loss which allows to weight FP vs FN.
-alpha, beta: weights for FP and FN for "tversky" loss if both values are 0.5 the
-         "tversky" loss corresponds to the "simple" DICE loss
-smooth:  Added smoothing factor.
-eps: added to the denominator for numerical stability (acoid division by 0).
-</code></pre>
-<p>Returns:
-    dice_loss: the Sørensen–Dice loss</p>
+    Unique for `DiceLoss`
+    method:  The method how the DICE score should be calculated.
+                "simple"   = standard DICE loss
+                "miletari" = squared denominator for faster convergence
+                "tversky"  = variant of the DICE loss which allows to weight FP vs FN.
+    alpha, beta: weights for FP and FN for "tversky" loss if both values are 0.5 the
+             "tversky" loss corresponds to the "simple" DICE loss
+    smooth:  Added smoothing factor.
+    eps: added to the denominator for numerical stability (acoid division by 0).
+Returns:
+    dice_loss: the Sørensen–Dice loss</code></pre>
 
 </div>
 
@@ -623,30 +627,33 @@ eps: added to the denominator for numerical stability (acoid division by 0).
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="DiceLoss2" class="doc_header"><code>class</code> <code>DiceLoss2</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L122" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiceLoss2</code>(<strong><code>epsilon</code></strong>=<em><code>1e-05</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
 
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
+<pre><code>Base class for all neural network modules.
 
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
+Your models should also subclass this class.
 
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
+Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::
 
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
+    import torch.nn as nn
+    import torch.nn.functional as F
+
+    class Model(nn.Module):
+        def __init__(self):
+            super(Model, self).__init__()
+            self.conv1 = nn.Conv2d(1, 20, 5)
+            self.conv2 = nn.Conv2d(20, 20, 5)
+
+        def forward(self, x):
+            x = F.relu(self.conv1(x))
+            return F.relu(self.conv2(x))
+
+Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:`to`, etc.
+
+:ivar training: Boolean represents whether this module is in training or
                 evaluation mode.
-:vartype training: bool</p>
+:vartype training: bool</code></pre>
 
 </div>
 
@@ -764,28 +771,31 @@ and −1 indicates total disagreement between prediction and observation</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="MCCLoss" class="doc_header"><code>class</code> <code>MCCLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L139" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MCCLoss</code>(<strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
+<h2 id="MCCLoss" class="doc_header"><code>class</code> <code>MCCLoss</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/losses.py#L139" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MCCLoss</code>(<strong><code>eps</code></strong>=<em><code>1e-07</code></em>, <strong><code>smooth</code></strong>=<em><code>0.0</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/models.losses.html#BaseLoss"><code>BaseLoss</code></a></p>
 </blockquote>
-<p>Computes the MCC loss.</p>
-<p>For this loss to work best, the input should be in range 0-1, e.g. enforced through a sigmoid or softmax.
+
+<pre><code>Computes the MCC loss.
+
+For this loss to work best, the input should be in range 0-1, e.g. enforced through a sigmoid or softmax.
 Note that PyTorch optimizers minimize a loss. So the loss is subtracted from 1.
-While the MCC score can become negative the MCC loss should not go below 0.</p>
-<p>Args:
-    inherited from <a href="/faimed3d/models.losses.html#BaseLoss"><code>BaseLoss</code></a>
+While the MCC score can become negative the MCC loss should not go below 0.
+
+
+Args:
+    inherited from `BaseLoss`
     targ:    A tensor of shape [B, C, D, H, W].
     pred:    A tensor of shape [B, C, D, H, W]. Corresponds to
              the raw output or logits of the model.
     weights: A list ot tuple, giving weights for each class or None
     avg:     'macro' computes loss for each B x C and averages the losses
-             'micro' computes loss for each B and acverages the losses</p>
+             'micro' computes loss for each B and acverages the losses
 
-<pre><code>Unique for [`MCCLoss`](/faimed3d/models.losses.html#MCCLoss)
-smooth:  Smoothing factor, default is 1.
-eps:     Added for numerical stability.
+    Unique for `MCCLoss`
+    smooth:  Smoothing factor, default is 1.
+    eps:     Added for numerical stability.
 
-</code></pre>
-<p>Returns:
-    mmc_loss: loss based on Matthews correlation coefficient</p>
+Returns:
+    mmc_loss: loss based on Matthews correlation coefficient</code></pre>
 
 </div>
 
