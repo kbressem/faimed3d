@@ -5,16 +5,12 @@
     "Preprocessing": "preprocessing.html",
     "Augmentations": "transforms.html",
     "Dataloaders": "dataloaders.html",
+    "Layers": "layers.html",
     "Learner": "learner.html",
-    "":{
-        "Models": {
-        "Layers": "layers.html",
-        "AlexNet": "models.alexnet.html",
-        "ResNet": "models.resnet.html",
-        "EfficientNet": "model.efficientnet.html",
-        "U-Net": "models.unet.html",
-      },
-    },
+    "AlexNet": "models.alexnet.html",
+    "ResNet": "models.resnet.html",
+    "EfficientNet": "model.efficientnet.html",
+    "U-Net": "models.unet.html",
     "Losses and metrics": "models.losses.html",
     "Callbacks": "callback.html"
   }

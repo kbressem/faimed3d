@@ -5,8 +5,8 @@
         <description>Add on to fastai for volumetric medical data</description>
         <link>http://localhost:4000/</link>
         <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 01 Mar 2021 17:14:00 +0100</pubDate>
-        <lastBuildDate>Mon, 01 Mar 2021 17:14:00 +0100</lastBuildDate>
+        <pubDate>Tue, 02 Mar 2021 12:03:18 +0100</pubDate>
+        <lastBuildDate>Tue, 02 Mar 2021 12:03:18 +0100</lastBuildDate>
         <generator>Jekyll v3.9.0</generator>
         
     </channel>

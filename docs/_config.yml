@@ -58,11 +58,10 @@ defaults:
       search: true
       tooltip: true
 
-sidebars: [home_sidebar]
-baseurl: /
+sidebars:
+    - home_sidebar
+baseurl: /faimed3d
 plugins:
     - jekyll-remote-theme
 
 remote_theme: fastai/nbdev-jekyll-theme
-
-#theme: jekyll-theme-minimal

@@ -12,9 +12,7 @@ index = {"TensorDicom3D": "01_basics.ipynb",
          "TensorDicom3D.get_direction": "01_basics.ipynb",
          "show_image_3d": "01_basics.ipynb",
          "show_images_3d": "01_basics.ipynb",
-         "Tensor.show": "01_basics.ipynb",
          "TensorDicom3D.show": "01_basics.ipynb",
-         "TensorMask3D.show": "01_basics.ipynb",
          "TensorDicom3D.strip": "01_basics.ipynb",
          "TensorDicom3D.size_correction": "02_preprocessing.ipynb",
          "TensorMask3D.size_correction": "02_preprocessing.ipynb",
@@ -177,7 +175,7 @@ modules = ["basics.py",
            "models/losses.py",
            "callback.py"]
 
-doc_url = "https://kbressem.github.io/faimed3d/"
+doc_url = "https://kbressem.github.io/faimed3d"
 
 git_url = "https://github.com/kbressem/faimed3d/tree/master/"
 
