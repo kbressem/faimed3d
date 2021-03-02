@@ -55,7 +55,8 @@ nb_path: "nbs/06b_models.resnet.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="conv3x3" class="doc_header"><code>conv3x3</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv3x3</code>(<strong><code>in_planes</code></strong>, <strong><code>out_planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
-<p>3x3 convolution with padding</p>
+
+<pre><code>3x3 convolution with padding</code></pre>
 
 </div>
 
@@ -80,7 +81,8 @@ nb_path: "nbs/06b_models.resnet.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="conv1x1" class="doc_header"><code>conv1x1</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1x1</code>(<strong><code>in_planes</code></strong>, <strong><code>out_planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
-<p>1x1 convolution</p>
+
+<pre><code>1x1 convolution</code></pre>
 
 </div>
 
@@ -105,30 +107,33 @@ nb_path: "nbs/06b_models.resnet.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="BasicBlock3d" class="doc_header"><code>class</code> <code>BasicBlock3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L26" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicBlock3d</code>(<strong><code>inplanes</code></strong>, <strong><code>planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>downsample</code></strong>=<em><code>None</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>base_width</code></strong>=<em><code>64</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>, <strong><code>act_layer</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
 
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
+<pre><code>Base class for all neural network modules.
 
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
+Your models should also subclass this class.
 
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
+Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::
 
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
+    import torch.nn as nn
+    import torch.nn.functional as F
+
+    class Model(nn.Module):
+        def __init__(self):
+            super(Model, self).__init__()
+            self.conv1 = nn.Conv2d(1, 20, 5)
+            self.conv2 = nn.Conv2d(20, 20, 5)
+
+        def forward(self, x):
+            x = F.relu(self.conv1(x))
+            return F.relu(self.conv2(x))
+
+Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:`to`, etc.
+
+:ivar training: Boolean represents whether this module is in training or
                 evaluation mode.
-:vartype training: bool</p>
+:vartype training: bool</code></pre>
 
 </div>
 
@@ -153,30 +158,33 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="Bottleneck3d" class="doc_header"><code>class</code> <code>Bottleneck3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L66" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Bottleneck3d</code>(<strong><code>inplanes</code></strong>, <strong><code>planes</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>downsample</code></strong>=<em><code>None</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>base_width</code></strong>=<em><code>64</code></em>, <strong><code>dilation</code></strong>=<em><code>1</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>, <strong><code>act_layer</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
 
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
+<pre><code>Base class for all neural network modules.
 
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
+Your models should also subclass this class.
 
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
+Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::
 
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
+    import torch.nn as nn
+    import torch.nn.functional as F
+
+    class Model(nn.Module):
+        def __init__(self):
+            super(Model, self).__init__()
+            self.conv1 = nn.Conv2d(1, 20, 5)
+            self.conv2 = nn.Conv2d(20, 20, 5)
+
+        def forward(self, x):
+            x = F.relu(self.conv1(x))
+            return F.relu(self.conv2(x))
+
+Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:`to`, etc.
+
+:ivar training: Boolean represents whether this module is in training or
                 evaluation mode.
-:vartype training: bool</p>
+:vartype training: bool</code></pre>
 
 </div>
 
@@ -296,7 +304,8 @@ This is discussed <a href="https://stackoverflow.com/questions/59648509/batch-no
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="IdentityLayer" class="doc_header"><code>class</code> <code>IdentityLayer</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L111" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>IdentityLayer</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
-<p>Returns input as is</p>
+
+<pre><code>Returns input as is</code></pre>
 
 </div>
 
@@ -335,30 +344,33 @@ This is discussed <a href="https://stackoverflow.com/questions/59648509/batch-no
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="ResNet3D" class="doc_header"><code>class</code> <code>ResNet3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L119" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResNet3D</code>(<strong><code>block</code></strong>, <strong><code>layers</code></strong>, <strong><code>n_channels</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>101</code></em>, <strong><code>zero_init_residual</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>width_per_group</code></strong>=<em><code>64</code></em>, <strong><code>replace_stride_with_dilation</code></strong>=<em><code>None</code></em>, <strong><code>norm_layer</code></strong>=<em><code>None</code></em>, <strong><code>act_layer</code></strong>=<em><code>None</code></em>, <strong><code>final_softmax</code></strong>=<em><code>False</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
 
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
+<pre><code>Base class for all neural network modules.
 
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
+Your models should also subclass this class.
 
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
+Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::
 
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
+    import torch.nn as nn
+    import torch.nn.functional as F
+
+    class Model(nn.Module):
+        def __init__(self):
+            super(Model, self).__init__()
+            self.conv1 = nn.Conv2d(1, 20, 5)
+            self.conv2 = nn.Conv2d(20, 20, 5)
+
+        def forward(self, x):
+            x = F.relu(self.conv1(x))
+            return F.relu(self.conv2(x))
+
+Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:`to`, etc.
+
+:ivar training: Boolean represents whether this module is in training or
                 evaluation mode.
-:vartype training: bool</p>
+:vartype training: bool</code></pre>
 
 </div>
 
@@ -444,9 +456,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="resnet18_3d" class="doc_header"><code>resnet18_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L257" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet18_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>ResNet-34 model from
-<code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>_
-adapted to 3d</p>
+
+<pre><code>ResNet-34 model from
+`"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_
+adapted to 3d</code></pre>
 
 </div>
 
@@ -471,9 +484,10 @@ adapted to 3d</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="resnet34_3d" class="doc_header"><code>resnet34_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L265" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet34_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>ResNet-34 model from
-<code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>_
-adapted to 3d</p>
+
+<pre><code>ResNet-34 model from
+`"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_
+adapted to 3d</code></pre>
 
 </div>
 
@@ -498,9 +512,10 @@ adapted to 3d</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="resnet50_3d" class="doc_header"><code>resnet50_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L273" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet50_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>ResNet-50 model from
-<code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>_
-adapted to 3d</p>
+
+<pre><code>ResNet-50 model from
+`"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_
+adapted to 3d</code></pre>
 
 </div>
 
@@ -525,9 +540,10 @@ adapted to 3d</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="resnet101_3d" class="doc_header"><code>resnet101_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L281" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet101_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>ResNet-101 model from
-<code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>
-adapted to 3d</p>
+
+<pre><code>ResNet-101 model from
+`"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`
+adapted to 3d</code></pre>
 
 </div>
 
@@ -552,9 +568,10 @@ adapted to 3d</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="resnet152_3d" class="doc_header"><code>resnet152_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/resnet.py#L289" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>resnet152_3d</code>(<strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong><code>progress</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>ResNet-152 model from
-<code>"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;</code>
-adapted to 3d</p>
+
+<pre><code>ResNet-152 model from
+`"Deep Residual Learning for Image Recognition" &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`
+adapted to 3d</code></pre>
 
 </div>
 

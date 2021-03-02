@@ -175,7 +175,7 @@ modules = ["basics.py",
            "models/losses.py",
            "callback.py"]
 
-doc_url = "https://kbressem.github.io/faimed3d"
+doc_url = "https://kbressem.github.io/"
 
 git_url = "https://github.com/kbressem/faimed3d/tree/master/"
 

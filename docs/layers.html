@@ -76,15 +76,15 @@ nb_path: "nbs/05_layers.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Helper-functions">Helper functions<a class="anchor-link" href="#Helper-functions"> </a></h2><p>Some functions from <code>fastai.layers</code> are needed to construct learners (see next notebook). For this some slight modifications had to be made. 
-The <code>in_channel</code> function had to be modified to also accept 3D models wich have 5D weights and the <a href="/faimed3d/layers.html#num_features_model"><code>num_features_model</code></a> function was adapted to pass a size tuple of len 3 instead of 2. The other functions were not changed but copied to avoid conflicts when loaded directly from fastai.<br>
-<a href="/faimed3d/learner.html#cnn_learner_3d"><code>cnn_learner_3d</code></a> is essentially the same function as fastais <code>cnn_learner</code>, just adds a new callback.</p>
+The <code>in_channel</code> function had to be modified to also accept 3D models wich have 5D weights and the <a href="/layers.html#num_features_model"><code>num_features_model</code></a> function was adapted to pass a size tuple of len 3 instead of 2. The other functions were not changed but copied to avoid conflicts when loaded directly from fastai.<br>
+<a href="/learner.html#cnn_learner_3d"><code>cnn_learner_3d</code></a> is essentially the same function as fastais <code>cnn_learner</code>, just adds a new callback.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> from fastai only returns a result if <code>weight.ndim == 4</code> but in 3D convolutional layers, it will be 5 dimensions, so the functions has to be adapted.</p>
+<p><a href="/layers.html#in_channels"><code>in_channels</code></a> from fastai only returns a result if <code>weight.ndim == 4</code> but in 3D convolutional layers, it will be 5 dimensions, so the functions has to be adapted.</p>
 
 </div>
 </div>
@@ -102,7 +102,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="in_channels" class="doc_header"><code>in_channels</code><a href="https://github.com/fastai/fastai/tree/master/fastai/layers.py#L597" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>in_channels</code>(<strong><code>m</code></strong>)</p>
 </blockquote>
-<p>Return the shape of the first weight layer in <code>m</code>.</p>
+
+<pre><code>Return the shape of the first weight layer in `m`.</code></pre>
 
 </div>
 
@@ -123,7 +124,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="/faimed3d/layers.html#num_features_model"><code>num_features_model</code></a> is unchanged, but needs to be defined here to correctly call the adapted <a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> function</p>
+<p><a href="/layers.html#num_features_model"><code>num_features_model</code></a> is unchanged, but needs to be defined here to correctly call the adapted <a href="/layers.html#in_channels"><code>in_channels</code></a> function</p>
 
 </div>
 </div>
@@ -141,7 +142,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="num_features_model" class="doc_header"><code>num_features_model</code><a href="https://github.com/fastai/fastai/tree/master/fastai/callback/hook.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>num_features_model</code>(<strong><code>m</code></strong>)</p>
 </blockquote>
-<p>Return the number of output features for <code>m</code>.</p>
+
+<pre><code>Return the number of output features for `m`.</code></pre>
 
 </div>
 
@@ -162,7 +164,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>model_sizes</code> and <a href="/faimed3d/layers.html#dummy_eval_4d"><code>dummy_eval_4d</code></a> both need to be extendet to handle multiple inputs in form of lists.</p>
+<p><code>model_sizes</code> and <a href="/layers.html#dummy_eval_4d"><code>dummy_eval_4d</code></a> both need to be extendet to handle multiple inputs in form of lists.</p>
 
 </div>
 </div>
@@ -180,7 +182,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="model_sizes_4d" class="doc_header"><code>model_sizes_4d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>model_sizes_4d</code>(<strong><code>m</code></strong>, <strong><code>size</code></strong>=<em><code>(8, 64, 64)</code></em>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
-<p>Pass a dummy input through the model <code>m</code> to get the various sizes of activations. same as fastai func</p>
+
+<pre><code>Pass a dummy input through the model `m` to get the various sizes of activations. same as fastai func</code></pre>
 
 </div>
 
@@ -212,7 +215,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="dummy_eval_4d" class="doc_header"><code>dummy_eval_4d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L57" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>dummy_eval_4d</code>(<strong><code>m</code></strong>, <strong><code>size</code></strong>=<em><code>(8, 64, 64)</code></em>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
-<p>Evaluate <code>m</code> on a dummy input of a certain <code>size</code>. Same as fastai func</p>
+
+<pre><code>Evaluate `m` on a dummy input of a certain `size`. Same as fastai func</code></pre>
 
 </div>
 
@@ -233,7 +237,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>create_cnn_model</code> is unchanged, but needs to be redefined to correctly call <a href="/faimed3d/layers.html#num_features_model"><code>num_features_model</code></a> which then calls the changed <a href="/faimed3d/layers.html#in_channels"><code>in_channels</code></a> function</p>
+<p><code>create_cnn_model</code> is unchanged, but needs to be redefined to correctly call <a href="/layers.html#num_features_model"><code>num_features_model</code></a> which then calls the changed <a href="/layers.html#in_channels"><code>in_channels</code></a> function</p>
 
 </div>
 </div>
@@ -264,7 +268,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="MultiStem" class="doc_header"><code>class</code> <code>MultiStem</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L64" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MultiStem</code>(<strong>*<code>layers</code></strong>) :: <code>SequentialEx</code></p>
 </blockquote>
-<p>applies one input of inputs to only one layer of layers</p>
+
+<pre><code>applies one input of inputs to only one layer of layers</code></pre>
 
 </div>
 
@@ -285,7 +290,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>After this, we send the feature maps from each stem through the same encoder. This is achieved by the <a href="/faimed3d/layers.html#RepeatedSequential"><code>RepeatedSequential</code></a> class, which takes a list of tensors and applies it's modules to each element of the list. A list of tensors is then returned again so that multiple instances of <a href="/faimed3d/layers.html#RepeatedSequential"><code>RepeatedSequential</code></a> can be chained after each other.</p>
+<p>After this, we send the feature maps from each stem through the same encoder. This is achieved by the <a href="/layers.html#RepeatedSequential"><code>RepeatedSequential</code></a> class, which takes a list of tensors and applies it's modules to each element of the list. A list of tensors is then returned again so that multiple instances of <a href="/layers.html#RepeatedSequential"><code>RepeatedSequential</code></a> can be chained after each other.</p>
 
 </div>
 </div>
@@ -303,7 +308,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="RepeatedSequential" class="doc_header"><code>class</code> <code>RepeatedSequential</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L73" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>RepeatedSequential</code>(<strong>*<code>layers</code></strong>) :: <code>SequentialEx</code></p>
 </blockquote>
-<p>passes multiple inputs through the same neural network</p>
+
+<pre><code>passes multiple inputs through the same neural network</code></pre>
 
 </div>
 
@@ -324,7 +330,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The main encoder for the UNet is build with <a href="/faimed3d/layers.html#Arch4D"><code>Arch4D</code></a>, which takes an encoder, splits the stem and body and converts the stem to a <a href="/faimed3d/layers.html#MultiStem"><code>MultiStem</code></a> and the submodules of the body to <a href="/faimed3d/layers.html#RepeatedSequential"><code>RepeatedSequential</code></a>. <a href="/faimed3d/layers.html#Arch4D"><code>Arch4D</code></a> can be indexed as the normal encoder and has the same number of subclasses. If outputs are hooked in <a href="/faimed3d/layers.html#Arch4D"><code>Arch4D</code></a> it will return a list.</p>
+<p>The main encoder for the UNet is build with <a href="/layers.html#Arch4D"><code>Arch4D</code></a>, which takes an encoder, splits the stem and body and converts the stem to a <a href="/layers.html#MultiStem"><code>MultiStem</code></a> and the submodules of the body to <a href="/layers.html#RepeatedSequential"><code>RepeatedSequential</code></a>. <a href="/layers.html#Arch4D"><code>Arch4D</code></a> can be indexed as the normal encoder and has the same number of subclasses. If outputs are hooked in <a href="/layers.html#Arch4D"><code>Arch4D</code></a> it will return a list.</p>
 
 </div>
 </div>
@@ -342,7 +348,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="Arch4D" class="doc_header"><code>class</code> <code>Arch4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L79" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Arch4D</code>(<strong><code>arch</code></strong>, <strong><code>n_inp</code></strong>) :: <code>SequentialEx</code></p>
 </blockquote>
-<p>repeatedly applies the same network to different inputs</p>
+
+<pre><code>repeatedly applies the same network to different inputs</code></pre>
 
 </div>
 
@@ -451,7 +458,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="/faimed3d/layers.html#Arch4D"><code>Arch4D</code></a> returns a list of tensors, which needs to be concatenated for further processing.</p>
+<p><a href="/layers.html#Arch4D"><code>Arch4D</code></a> returns a list of tensors, which needs to be concatenated for further processing.</p>
 
 </div>
 </div>
@@ -469,7 +476,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="Concat" class="doc_header"><code>class</code> <code>Concat</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L92" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Concat</code>(<strong><code>ni</code></strong>, <strong><code>ndim</code></strong>, <strong><code>dim</code></strong>=<em><code>1</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Same as <code>nn.Module</code>, but no need for subclasses to call <code>super().__init__</code></p>
+
+<pre><code>Same as `nn.Module`, but no need for subclasses to call `super().__init__`</code></pre>
 
 </div>
 
@@ -508,7 +516,8 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="AdaptiveConcatPool3d" class="doc_header"><code>class</code> <code>AdaptiveConcatPool3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L103" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdaptiveConcatPool3d</code>(<strong><code>size</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Layer that concats <code>AdaptiveAvgPool3d</code> and <code>AdaptiveMaxPool3d</code></p>
+
+<pre><code>Layer that concats `AdaptiveAvgPool3d` and `AdaptiveMaxPool3d`</code></pre>
 
 </div>
 
@@ -536,7 +545,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When using multiple inputs, <code>nn.Sequential</code> will not work as it expects only two inputs (self and input). Therefore, a subclass is defined, which accepts multiple inputs and converts those into a tuple, which is then passed to the modules. The first element of the final model will be the <a href="/faimed3d/layers.html#MultiStem"><code>MultiStem</code></a> which expects a list of tensors and returns a list of tensors. The next submodules are <code>RepeatedSequentials</code> which again take in and return a list of tensors. Next is the concat module, which will take in a list but return a single tensor, so the normal <code>fastai</code> head can be used.</p>
+<p>When using multiple inputs, <code>nn.Sequential</code> will not work as it expects only two inputs (self and input). Therefore, a subclass is defined, which accepts multiple inputs and converts those into a tuple, which is then passed to the modules. The first element of the final model will be the <a href="/layers.html#MultiStem"><code>MultiStem</code></a> which expects a list of tensors and returns a list of tensors. The next submodules are <code>RepeatedSequentials</code> which again take in and return a list of tensors. Next is the concat module, which will take in a list but return a single tensor, so the normal <code>fastai</code> head can be used.</p>
 
 </div>
 </div>
@@ -554,26 +563,28 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="Sequential4D" class="doc_header"><code>class</code> <code>Sequential4D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L112" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Sequential4D</code>(<strong>*<code>args</code></strong>:<code>Any</code>) :: <code>Sequential</code></p>
 </blockquote>
-<p>A sequential container.
+
+<pre><code>A sequential container.
 Modules will be added to it in the order they are passed in the constructor.
-Alternatively, an ordered dict of modules can also be passed in.</p>
-<p>To make it easier to understand, here is a small example::</p>
+Alternatively, an ordered dict of modules can also be passed in.
 
-<pre><code># Example of using Sequential
-model = nn.Sequential(
-          nn.Conv2d(1,20,5),
-          nn.ReLU(),
-          nn.Conv2d(20,64,5),
-          nn.ReLU()
-        )
+To make it easier to understand, here is a small example::
 
-# Example of using Sequential with OrderedDict
-model = nn.Sequential(OrderedDict([
-          ('conv1', nn.Conv2d(1,20,5)),
-          ('relu1', nn.ReLU()),
-          ('conv2', nn.Conv2d(20,64,5)),
-          ('relu2', nn.ReLU())
-        ]))</code></pre>
+    # Example of using Sequential
+    model = nn.Sequential(
+              nn.Conv2d(1,20,5),
+              nn.ReLU(),
+              nn.Conv2d(20,64,5),
+              nn.ReLU()
+            )
+
+    # Example of using Sequential with OrderedDict
+    model = nn.Sequential(OrderedDict([
+              ('conv1', nn.Conv2d(1,20,5)),
+              ('relu1', nn.ReLU()),
+              ('conv2', nn.Conv2d(20,64,5)),
+              ('relu2', nn.ReLU())
+            ]))</code></pre>
 
 </div>
 
@@ -612,7 +623,8 @@ model = nn.Sequential(OrderedDict([
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="create_head" class="doc_header"><code>create_head</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L120" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_head</code>(<strong><code>nf</code></strong>, <strong><code>n_out</code></strong>, <strong><code>n_inp</code></strong>=<em><code>None</code></em>, <strong><code>lin_ftrs</code></strong>=<em><code>None</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong><code>bn_final</code></strong>=<em><code>False</code></em>, <strong><code>lin_first</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Model head that takes <code>nf</code> features, runs through <code>lin_ftrs</code>, and out <code>n_out</code> classes.</p>
+
+<pre><code>Model head that takes `nf` features, runs through `lin_ftrs`, and out `n_out` classes.</code></pre>
 
 </div>
 
@@ -651,7 +663,8 @@ model = nn.Sequential(OrderedDict([
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="create_cnn_model_3d" class="doc_header"><code>create_cnn_model_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L143" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_cnn_model_3d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>n_inp</code></strong>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>custom_head</code></strong>=<em><code>None</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>Create custom convnet architecture using <code>arch</code>, <code>n_in</code> and <code>n_out</code>. Identical to fastai func</p>
+
+<pre><code>Create custom convnet architecture using `arch`, `n_in` and `n_out`. Identical to fastai func</code></pre>
 
 </div>
 
@@ -673,7 +686,7 @@ model = nn.Sequential(OrderedDict([
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The resulting model structure is shown in the below figure, using an 3D ResNet-18 as example arch.<br>
-<img src="/faimed3d/images/4d-cnn.png" alt="4D CNN"></p>
+<img src="/images/4d-cnn.png" alt="4D CNN"></p>
 
 </div>
 </div>

@@ -32,7 +32,7 @@ nb_path: "nbs/01_basics.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Why-a-new-class?">Why a new class?<a class="anchor-link" href="#Why-a-new-class?"> </a></h2><p>Fastai 2 provides support to read and display medical images using pydicom and pillow; however, only 2D images can be read. Therefore, no direct support of 3D volumes is provided by fastai. Furthermore, fastai only allows to read DICOM 2D images, not volumes, DICOM series or any of the other medical formats such as NIfTI, NRRD etc. For effective work with medical data, all possible formats should be supported. Therefore, in <code>faimed3d</code>, <a href="https://simpleitk.org/">SimpleITK</a>  is used to read images. SimpleITK is a powerfull library which can handle many data formats, including all of the above mentioned and many more. It is widely used for medical applications and very fast, as it is written in pure C++.<br>
-To allow specific augmentations, only to 3D data, two new classes are used in <code>faimed3d</code>: <a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a> for 3D image volumes and <a href="/faimed3dbasics.html#TensorMask3D"><code>TensorMask3D</code></a> for segmentation masks. Both are subclasses to <code>torch.Tensor</code>. A basic support for header information will be implemented in both classes, as the header sometimes has important information, e.g. for re-scaling of the pixel values, pixel spacing or patient orientation.</p>
+To allow specific augmentations, only to 3D data, two new classes are used in <code>faimed3d</code>: <a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a> for 3D image volumes and <a href="/basics.html#TensorMask3D"><code>TensorMask3D</code></a> for segmentation masks. Both are subclasses to <code>torch.Tensor</code>. A basic support for header information will be implemented in both classes, as the header sometimes has important information, e.g. for re-scaling of the pixel values, pixel spacing or patient orientation.</p>
 
 </div>
 </div>
@@ -56,7 +56,8 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="TensorDicom3D" class="doc_header"><code>class</code> <code>TensorDicom3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L22" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorDicom3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>TensorBase</code></p>
 </blockquote>
-<p>Base class for 3D medical images</p>
+
+<pre><code>Base class for 3D medical images</code></pre>
 
 </div>
 
@@ -86,9 +87,10 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L206" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
+<h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L206" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
 </blockquote>
-<p>Base class for 3d segmentation, inherits from TensorDicom3D</p>
+
+<pre><code>Base class for 3d segmentation, inherits from TensorDicom3D</code></pre>
 
 </div>
 
@@ -165,7 +167,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.set_spacing" class="doc_header"><code>TensorDicom3D.set_spacing</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L213" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.set_spacing</code>(<strong><code>t</code></strong>:<a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>spacing</code></strong>)</p>
+<h4 id="TensorDicom3D.set_spacing" class="doc_header"><code>TensorDicom3D.set_spacing</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L213" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.set_spacing</code>(<strong><code>t</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>spacing</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -189,7 +191,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.get_spacing" class="doc_header"><code>TensorDicom3D.get_spacing</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L219" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.get_spacing</code>(<strong><code>t</code></strong>:<a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
+<h4 id="TensorDicom3D.get_spacing" class="doc_header"><code>TensorDicom3D.get_spacing</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L219" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.get_spacing</code>(<strong><code>t</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
 </blockquote>
 
 </div>
@@ -213,7 +215,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.set_origin" class="doc_header"><code>TensorDicom3D.set_origin</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L222" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.set_origin</code>(<strong><code>t</code></strong>:<a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>origin</code></strong>)</p>
+<h4 id="TensorDicom3D.set_origin" class="doc_header"><code>TensorDicom3D.set_origin</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L222" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.set_origin</code>(<strong><code>t</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>origin</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -237,7 +239,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.get_origin" class="doc_header"><code>TensorDicom3D.get_origin</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L228" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.get_origin</code>(<strong><code>t</code></strong>:<a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
+<h4 id="TensorDicom3D.get_origin" class="doc_header"><code>TensorDicom3D.get_origin</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L228" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.get_origin</code>(<strong><code>t</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
 </blockquote>
 
 </div>
@@ -261,7 +263,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.set_direction" class="doc_header"><code>TensorDicom3D.set_direction</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L231" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.set_direction</code>(<strong><code>t</code></strong>:<a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>direction</code></strong>)</p>
+<h4 id="TensorDicom3D.set_direction" class="doc_header"><code>TensorDicom3D.set_direction</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L231" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.set_direction</code>(<strong><code>t</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>direction</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -285,7 +287,7 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.get_direction" class="doc_header"><code>TensorDicom3D.get_direction</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L237" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.get_direction</code>(<strong><code>t</code></strong>:<a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
+<h4 id="TensorDicom3D.get_direction" class="doc_header"><code>TensorDicom3D.get_direction</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L237" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.get_direction</code>(<strong><code>t</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
 </blockquote>
 
 </div>
@@ -325,14 +327,15 @@ To allow specific augmentations, only to 3D data, two new classes are used in <c
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="show_image_3d" class="doc_header"><code>show_image_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L241" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>show_image_3d</code>(<strong><code>t</code></strong>:<code>Tensor'&gt;)</code>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>alpha</code></strong>=<em><code>1.0</code></em>, <strong><code>return_grid</code></strong>=<em><code>False</code></em>, <strong><code>add_to_existing</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>Plots 2D slices of a 3D image alongside a prior specified axis.
+
+<pre><code>Plots 2D slices of a 3D image alongside a prior specified axis.
 Args:
     t: a 3D numpy.ndarray or torch.Tensor
     axis: axis to split 3D array to 2D images
     figsize, cmap: passed to plt.imshow
     nrow: passed to torchvision.utils.make_grid
     return_grid: Whether the grid should be returned for further processing or if the plot should be displayed.
-    add_to_existing: if set to true, no new figure will be created. Used for mask overlays</p>
+    add_to_existing: if set to true, no new figure will be created. Used for mask overlays</code></pre>
 
 </div>
 
@@ -388,7 +391,7 @@ Args:
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Sometimes multiple 3D images (e.g. a batch) need to be displayed. With a wrapper for <a href="/faimed3dbasics.html#show_image_3d"><code>show_image_3d</code></a> this is possible.</p>
+<p>Sometimes multiple 3D images (e.g. a batch) need to be displayed. With a wrapper for <a href="/basics.html#show_image_3d"><code>show_image_3d</code></a> this is possible.</p>
 
 </div>
 </div>
@@ -406,18 +409,19 @@ Args:
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="show_images_3d" class="doc_header"><code>show_images_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L280" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>show_images_3d</code>(<strong><code>t</code></strong>:<code>Tensor</code>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong><code>alpha</code></strong>=<em><code>1.0</code></em>, <strong><code>return_grid</code></strong>=<em><code>False</code></em>, <strong><code>add_to_existing</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>Displays multiple 3D images (e.g. a batch) by flattening the 4th dimension of the tensor
+
+<pre><code>Displays multiple 3D images (e.g. a batch) by flattening the 4th dimension of the tensor
 and then calling show_image_3d
 Args:
     t (torch.Tensor): input image with dimension B x D x H x W or B x C x D x H x W,
                       however C is ignored for display
-    axis (int): Axis to split images to multiple 2D slices. <a href="/faimed3dbasics.html#show_images_3d"><code>show_images_3d</code></a> does not
+    axis (int): Axis to split images to multiple 2D slices. `show_images_3d` does not
                 know about pixel spacing, so choosing a non-standard axis will result in
                 atypical looking images.
     figsize, cmap, nrow, alpha: passed to plot function
     return_grid (bool): return the grid, not the plot for further processing
     add_to_existing (bool): adds plot to existing plot, not calling plot.new.
-                            Usefull for overlays, e.g. with masks.</p>
+                            Usefull for overlays, e.g. with masks.</code></pre>
 
 </div>
 
@@ -499,9 +503,10 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.show" class="doc_header"><code>TensorDicom3D.show</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L320" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.show</code>(<strong><code>t</code></strong>:<a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="TensorDicom3D.show" class="doc_header"><code>TensorDicom3D.show</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L320" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.show</code>(<strong><code>t</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>, <strong><code>axis</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>figsize</code></strong>:<code>int</code>=<em><code>(15, 15)</code></em>, <strong><code>cmap</code></strong>:<code>str</code>=<em><code>'bone'</code></em>, <strong><code>nrow</code></strong>:<code>int</code>=<em><code>10</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
-<p>displays the 3D image as a mosaik</p>
+
+<pre><code>displays the 3D image as a mosaik</code></pre>
 
 </div>
 
@@ -575,7 +580,7 @@ A faster, more flexible way might be using <a href="https://github.com/maartenbr
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="TensorDicom3D.strip" class="doc_header"><code>TensorDicom3D.strip</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L339" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.strip</code>(<strong><code>x</code></strong>:<a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
+<h4 id="TensorDicom3D.strip" class="doc_header"><code>TensorDicom3D.strip</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L339" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>TensorDicom3D.strip</code>(<strong><code>x</code></strong>:<a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a>)</p>
 </blockquote>
 
 </div>
@@ -606,9 +611,10 @@ A faster, more flexible way might be using <a href="https://github.com/maartenbr
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L206" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/faimed3dbasics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
+<h2 id="TensorMask3D" class="doc_header"><code>class</code> <code>TensorMask3D</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/basics.py#L206" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>TensorMask3D</code>(<strong><code>x</code></strong>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <a href="/basics.html#TensorDicom3D"><code>TensorDicom3D</code></a></p>
 </blockquote>
-<p>Base class for 3d segmentation, inherits from TensorDicom3D</p>
+
+<pre><code>Base class for 3d segmentation, inherits from TensorDicom3D</code></pre>
 
 </div>
 
