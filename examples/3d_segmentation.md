@@ -589,4 +589,4 @@ dice_score(pred, target)
 
 
 
-A micro averaged dice score of 0.726 is similar to the macro averaged dice score of 0.673 as reported by Me et al. although, micro averaged scores tend to be slightly higher and Ma et al. only used four CT examinations instead of six to train the segmentation model. Still this is close to the published state of the art. 
+A micro averaged dice score of 0.726 is similar to the macro averaged dice score of 0.673 as reported by Ma et al. although, micro averaged scores tend to be slightly higher and Ma et al. only used four CT examinations instead of six to train the segmentation model. Still this is close to the published state of the art. 
