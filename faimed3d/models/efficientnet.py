@@ -221,9 +221,9 @@ class EfficientNet(nn.Sequential):
 
 # Cell
 _model_urls = {
-           'efficientnet_b0': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b0.pth',
-           'efficientnet_b1': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b1.pth',
-           'efficientnet_b2': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b2.pth',
+           'efficientnet_b0': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b0_3d_ucf100.pth',
+           'efficientnet_b1': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b1_3d_ucf100.pth',
+           'efficientnet_b2': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b2_3d_ucf100.pth',
           }
 
 # Cell
