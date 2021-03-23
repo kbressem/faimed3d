@@ -35,9 +35,6 @@ class UnetBlock3D(Module):
     def __init__(self, up_in_c, x_in_c, hook, final_div=True, blur=False, act_cls=defaults.activation,
                  self_attention=False, init=nn.init.kaiming_normal_, norm_type=None, **kwargs):
         self.hook = hook
-        if len(hook.stored) > 1:
-            self.pool_fm = ConvLayer(x_in_c*len(hook.stored), x_in_c, ks = 1, ndim=3, act_cls=act_cls, norm_type=norm_type, **kwargs)
-        else: self.pool_fm = noop
         self.up = ConvTranspose3D(up_in_c, up_in_c//2, blur=blur, act_cls=act_cls, norm_type=norm_type, **kwargs)
         self.bn = BatchNorm(x_in_c, ndim=3)
         ni = up_in_c//2 + x_in_c
@@ -50,7 +47,7 @@ class UnetBlock3D(Module):
 
     def forward(self, up_in):
 
-        s = self.pool_fm(torch.cat(self.hook.stored, 1))
+        s = sum(self.hook.stored)
         up_out = self.up(up_in)
         ssh = s.shape[-3:]
         if ssh != up_out.shape[-3:]:
