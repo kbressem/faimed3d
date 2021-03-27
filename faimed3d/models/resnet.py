@@ -236,10 +236,10 @@ class ResNet3D(nn.Module):
 
 # Cell
 _model_urls = {
-           'resnet18_3d': 'https://rad-ai.charite.de/pretrained_models/resnet18_3d.pth',
-           'resnet34_3d': 'https://rad-ai.charite.de/pretrained_models/resnet34_3d.pth',
-           'resnet50_3d': 'https://rad-ai.charite.de/pretrained_models/resnet50_3d.pth',
-           'resnet101_3d': 'https://rad-ai.charite.de/pretrained_models/resnet101_3d.pth'
+           'resnet18_3d': 'https://rad-ai.charite.de/pretrained_models/resnet18_3d_ucf100.pth',
+           'resnet34_3d': 'https://rad-ai.charite.de/pretrained_models/resnet34_3d_ucf100.pth',
+           'resnet50_3d': 'https://rad-ai.charite.de/pretrained_models/resnet50_3d_ucf100.pth',
+           'resnet101_3d': 'https://rad-ai.charite.de/pretrained_models/resnet101_3d_ucf100.pth'
           }
 
 # Cell
