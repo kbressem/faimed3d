@@ -150,6 +150,10 @@ index = {"TensorDicom3D": "01_basics.ipynb",
          "SequentialEx4D": "06d_models.unet.ipynb",
          "AddItems": "06d_models.unet.ipynb",
          "DynamicUnet3D": "06d_models.unet.ipynb",
+         "ASPPPooling": "06e_models.deeplabv3.ipynb",
+         "ASPP": "06e_models.deeplabv3.ipynb",
+         "DeepLabDecoder": "06e_models.deeplabv3.ipynb",
+         "DynamicDeepLab": "06e_models.deeplabv3.ipynb",
          "BaseLoss": "06f_models.losses.ipynb",
          "DiceLoss": "06f_models.losses.ipynb",
          "DiceLoss2": "06f_models.losses.ipynb",
@@ -158,8 +162,7 @@ index = {"TensorDicom3D": "01_basics.ipynb",
          "SplitVolumes": "07_callback.ipynb",
          "SubsampleShuffle": "07_callback.ipynb",
          "MixSubvol": "07_callback.ipynb",
-         "ReloadBestFit": "07_callback.ipynb",
-         "PiecewiseHistNormalizationCallback": "07_callback.ipynb"}
+         "ReloadBestFit": "07_callback.ipynb"}
 
 modules = ["basics.py",
            "preprocess.py",
@@ -171,6 +174,7 @@ modules = ["basics.py",
            "models/resnet.py",
            "models/efficientnet.py",
            "models/unet.py",
+           "models/deeplab.py",
            "models/losses.py",
            "callback.py"]
 

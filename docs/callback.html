@@ -54,7 +54,7 @@ nb_path: "nbs/07_callback.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="StackVolumes" class="doc_header"><code>class</code> <code>StackVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L22" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>StackVolumes</code>(<strong><code>n_classes</code></strong>, <strong><code>pool_type</code></strong>=<em><code>'max'</code></em>, <strong><code>stack_yb</code></strong>=<em><code>False</code></em>) :: <code>Callback</code></p>
+<h2 id="StackVolumes" class="doc_header"><code>class</code> <code>StackVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L21" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>StackVolumes</code>(<strong><code>n_classes</code></strong>, <strong><code>pool_type</code></strong>=<em><code>'max'</code></em>, <strong><code>stack_yb</code></strong>=<em><code>False</code></em>) :: <code>Callback</code></p>
 </blockquote>
 
 <pre><code>Takes multiple 3D volumes and stacks them in the color dim.
@@ -109,7 +109,7 @@ Example:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SplitVolumes" class="doc_header"><code>class</code> <code>SplitVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SplitVolumes</code>(<strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <code>Callback</code></p>
+<h2 id="SplitVolumes" class="doc_header"><code>class</code> <code>SplitVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L61" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SplitVolumes</code>(<strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <code>Callback</code></p>
 </blockquote>
 
 <pre><code>Separates a 3D tensor into smaller equal-sized sub-volumes.
@@ -160,7 +160,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L124" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
+<h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L123" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
 
 <pre><code>After splitting the volume into multiple subvolumes, draws a randon amount of subvolumes for training.
@@ -210,7 +210,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L164" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
+<h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L163" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
 
 <pre><code>After splitting the volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.
@@ -251,57 +251,6 @@ Args:
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets.widgets.interaction</span> <span class="kn">import</span> <span class="n">show_inline_matplotlib_plots</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">clear_output</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
-
-<span class="k">class</span> <span class="nc">MixUp3D</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implementation of MixUp for 3D images. </span>
-<span class="sd">    Note that the loss function does not need to be adapted like in fastais MixUp, as MCC and DICE loss accept float values. </span>
-<span class="sd">    </span>
-<span class="sd">    ToDo:</span>
-<span class="sd">        Currently, MixUp can generate false labels. Eg mixing 50% of Label 1 and 50% of Label 3 will give Label 2, which is wrong. </span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">run_after</span> <span class="o">=</span> <span class="p">[</span><span class="n">Normalize</span><span class="p">,</span> <span class="n">StackVolumes</span><span class="p">]</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
-        <span class="n">store_attr</span><span class="p">()</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;currently MixUp generates wrong labels if there are more than two differnt labels.&#39;</span>
-                      <span class="s1">&#39;Use with caution.&#39;</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">before_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span> <span class="ow">and</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="o">.</span><span class="n">xb</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Got multiple items in x batch. You need to concatenate the batch first.&#39;</span><span class="p">)</span>   
-            <span class="n">shuffled_idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">detuplify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="o">.</span><span class="n">xb</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
-            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">shuffled_idx</span><span class="p">)</span>
-            <span class="n">yb</span> <span class="o">=</span> <span class="n">detuplify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="o">.</span><span class="n">yb</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span> <span class="n">yb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">yb</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="o">.</span><span class="n">unique</span><span class="p">()))</span>
-            <span class="n">xj</span> <span class="o">=</span> <span class="n">detuplify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="o">.</span><span class="n">xb</span><span class="p">)[</span><span class="n">shuffled_idx</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="n">yj</span> <span class="o">=</span> <span class="n">yb</span><span class="p">[</span><span class="n">shuffled_idx</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="o">.</span><span class="n">xb</span> <span class="o">=</span> <span class="p">(</span><span class="n">detuplify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="o">.</span><span class="n">xb</span><span class="p">)</span><span class="o">*</span><span class="n">w</span> <span class="o">+</span> <span class="n">xj</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">w</span><span class="p">),</span> <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="o">.</span><span class="n">yb</span> <span class="o">=</span> <span class="p">(</span><span class="n">yb</span><span class="o">*</span><span class="n">w</span> <span class="o">+</span> <span class="n">yj</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">w</span><span class="p">),</span> <span class="p">)</span>
-            
-    <span class="k">def</span> <span class="nf">one_hot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)],</span> <span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Tracker-callbacks">Tracker callbacks<a class="anchor-link" href="#Tracker-callbacks"> </a></h2>
@@ -319,50 +268,10 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ReloadBestFit" class="doc_header"><code>class</code> <code>ReloadBestFit</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L200" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ReloadBestFit</code>(<strong><code>fname</code></strong>, <strong><code>monitor</code></strong>=<em><code>'valid_loss'</code></em>, <strong><code>comp</code></strong>=<em><code>None</code></em>, <strong><code>min_delta</code></strong>=<em><code>0.0</code></em>, <strong><code>patience</code></strong>=<em><code>1</code></em>) :: <code>TrackerCallback</code></p>
+<h2 id="ReloadBestFit" class="doc_header"><code>class</code> <code>ReloadBestFit</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L199" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ReloadBestFit</code>(<strong><code>fname</code></strong>, <strong><code>monitor</code></strong>=<em><code>'valid_loss'</code></em>, <strong><code>comp</code></strong>=<em><code>None</code></em>, <strong><code>min_delta</code></strong>=<em><code>0.0</code></em>, <strong><code>patience</code></strong>=<em><code>1</code></em>) :: <code>TrackerCallback</code></p>
 </blockquote>
 
 <pre><code>A `TrackerCallback` that reloads the previous best model if not improvement happend for n epochs</code></pre>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Callback-for-pixel-value-rescaling">Callback for pixel value rescaling<a class="anchor-link" href="#Callback-for-pixel-value-rescaling"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="PiecewiseHistNormalizationCallback" class="doc_header"><code>class</code> <code>PiecewiseHistNormalizationCallback</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L220" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PiecewiseHistNormalizationCallback</code>(<strong><code>standard_scale</code></strong>=<em><code>None</code></em>, <strong><code>percs</code></strong>=<em><code>None</code></em>) :: <code>Callback</code></p>
-</blockquote>
-
-<pre><code>Applies Piecewise Histogram Matching to batches.
-Generates standard_scale and percs before fit, if not provided.</code></pre>
 
 </div>
 
