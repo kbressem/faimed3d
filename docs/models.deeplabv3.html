@@ -178,7 +178,8 @@ nb_path: "nbs/06e_models.deeplabv3.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DeepLabDecoder" class="doc_header"><code>class</code> <code>DeepLabDecoder</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/deeplab.py#L56" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DeepLabDecoder</code>(<strong><code>ni</code></strong>, <strong><code>low_lvl_ni</code></strong>, <strong><code>hook</code></strong>, <strong><code>n_out</code></strong>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>) :: <code>Module</code></p>
+<h2 id="DeepLabDecoder" class="doc_header"><code>class</code> <code>DeepLabDecoder</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/deeplab.py#L50" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DeepLabDecoder</code>(<strong><code>ni</code></strong>, <strong><code>low_lvl_ni</code></strong>, <strong><code>hook</code></strong>, <strong><code>n_out</code></strong>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>) :: <code>Module</code></p>
+
 </blockquote>
 
 <pre><code>Decoder Block for DynamicDeeplab</code></pre>
@@ -211,10 +212,11 @@ nb_path: "nbs/06e_models.deeplabv3.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DynamicDeepLab" class="doc_header"><code>class</code> <code>DynamicDeepLab</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/deeplab.py#L85" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DynamicDeepLab</code>(<strong><code>encoder</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal</code></em>, <strong><code>norm_type</code></strong>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/models.unet.html#SequentialEx4D"><code>SequentialEx4D</code></a></p>
+<h2 id="DynamicDeepLab" class="doc_header"><code>class</code> <code>DynamicDeepLab</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/models/deeplab.py#L78" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DynamicDeepLab</code>(<strong><code>encoder</code></strong>, <strong><code>n_out</code></strong>, <strong><code>img_size</code></strong>, <strong><code>n_inp</code></strong>=<em><code>1</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>act_cls</code></strong>=<em><code>ReLU</code></em>, <strong><code>norm_type</code></strong>=<em><code>&lt;NormType.Batch: 1&gt;</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/models.unet.html#SequentialEx4D"><code>SequentialEx4D</code></a></p>
 </blockquote>
 
-<pre><code>Build DeepLab with multiple encoders</code></pre>
+<pre><code>Build DeepLab with different encoders</code></pre>
+
 
 </div>
 
@@ -287,6 +289,15 @@ nb_path: "nbs/06e_models.deeplabv3.ipynb"
 
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([1, 128, 3, 7, 7]) torch.Size([1, 64, 10, 28, 28])
+torch.Size([1, 128, 3, 7, 7]) torch.Size([1, 64, 10, 28, 28])
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -318,6 +329,15 @@ nb_path: "nbs/06e_models.deeplabv3.ipynb"
 
 <div class="output_wrapper">
 <div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([1, 128, 3, 7, 7]) torch.Size([1, 64, 10, 28, 28])
+torch.Size([1, 128, 3, 7, 7]) torch.Size([1, 64, 10, 28, 28])
+</pre>
+</div>
+</div>
 
 <div class="output_area">
 
