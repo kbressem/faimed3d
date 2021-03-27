@@ -223,7 +223,7 @@ class EfficientNet(nn.Sequential):
 _model_urls = {
            'efficientnet_b0': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b0_3d_ucf100.pth',
            'efficientnet_b1': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b1_3d_ucf100.pth',
-           'efficientnet_b2': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b2_3d_ucf100.pth',
+           'efficientnet_b3': 'https://rad-ai.charite.de/pretrained_models/efficientnet_b3_3d_ucf100.pth',
           }
 
 # Cell
@@ -251,14 +251,14 @@ def efficientnet_b1(pretrained=False, progress=True, **kwargs):
 
 def efficientnet_b2(pretrained=False, progress=True, **kwargs):
     "load efficientnet with specific scaling coefficients"
+    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_b3`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_b2', width_coefficient=1.1, depth_coefficient=1.2,
-                         dropout_rate=0.3, pretrained=pretrained, progress=progress, **kwargs)
+                         dropout_rate=0.3, pretrained=False, progress=progress, **kwargs)
 
 def efficientnet_b3(pretrained=False, progress=True, **kwargs):
     "load efficientnet with specific scaling coefficients"
-    if pretrained: warn('Currently there is no pretrained version available for `efficientnet_b3`. Will load randomly intilialized weights.')
     return _efficientnet('efficientnet_b3', width_coefficient=1.2, depth_coefficient=1.4,
-                         dropout_rate=0.3, pretrained=False, progress=False, **kwargs)
+                         dropout_rate=0.3, pretrained=pretrained, progress=False, **kwargs)
 
 def efficientnet_b4(pretrained=False, progress=True, **kwargs):
     "load efficientnet with specific scaling coefficients"
