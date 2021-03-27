@@ -40,6 +40,9 @@ entries:
           title: EfficientNet
           url: model.efficientnet.html
         - output: web,pdf
+          title: DeepLab
+          url: models.deeplabv3.html
+        - output: web,pdf
           title: U-Net
           url: models.unet.html
         title: Models
