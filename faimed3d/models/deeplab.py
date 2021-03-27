@@ -77,7 +77,6 @@ class DeepLabDecoder(Module):
 # Cell
 class DynamicDeepLab(SequentialEx4D):
     "Build DeepLab with different encoders"
-
     def __init__(self, encoder, n_out, img_size, n_inp=1, y_range=None,
                        act_cls=defaults.activation, norm_type=NormType.Batch, **kwargs):
 
