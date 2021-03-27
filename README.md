@@ -4,13 +4,13 @@
 
 ## Classification
 
-```python
+```
 from faimed3d.all import *
 ```
 
 Load data in various medical formats (DICOM, NIfTI, NRRD) or even videos as simple as in fastai.
 
-```python
+```
 d = pd.read_csv('../data/radiopaedia_cases.csv')
 dls = ImageDataLoaders3D.from_df(d,
                                  item_tfms = Resize3D((20, 112, 112)),
@@ -28,12 +28,12 @@ Faimed3d provides multiple model architectures, pretrained on the [UCF101](https
 | resnet 50       | 94.8 %          | 12M:16S        | 561.2 MB         |
 | resnet 101      | 96.0 %          | 17M:20S        | 1,030 MB         |
 
-```python
+```
 # slow
 learn = cnn_learner_3d(dls, efficientnet_b0) 
 ```
 
-```python
+```
 # slow
 learn.lr_find()
 ```
@@ -57,7 +57,7 @@ Click [here](../examples/3d_classification.md) for a more in-depth classificatio
 
 ## Segmentation
 
-```python
+```
 dls = SegmentationDataLoaders3D.from_df(d,
                                  item_tfms = Resize3D((20, 112, 112)),
                                  batch_tfms = aug_transforms_3d(), 
@@ -66,12 +66,12 @@ dls = SegmentationDataLoaders3D.from_df(d,
 
 All models in faimed3d can be used as a backbone for U-Nets, even with pre-trained weights. 
 
-```python
+```
 # slow
 learn = unet_learner_3d(dls, efficientnet_b0, n_out = 2) 
 ```
 
-```python
+```
 # slow 
 learn.lr_find()
 ```

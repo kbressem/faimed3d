@@ -12,6 +12,7 @@
         "AlexNet": "models.alexnet.html",
         "ResNet": "models.resnet.html",
         "EfficientNet": "model.efficientnet.html",
+        "DeepLab": "models.deeplabv3.html",
         "U-Net": "models.unet.html"
       }
     },
