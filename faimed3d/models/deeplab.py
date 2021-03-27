@@ -13,6 +13,7 @@ from .unet import AddItems, SequentialEx4D, ResizeToOrig
 
 # Cell
 class ASPPPooling(nn.Sequential):
+    "Pooling Layer for ASPP"
     def __init__(self, ni, nf, norm_type=None, act_cls=defaults.activation):
         super(ASPPPooling, self).__init__(
             nn.AdaptiveAvgPool3d(1),
@@ -27,6 +28,7 @@ class ASPPPooling(nn.Sequential):
 
 
 class ASPP(SequentialEx):
+    "3D Atrous Spatial Pyramid Pooling"
     def __init__(self, ni, dilations, nf, norm_type=None, act_cls=defaults.activation, ps=0.5):
 
         conv_layers = [ConvLayer(ni=ni, nf=nf, ks=1, bias=False, ndim=3, norm_type=norm_type, act_cls=act_cls)]
@@ -52,6 +54,7 @@ class ASPP(SequentialEx):
 
 # Cell
 class DeepLabDecoder(Module):
+    "Decoder Block for DynamicDeeplab"
     def __init__(self, ni, low_lvl_ni, hook, n_out, norm_type=None,
                  act_cls=defaults.activation, ps=0.5):
         self.hook = hook
@@ -80,6 +83,7 @@ class DeepLabDecoder(Module):
 
 # Cell
 class DynamicDeepLab(SequentialEx4D):
+    "Build DeepLab with multiple encoders"
     def __init__(self, encoder, n_out, img_size, n_inp=1, y_range=None,
                        act_cls=defaults.activation, init=nn.init.kaiming_normal,
                        norm_type=None, **kwargs):
