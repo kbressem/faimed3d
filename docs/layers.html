@@ -21,32 +21,32 @@ nb_path: "nbs/05_layers.ipynb"
 -->
 
 <div class="container" id="notebook-container">
-
+        
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/radiopaedia_cases.csv&#39;</span><span class="p">)</span>
-<span class="n">dls</span> <span class="o">=</span> <span class="n">ImageDataLoaders3D</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">d</span><span class="p">,</span>
+<span class="n">dls</span> <span class="o">=</span> <span class="n">ImageDataLoaders3D</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> 
                                  <span class="n">item_tfms</span> <span class="o">=</span> <span class="n">ResizeCrop3D</span><span class="p">(</span><span class="n">crop_by</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">resize_to</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">perc_crop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">),</span>
-                                 <span class="n">bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                                 <span class="n">bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> 
                                  <span class="n">val_bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
 
 <span class="n">body_3d</span> <span class="o">=</span> <span class="n">create_body</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -61,7 +61,7 @@ nb_path: "nbs/05_layers.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Helper-functions">Helper functions<a class="anchor-link" href="#Helper-functions"> </a></h2><p>Some functions from <code>fastai.layers</code> are needed to construct learners (see next notebook). For this some slight modifications had to be made.
+<h2 id="Helper-functions">Helper functions<a class="anchor-link" href="#Helper-functions"> </a></h2><p>Some functions from <code>fastai.layers</code> are needed to construct learners (see next notebook). For this some slight modifications had to be made. 
 The <code>in_channel</code> function had to be modified to also accept 3D models wich have 5D weights and the <a href="/layers.html#num_features_model"><code>num_features_model</code></a> function was adapted to pass a size tuple of len 3 instead of 2. The other functions were not changed but copied to avoid conflicts when loaded directly from fastai.<br>
 <a href="/learner.html#cnn_learner_3d"><code>cnn_learner_3d</code></a> is essentially the same function as fastais <code>cnn_learner</code>, just adds a new callback.</p>
 
@@ -76,7 +76,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -102,7 +102,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -116,7 +116,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -142,7 +142,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -156,7 +156,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -182,14 +182,14 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -215,7 +215,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -256,7 +256,7 @@ class MultiStem(SequentialEx):
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -282,7 +282,7 @@ class MultiStem(SequentialEx):
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -293,13 +293,13 @@ class RecurrentSequential(SequentialEx):
     def __init__(self, *args):
         "reduces some of the hierachical structure of the network"
         super().__init__(*[submodule for module in args for submodule in module])
-
+    
     def forward(self, inputs):
         inputs = [inputs] if isinstance(inputs, Tensor) else list(inputs)
-        shuffle(inputs)
-        for module in self:
+        shuffle(inputs)    
+        for module in self: 
             out = None
-            for i, inp in enumerate(inputs):
+            for i, inp in enumerate(inputs): 
                 if isinstance(out, Tensor) and out.shape == inp.shape: inp += out
                 out = module(inp)
                 inputs[i]=out
@@ -313,7 +313,7 @@ class RecurrentSequential(SequentialEx):
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -339,14 +339,14 @@ class RecurrentSequential(SequentialEx):
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -355,7 +355,7 @@ class RecurrentSequential(SequentialEx):
 class Arch4D(SequentialEx):
     'repeatedly applies the same network to different inputs'
     def __init__(self, arch, n_inp):
-        layers = [RecurrentSequential(l) for l in arch]
+        layers = [RecurrentSequential(l) for l in arch] 
         self.layers = nn.ModuleList(layers)
 
     def forward(self, inputs):
@@ -364,7 +364,7 @@ class Arch4D(SequentialEx):
         return inputs
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -381,7 +381,7 @@ class Arch4D(SequentialEx):
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -415,7 +415,7 @@ class Arch4D(SequentialEx):
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -432,7 +432,7 @@ class Arch4D(SequentialEx):
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -466,7 +466,7 @@ class Arch4D(SequentialEx):
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -510,7 +510,7 @@ class Arch4D(SequentialEx):
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -536,7 +536,7 @@ class Arch4D(SequentialEx):
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -550,7 +550,7 @@ class Arch4D(SequentialEx):
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -576,7 +576,7 @@ class Arch4D(SequentialEx):
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -597,7 +597,7 @@ class Arch4D(SequentialEx):
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -643,7 +643,7 @@ To make it easier to understand, here is a small example::
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -657,7 +657,7 @@ To make it easier to understand, here is a small example::
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -683,7 +683,7 @@ To make it easier to understand, here is a small example::
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -697,7 +697,7 @@ To make it easier to understand, here is a small example::
 </div>
 </div>
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -723,14 +723,14 @@ To make it easier to understand, here is a small example::
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -747,7 +747,7 @@ To make it easier to understand, here is a small example::
     {% endraw %}
 
     {% raw %}
-
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -786,3 +786,5 @@ To make it easier to understand, here is a small example::
 </div>
 </div>
 </div>
+ 
+
