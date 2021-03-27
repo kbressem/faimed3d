@@ -13,10 +13,11 @@ from .unet import AddItems, SequentialEx4D, ResizeToOrig
 
 # Cell
 class ASPPPooling(nn.Sequential):
+    "Pooling Layer for ASPP"
     def __init__(self, ni, nf, norm_type=None, act_cls=defaults.activation):
         super(ASPPPooling, self).__init__(
             nn.AdaptiveAvgPool3d(1),
-            ConvLayer(ni=ni, nf=nf, ks=1, ndim=3, bias=False, norm_type=norm_type, act_cls=act_cls)
+            ConvLayer(ni=ni, nf=nf, ks=1, ndim=3, bias=False, norm_type=None, act_cls=act_cls)
         )
 
     def forward(self, x):
@@ -27,19 +28,15 @@ class ASPPPooling(nn.Sequential):
 
 
 class ASPP(SequentialEx):
+    "3D Atrous Spatial Pyramid Pooling"
     def __init__(self, ni, dilations, nf, norm_type=None, act_cls=defaults.activation, ps=0.5):
-
         conv_layers = [ConvLayer(ni=ni, nf=nf, ks=1, bias=False, ndim=3, norm_type=norm_type, act_cls=act_cls)]
-
         dilations = tuple(dilations)
         for dilation in dilations:
-            conv_layers.append(ConvLayer(ni=ni, nf=nf, ndim=3, dilation=dilation, padding=dilation,
-                                    norm_type=norm_type, act_cls=act_cls))
-
+            conv_layers.append(ConvLayer(ni=ni, nf=nf, ndim=3, ks=3, dilation=dilation, padding=dilation,
+                                         norm_type=norm_type, act_cls=act_cls))
         pooling = ASPPPooling(ni=ni, nf=nf, norm_type=norm_type, act_cls=act_cls)
-
         self.layers = nn.ModuleList([*conv_layers, pooling])
-
         self.project = nn.Sequential(
             ConvLayer(ni=len(self.layers)*nf, nf=nf, ks=1, bias=False, ndim=3,
             norm_type=norm_type, act_cls=act_cls),
@@ -47,11 +44,11 @@ class ASPP(SequentialEx):
 
     def forward(self, x):
         res = [module(x) for module in self.layers]
-        res = torch.cat(res, dim=1)
-        return self.project(res)
+        return self.project(torch.cat(res, dim=1))
 
 # Cell
 class DeepLabDecoder(Module):
+    "Decoder Block for DynamicDeeplab"
     def __init__(self, ni, low_lvl_ni, hook, n_out, norm_type=None,
                  act_cls=defaults.activation, ps=0.5):
         self.hook = hook
@@ -70,7 +67,6 @@ class DeepLabDecoder(Module):
 
     def forward(self, x):
         s = self.low_lvl_conv(sum(self.hook.stored))
-
         ssh = s.shape[-3:]
         if ssh != x.shape[-3:]:
             x = F.interpolate(x, size=ssh, mode='nearest')
@@ -80,6 +76,7 @@ class DeepLabDecoder(Module):
 
 # Cell
 class DynamicDeepLab(SequentialEx4D):
+    "Build DeepLab with different encoders"
     def __init__(self, encoder, n_out, img_size, n_inp=1, y_range=None,
                        act_cls=defaults.activation, norm_type=NormType.Batch, **kwargs):
 
@@ -91,7 +88,7 @@ class DynamicDeepLab(SequentialEx4D):
         x = [x_.detach() for x_ in x]
         ni = sizes[-1][1]
         nf = ni//4
-        dilations=[1, 12, 24, 36] if ni > 1024 else [1, 6, 12, 18]
+        dilations=[1, 12, 24, 36] if ni > 512 else [1, 6, 12, 18]
         add_items = AddItems()
         aspp = ASPP(ni=ni, nf=nf, dilations=dilations, norm_type=norm_type, act_cls=act_cls).eval()
 
