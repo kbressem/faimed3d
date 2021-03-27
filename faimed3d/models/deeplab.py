@@ -81,8 +81,7 @@ class DeepLabDecoder(Module):
 # Cell
 class DynamicDeepLab(SequentialEx4D):
     def __init__(self, encoder, n_out, img_size, n_inp=1, y_range=None,
-                       act_cls=defaults.activation, init=nn.init.kaiming_normal,
-                       norm_type=None, **kwargs):
+                       act_cls=defaults.activation, norm_type=NormType.Batch, **kwargs):
 
         encoder = Arch4D(encoder, n_inp)
         sizes = model_sizes_4d(encoder, size=img_size, n_inp=n_inp)
@@ -97,9 +96,10 @@ class DynamicDeepLab(SequentialEx4D):
         aspp = ASPP(ni=ni, nf=nf, dilations=dilations, norm_type=norm_type, act_cls=act_cls).eval()
 
         x = aspp(add_items(x))
-        decoder = DeepLabDecoder(ni=nf, low_lvl_ni=sizes[sz_chg_idxs[1]][1], hook=self.sfs, n_out=n_out).eval()
+        decoder = DeepLabDecoder(ni=nf, low_lvl_ni=sizes[sz_chg_idxs[1]][1], hook=self.sfs, n_out=n_out,
+                                 norm_type=norm_type, act_cls=act_cls).eval()
         x = decoder(x)
-        self.layers = [encoder, add_items, aspp, decoder, ResizeToOrig()]
+        self.layers = nn.ModuleList([encoder, add_items, aspp, decoder, ResizeToOrig()])
 
     def __del__(self):
         if hasattr(self, "sfs"): self.sfs.remove()
