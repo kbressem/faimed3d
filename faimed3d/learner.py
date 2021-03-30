@@ -44,7 +44,7 @@ def create_unet_model_3d(arch, n_out, img_size, n_in, pretrained=True, cut=None,
     "Create custom unet architecture"
     meta = model_meta.get(arch, _default_meta)
     body = create_body(arch, n_in, pretrained, ifnone(cut, meta['cut']))
-    model = DynamicUnet3D(body, n_out, img_size, n_inp, **kwargs)
+    model = DynamicUnet3D(body, n_out, img_size, **kwargs)
     return model
 
 # Cell
@@ -86,7 +86,7 @@ def create_deeplab_model_3d(arch, n_out, img_size, n_in, pretrained=True, cut=No
     "Create custom unet architecture"
     meta = model_meta.get(arch, _default_meta)
     body = create_body(arch, n_in, pretrained, ifnone(cut, meta['cut']))
-    model = DynamicDeepLab(body, n_out, img_size, n_inp, **kwargs)
+    model = DynamicDeepLab(body, n_out, img_size, **kwargs)
     return model
 
 # Cell
