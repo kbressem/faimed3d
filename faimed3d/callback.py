@@ -9,7 +9,6 @@ from fastai.basics import *
 from fastai.vision.all import *
 from fastai.callback.all import *
 import torch.nn.functional as F
-from tqdm import tqdm
 
 # Cell
 from .basics import *
@@ -20,42 +19,17 @@ from .data import *
 # Cell
 class StackVolumes(Callback):
     """
-    Takes multiple 3D volumes and stacks them in the color dim.
+    Takes multiple 3D volumes and stacks them in the channel dim.
     This is useful when using multi-sequence medical data.
-
-    Can also merge multiple segmentation masks, through pooling (max, min or mean) alongside the color dim,
-    then converts the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
-    appearances
 
     Example:
         Having the Tensors of size (10, 1, 5, 25, 25) would lead to a single Tensor of
         size (10, 3, 5, 25, 25).
     """
-    def __init__(self, n_classes, pool_type='max', stack_yb=False):
-        store_attr()
 
     def before_batch(self):
         self.learn.xb = (torch.cat(self.learn.xb, dim=1), )
 
-        if self.stack_yb:
-            if self.pool_type=='max':
-                yb = torch.cat(self.learn.yb, dim = 1).max(dim=1)[0] # get max at color channel
-            elif self.pool_type=='mean':
-                yb = torch.cat(self.learn.yb, dim = 1).mean(dim=1)[0].round() # get mean at color channel
-            elif self.pool_type=='min':
-                yb = torch.cat(self.learn.yb, dim = 1).min(dim=1)[0] # get min at color channel
-
-            else: raise NotImplementedError('Pooling type {} for mask not implemented'.format(self.pool_type))
-            yb = self.to_one_hot(yb, self.n_classes)
-            self.learn.yb = (yb, )
-
-    def make_binary(self, target, val):
-        return torch.where(target == val, tensor(1.).to(target.device), tensor(0.).to(target.device))
-
-    def to_one_hot(self, target, n_classes):
-        target = target.squeeze(1).long() # remove the solitary color channel (if there is one) and set type to int64
-        one_hot = [self.make_binary(target, val=i) for i in range(0, n_classes)]
-        return torch.stack(one_hot, 1)
 
 # Cell
 class SplitVolumes(Callback):

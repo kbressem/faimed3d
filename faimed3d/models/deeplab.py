@@ -9,7 +9,7 @@ from fastai.vision.all import create_body, hook_outputs
 from fastai.vision.models.unet import _get_sz_change_idxs
 from ..basics import *
 from ..layers import *
-from .unet import AddItems, SequentialEx4D, ResizeToOrig
+from .unet import ResizeToOrig
 
 # Cell
 class ASPPPooling(nn.Sequential):
@@ -75,28 +75,24 @@ class DeepLabDecoder(Module):
 
 
 # Cell
-class DynamicDeepLab(SequentialEx4D):
+class DynamicDeepLab(SequentialEx):
     "Build DeepLab with different encoders"
-    def __init__(self, encoder, n_out, img_size, n_inp=1, y_range=None,
+    def __init__(self, encoder, n_out, img_size, y_range=None,
                        act_cls=defaults.activation, norm_type=NormType.Batch, **kwargs):
 
-        encoder = Arch4D(encoder, n_inp)
-        sizes = model_sizes_4d(encoder, size=img_size, n_inp=n_inp)
+        sizes = model_sizes(encoder, size=img_size)
         sz_chg_idxs = list(_get_sz_change_idxs(sizes))
         self.sfs = hook_outputs(encoder[sz_chg_idxs[1]], detach=False)
-        x = dummy_eval_4d(encoder, img_size, n_inp)
-        x = [x_.detach() for x_ in x]
+        x = dummy_eval(encoder, img_size).detach()
         ni = sizes[-1][1]
         nf = ni//4
         dilations=[1, 12, 24, 36] if ni > 512 else [1, 6, 12, 18]
-        add_items = AddItems()
         aspp = ASPP(ni=ni, nf=nf, dilations=dilations, norm_type=norm_type, act_cls=act_cls).eval()
-
-        x = aspp(add_items(x))
+        x = aspp(x)
         decoder = DeepLabDecoder(ni=nf, low_lvl_ni=sizes[sz_chg_idxs[1]][1], hook=self.sfs, n_out=n_out,
                                  norm_type=norm_type, act_cls=act_cls).eval()
         x = decoder(x)
-        self.layers = nn.ModuleList([encoder, add_items, aspp, decoder, ResizeToOrig()])
+        self.layers = nn.ModuleList([encoder, aspp, decoder, ResizeToOrig()])
 
     def __del__(self):
         if hasattr(self, "sfs"): self.sfs.remove()

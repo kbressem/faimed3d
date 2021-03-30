@@ -54,15 +54,11 @@ nb_path: "nbs/07_callback.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="StackVolumes" class="doc_header"><code>class</code> <code>StackVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L21" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>StackVolumes</code>(<strong><code>n_classes</code></strong>, <strong><code>pool_type</code></strong>=<em><code>'max'</code></em>, <strong><code>stack_yb</code></strong>=<em><code>False</code></em>) :: <code>Callback</code></p>
+<h2 id="StackVolumes" class="doc_header"><code>class</code> <code>StackVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L20" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>StackVolumes</code>(<strong><code>after_create</code></strong>=<em><code>None</code></em>, <strong><code>before_fit</code></strong>=<em><code>None</code></em>, <strong><code>before_epoch</code></strong>=<em><code>None</code></em>, <strong><code>before_train</code></strong>=<em><code>None</code></em>, <strong><code>before_batch</code></strong>=<em><code>None</code></em>, <strong><code>after_pred</code></strong>=<em><code>None</code></em>, <strong><code>after_loss</code></strong>=<em><code>None</code></em>, <strong><code>before_backward</code></strong>=<em><code>None</code></em>, <strong><code>before_step</code></strong>=<em><code>None</code></em>, <strong><code>after_cancel_step</code></strong>=<em><code>None</code></em>, <strong><code>after_step</code></strong>=<em><code>None</code></em>, <strong><code>after_cancel_batch</code></strong>=<em><code>None</code></em>, <strong><code>after_batch</code></strong>=<em><code>None</code></em>, <strong><code>after_cancel_train</code></strong>=<em><code>None</code></em>, <strong><code>after_train</code></strong>=<em><code>None</code></em>, <strong><code>before_validate</code></strong>=<em><code>None</code></em>, <strong><code>after_cancel_validate</code></strong>=<em><code>None</code></em>, <strong><code>after_validate</code></strong>=<em><code>None</code></em>, <strong><code>after_cancel_epoch</code></strong>=<em><code>None</code></em>, <strong><code>after_epoch</code></strong>=<em><code>None</code></em>, <strong><code>after_cancel_fit</code></strong>=<em><code>None</code></em>, <strong><code>after_fit</code></strong>=<em><code>None</code></em>) :: <code>Callback</code></p>
 </blockquote>
 
-<pre><code>Takes multiple 3D volumes and stacks them in the color dim.
+<pre><code>Takes multiple 3D volumes and stacks them in the channel dim.
 This is useful when using multi-sequence medical data.
-
-Can also merge multiple segmentation masks, through pooling (max, min or mean) alongside the color dim,
-then converts the mask to one-hot encoded type. However, this can lead to 'ugly' masks with punch-out like
-appearances
 
 Example:
     Having the Tensors of size (10, 1, 5, 25, 25) would lead to a single Tensor of
@@ -109,7 +105,7 @@ Example:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SplitVolumes" class="doc_header"><code>class</code> <code>SplitVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L61" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SplitVolumes</code>(<strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <code>Callback</code></p>
+<h2 id="SplitVolumes" class="doc_header"><code>class</code> <code>SplitVolumes</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SplitVolumes</code>(<strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <code>Callback</code></p>
 </blockquote>
 
 <pre><code>Separates a 3D tensor into smaller equal-sized sub-volumes.
@@ -160,7 +156,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L123" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
+<h2 id="SubsampleShuffle" class="doc_header"><code>class</code> <code>SubsampleShuffle</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L97" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SubsampleShuffle</code>(<strong><code>p</code></strong>=<em><code>0.5</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
 
 <pre><code>After splitting the volume into multiple subvolumes, draws a randon amount of subvolumes for training.
@@ -210,7 +206,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L163" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
+<h2 id="MixSubvol" class="doc_header"><code>class</code> <code>MixSubvol</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L137" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MixSubvol</code>(<strong><code>p</code></strong>=<em><code>0.25</code></em>, <strong><code>n_subvol</code></strong>=<em><code>8</code></em>, <strong><code>split_along_depth</code></strong>=<em><code>True</code></em>) :: <a href="/callback.html#SplitVolumes"><code>SplitVolumes</code></a></p>
 </blockquote>
 
 <pre><code>After splitting the volume into multiple subvolumes, shuffels the subvolumes and sticks the images back together.
@@ -268,7 +264,7 @@ Args:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ReloadBestFit" class="doc_header"><code>class</code> <code>ReloadBestFit</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L199" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ReloadBestFit</code>(<strong><code>fname</code></strong>, <strong><code>monitor</code></strong>=<em><code>'valid_loss'</code></em>, <strong><code>comp</code></strong>=<em><code>None</code></em>, <strong><code>min_delta</code></strong>=<em><code>0.0</code></em>, <strong><code>patience</code></strong>=<em><code>1</code></em>) :: <code>TrackerCallback</code></p>
+<h2 id="ReloadBestFit" class="doc_header"><code>class</code> <code>ReloadBestFit</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/callback.py#L173" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ReloadBestFit</code>(<strong><code>fname</code></strong>, <strong><code>monitor</code></strong>=<em><code>'valid_loss'</code></em>, <strong><code>comp</code></strong>=<em><code>None</code></em>, <strong><code>min_delta</code></strong>=<em><code>0.0</code></em>, <strong><code>patience</code></strong>=<em><code>1</code></em>) :: <code>TrackerCallback</code></p>
 </blockquote>
 
 <pre><code>A `TrackerCallback` that reloads the previous best model if not improvement happend for n epochs</code></pre>
