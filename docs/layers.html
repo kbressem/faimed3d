@@ -48,8 +48,6 @@ nb_path: "nbs/05_layers.ipynb"
                                  <span class="n">item_tfms</span> <span class="o">=</span> <span class="n">ResizeCrop3D</span><span class="p">(</span><span class="n">crop_by</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">resize_to</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">perc_crop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">),</span>
                                  <span class="n">bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> 
                                  <span class="n">val_bs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
-
-<span class="n">body_3d</span> <span class="o">=</span> <span class="n">create_body</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -68,13 +66,70 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="create_body" class="doc_header"><code>create_body</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_body</code>(<strong><code>arch</code></strong>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>cut</code></strong>=<em><code>None</code></em>)</p>
+</blockquote>
+
+<pre><code>Cut off the body of a typically pretrained `arch` as determined by `cut`</code></pre>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="/layers.html#in_channels"><code>in_channels</code></a> from fastai only returns a result if <code>weight.ndim == 4</code> but in 3D convolutional layers, it will be 5 dimensions, so the functions has to be adapted.</p>
+<p>fastai <a href="/layers.html#create_body"><code>create_body</code></a> can adapt the number of input channels but only for 2d convolutions. With slight changes in the code of the two fastai functions, it can be adapted to work with 3d convolutions.</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">body_3d</span> <span class="o">=</span> <span class="n">create_body</span><span class="p">(</span><span class="n">resnet50_3d</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -108,6 +163,13 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/layers.html#in_channels"><code>in_channels</code></a> from fastai only returns a result if <code>weight.ndim == 4</code> but in 3D convolutional layers, it will be 5 dimensions, so the functions has to be adapted.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -115,7 +177,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">in_channels</span><span class="p">(</span><span class="n">body_3d</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">in_channels</span><span class="p">(</span><span class="n">body_3d</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -238,8 +300,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">num_features_model</span><span class="p">(</span><span class="n">body_3d</span><span class="p">),</span> <span class="mi">2048</span><span class="p">)</span>
-<span class="n">dummy_eval</span><span class="p">(</span><span class="n">body_3d</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dummy_eval</span><span class="p">(</span><span class="n">body_3d</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 <span class="n">model_sizes</span><span class="p">(</span><span class="n">body_3d</span><span class="p">)</span>
 </pre></div>
 
@@ -270,6 +331,23 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">num_features_model</span><span class="p">(</span><span class="n">body_3d</span><span class="p">),</span> <span class="mi">2048</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>create_cnn_model</code> is unchanged, but needs to be redefined to correctly call <a href="/layers.html#num_features_model"><code>num_features_model</code></a> which then calls the changed <a href="/layers.html#in_channels"><code>in_channels</code></a> function</p>
@@ -288,7 +366,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Concat" class="doc_header"><code>class</code> <code>Concat</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L64" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Concat</code>(<strong><code>ni</code></strong>, <strong><code>ndim</code></strong>, <strong><code>dim</code></strong>=<em><code>1</code></em>) :: <code>Module</code></p>
+<h2 id="Concat" class="doc_header"><code>class</code> <code>Concat</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L92" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Concat</code>(<strong><code>ni</code></strong>, <strong><code>ndim</code></strong>, <strong><code>dim</code></strong>=<em><code>1</code></em>) :: <code>Module</code></p>
 </blockquote>
 
 <pre><code>Same as `nn.Module`, but no need for subclasses to call `super().__init__`</code></pre>
@@ -328,7 +406,7 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AdaptiveConcatPool3d" class="doc_header"><code>class</code> <code>AdaptiveConcatPool3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L75" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdaptiveConcatPool3d</code>(<strong><code>size</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h2 id="AdaptiveConcatPool3d" class="doc_header"><code>class</code> <code>AdaptiveConcatPool3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L104" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdaptiveConcatPool3d</code>(<strong><code>size</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 
 <pre><code>Layer that concats `AdaptiveAvgPool3d` and `AdaptiveMaxPool3d`</code></pre>
@@ -361,10 +439,50 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_head" class="doc_header"><code>create_head</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L84" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_head</code>(<strong><code>nf</code></strong>, <strong><code>n_out</code></strong>, <strong><code>lin_ftrs</code></strong>=<em><code>None</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong><code>bn_final</code></strong>=<em><code>False</code></em>, <strong><code>lin_first</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="create_head" class="doc_header"><code>create_head</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L113" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_head</code>(<strong><code>nf</code></strong>, <strong><code>n_out</code></strong>, <strong><code>lin_ftrs</code></strong>=<em><code>None</code></em>, <strong><code>ps</code></strong>=<em><code>0.5</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong><code>bn_final</code></strong>=<em><code>False</code></em>, <strong><code>lin_first</code></strong>=<em><code>False</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 <pre><code>Model head that takes `nf` features, runs through `lin_ftrs`, and out `n_out` classes.</code></pre>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/layers.html#create_head"><code>create_head</code></a> is the same as fastai function, but used 3d pooling.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="create_cnn_model_3d" class="doc_header"><code>create_cnn_model_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_cnn_model_3d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>custom_head</code></strong>=<em><code>None</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+
+<pre><code>Create custom convnet architecture using `arch`, `n_in` and `n_out`. Identical to fastai func</code></pre>
 
 </div>
 
@@ -390,39 +508,6 @@ The <code>in_channel</code> function had to be modified to also accept 3D models
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_cnn_model_3d" class="doc_header"><code>create_cnn_model_3d</code><a href="https://github.com/kbressem/faimed3d/tree/master/faimed3d/layers.py#L101" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_cnn_model_3d</code>(<strong><code>arch</code></strong>, <strong><code>n_out</code></strong>, <strong><code>cut</code></strong>=<em><code>None</code></em>, <strong><code>pretrained</code></strong>=<em><code>True</code></em>, <strong><code>n_in</code></strong>=<em><code>3</code></em>, <strong><code>init</code></strong>=<em><code>kaiming_normal_</code></em>, <strong><code>custom_head</code></strong>=<em><code>None</code></em>, <strong><code>concat_pool</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>)</p>
-</blockquote>
-
-<pre><code>Create custom convnet architecture using `arch`, `n_in` and `n_out`. Identical to fastai func</code></pre>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">

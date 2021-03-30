@@ -16,12 +16,12 @@ from .data import *
 from .models.unet import DynamicUnet3D
 from .models.deeplab import DynamicDeepLab
 from .models.losses import DiceLoss
-from fastai.vision.learner import _default_meta, _add_norm, model_meta, create_body
+from fastai.vision.learner import _default_meta, _add_norm, model_meta
 
 # Cell
 @delegates(Learner.__init__)
 def cnn_learner_3d(dls, arch, loss_func=None, pretrained=True, cut=None, splitter=None,
-                y_range=None, config=None, n_out=None, normalize=True, **kwargs):
+                y_range=None, config=None, n_out=None, normalize=True, cbs=None, **kwargs):
     """
     Build a convnet style learner from `dls` and `arch`
     Same as fastai func but adds the `AddColorChannel` callback.
@@ -33,14 +33,14 @@ def cnn_learner_3d(dls, arch, loss_func=None, pretrained=True, cut=None, splitte
     # if normalize: _add_norm(dls, meta, pretrained) # no effect as no TenosrImage is passed in 3d
     if y_range is None and 'y_range' in config: y_range = config.pop('y_range')
 
-    model = create_cnn_model_3d(arch, n_out, ifnone(cut, meta['cut']), pretrained, y_range=y_range, **config)
+    model = create_cnn_model_3d(arch, n_out, ifnone(cut, meta['cut']), pretrained, n_in=dls.n_inp, y_range=y_range, **config)
     learn = Learner(dls, model, loss_func=loss_func, splitter=ifnone(splitter, meta['split']), **kwargs)
     if pretrained: learn.freeze()
     return learn
 
 # Cell
 @delegates(DynamicUnet3D.__init__)
-def create_unet_model_3d(arch, n_out, img_size, n_inp=1, pretrained=True, cut=None, n_in=3, **kwargs):
+def create_unet_model_3d(arch, n_out, img_size, n_in, pretrained=True, cut=None, **kwargs):
     "Create custom unet architecture"
     meta = model_meta.get(arch, _default_meta)
     body = create_body(arch, n_in, pretrained, ifnone(cut, meta['cut']))
@@ -67,7 +67,7 @@ def unet_learner_3d(dls, arch, normalize=True, n_out=None, pretrained=True, conf
     assert n_out, "`n_out` is not defined, and could not be inferred from data, set `dls.c` or pass `n_out`"
     img_size = dls.one_batch()[0].shape[-3:]
     assert img_size, "image size could not be inferred from data"
-    model = create_unet_model_3d(arch, n_out, img_size,  pretrained=pretrained, norm_type=norm_type, **kwargs)
+    model = create_unet_model_3d(arch, n_out, img_size, n_in=dls.n_inp, pretrained=pretrained, norm_type=norm_type, **kwargs)
 
     if loss_func is None: loss_func = DiceLoss(smooth=0.)
     splitter=ifnone(splitter, meta['split'])
@@ -82,7 +82,7 @@ def unet_learner_3d(dls, arch, normalize=True, n_out=None, pretrained=True, conf
 
 # Cell
 @delegates(DynamicDeepLab.__init__)
-def create_deeplab_model_3d(arch, n_out, img_size, n_inp=1, pretrained=True, cut=None, n_in=3, **kwargs):
+def create_deeplab_model_3d(arch, n_out, img_size, n_in, pretrained=True, cut=None, **kwargs):
     "Create custom unet architecture"
     meta = model_meta.get(arch, _default_meta)
     body = create_body(arch, n_in, pretrained, ifnone(cut, meta['cut']))
@@ -105,7 +105,7 @@ def deeplab_learner_3d(dls, arch, normalize=True, n_out=None, pretrained=True,
     assert n_out, "`n_out` is not defined, and could not be inferred from data, set `dls.c` or pass `n_out`"
     img_size = dls.one_batch()[0].shape[-3:]
     assert img_size, "image size could not be inferred from data"
-    model = create_deeplab_model_3d(arch, n_out, img_size, pretrained=pretrained, norm_type=norm_type, **kwargs)
+    model = create_deeplab_model_3d(arch, n_out, img_size, n_in=dls.n_inp, pretrained=pretrained, norm_type=norm_type, **kwargs)
 
     if loss_func is None: loss_func = DiceLoss(smooth=0.)
     splitter=ifnone(splitter, meta['split'])
