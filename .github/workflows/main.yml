@@ -11,12 +11,16 @@ jobs:
       with:
         python-version: '3.7'
         architecture: 'x64'
+        
     - name: Install the library
       run: |
         pip install nbdev jupyter
-    - name: Install requirements
+        
+    - name: Install the library
       run: |
-        pip install setuptools==50.3.2 wheel==0.36.2 && pip install -r requirements.txt
+        pip install nbdev jupyter
+        pip install -e .
+        
     - name: Read all notebooks
       run: |
         nbdev_read_nbs
