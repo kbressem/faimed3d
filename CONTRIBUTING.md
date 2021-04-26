@@ -2,14 +2,15 @@
 
 ## How to get started
 
-This repository was initalized from a `nbdev` template. To make simple fixes to the code (e.g. typos) and push working notebooks to Github which pass all tests, you needs at least a basic anaconda enviroment with `nbdev`.
-You can create a working enviroment with `conda create --name <env> -c fastai nbdev`. If you want to participate in development you need to run `conda create --name <env> -c fastai -c pytorch -c simpleitk -c conda-forge fastai simpleitk`, to create an enviroment with working fastai amd SimpleITK. You may also have to install `kornia` via pip.   
-Before you start changing code in the notebooks, please install the git hooks that run automatic scripts during each commit and merge to strip the notebooks of superfluous metadata (and avoid merge conflicts). After cloning the repository, run the following command inside it:
+
+This repository was initialized from a `nbdev` template. To make simple fixes to the code (e.g., typos) and push working notebooks to Github, which pass all tests, you need at least a basic anaconda environment with `nbdev`, which can be created with `conda create --name <env> -c fastai nbdev`. 
+To participate in development you need to run `conda create --name <env> -c fastai -c PyTorch -c simpleitk -c conda-forge fastai simpleitk av nbdev scikit-image`, to create an environment with working fastai, SimpleITK and PyTorch modules.  
+Before starting to change code in the notebooks, please install the git hooks that run automatic scripts during each commit and merge to strip the notebooks of superfluous metadata (and avoid merge conflicts). After cloning the repository, run the following command inside it:
 
 ```
 nbdev_install_git_hooks
 ```
-You also need to create a symlink between the libs and nbs by executing `!ln -s ../faimed3d nbs/faimed3d` from within one notebook. 
+You also need to create a symlink between the libs and nbs by executing `!ln -s ../faimed3d nbs/faimed3d` from within one notebook or the terminal.
 
 ## Did you find a bug?
 

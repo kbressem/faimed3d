@@ -1,55 +1,40 @@
 # FAIMED 3D
-> fastai extension for medical 3d images including 3d transforms, datablocks and novel network architectures. 
+> use fastai to quickly train fully three-dimensional models on radiological data
 
 
-In contrast to fastai which uses Pydicom to read medical images, faimed3d uses SimpleITK, as it supports more image formats.  
-Currently, faimed3d is built using the following versions of fastai, fastcore, nbdev, PyTorch, torchvision and SimpleITK
+## Classification
 
-```python
-import fastai
-import pydicom
-import torch
-
-print('fastai:', fastai.__version__)
-print('pydicom:', pydicom.__version__)
-print('torch:', torch.__version__)
-print('SimpleITK: 2.0.2rc3 (ITK 5.1)')
 ```
-
-    fastai: 2.2.5
-    pydicom: 2.1.2
-    torch: 1.7.0
-    SimpleITK: 2.0.2rc3 (ITK 5.1)
-
-
-## Example 3D classification
-
-```python
 from faimed3d.all import *
-from torchvision.models.video import r3d_18
 ```
 
-```python
+Load data in various medical formats (DICOM, NIfTI, NRRD) or even videos as simple as in fastai.
+
+```
 d = pd.read_csv('../data/radiopaedia_cases.csv')
-```
-
-`faimed3d` keeps track of the metadata until the items are concatenated as a batch. 
-
-```python
 dls = ImageDataLoaders3D.from_df(d,
-                                 item_tfms = ResizeCrop3D(crop_by = (0, 6, 6), 
-                                                          resize_to = (20, 112, 112)),
+                                 item_tfms = Resize3D((20, 112, 112)),
+                                 batch_tfms = aug_transforms_3d(), 
                                  bs = 2, val_bs = 2)
 ```
 
-Construct a learner similar to fastai, even transfer learning is possible using the pretrained resnet18 from torchvision.
+Faimed3d provides multiple model architectures, pretrained on the [UCF101](https://paperswithcode.com/sota/action-recognition-in-videos-on-ucf101) dataset for action recoginiton, which can be used for transfer learning. 
 
-```python
-learn = cnn_learner_3d(dls, r3d_18) 
+| Model           | 3-fold accuracy | duration/epoch |   model size     |
+|-----------------|-----------------|----------------|------------------|
+| efficientnet b0 | 92.5 %          | 9M:35S         | 48.8 MB          |
+| efficientnet b1 | 90.1 %          | 13M:20S        | 80.5 MB          |
+| resnet 18       | 87.6 %          | 6M:57S         | 339.1 MB         |
+| resnet 50       | 94.8 %          | 12M:16S        | 561.2 MB         |
+| resnet 101      | 96.0 %          | 17M:20S        | 1,030 MB         |
+
+```
+# slow
+learn = cnn_learner_3d(dls, efficientnet_b0) 
 ```
 
-```python
-#slow
+```
+# slow
 learn.lr_find()
 ```
 
@@ -60,10 +45,50 @@ learn.lr_find()
 
 
 
-    SuggestedLRs(lr_min=6.918309954926372e-05, lr_steep=1.5848931980144698e-06)
+    SuggestedLRs(lr_min=0.014454397559165954, lr_steep=6.309573450380412e-07)
 
 
 
 
-![png](docs/images/output_9_2.png)
+![png](docs/images/output_6_2.png)
 
+
+Click [here](../examples/3d_classification.md) for a more in-depth classification example. 
+
+## Segmentation
+
+```
+dls = SegmentationDataLoaders3D.from_df(d,
+                                 item_tfms = Resize3D((20, 112, 112)),
+                                 batch_tfms = aug_transforms_3d(), 
+                                 bs = 2, val_bs = 2)
+```
+
+All models in faimed3d can be used as a backbone for U-Nets, even with pre-trained weights. 
+
+```
+# slow
+learn = unet_learner_3d(dls, efficientnet_b0, n_out = 2) 
+```
+
+```
+# slow 
+learn.lr_find()
+```
+
+
+
+
+
+
+
+
+    SuggestedLRs(lr_min=0.33113112449646, lr_steep=0.10000000149011612)
+
+
+
+
+![png](docs/images/output_12_2.png)
+
+
+Click [here](../examples/3d_segmentation.md) for a more in-depth segmentation example. 
