@@ -19,6 +19,7 @@ from fastai.callback.all import *
 from .basics import *
 from .preprocess import *
 from .augment import *
+from .widgets.viewer import *
 
 # Cell
 class PreprocessDicom(DisplayedTransform):
@@ -172,15 +173,28 @@ def get_volumetric_files(path, recurse=True, folders=None):
 
 # Cell
 @patch
-def show_batch_3d(dls:DataLoaders, with_mask=False,
-                  alpha_mask=0.3, figsize = (15, 15), **kwargs):
-    "Workaround until implemented into dls as dls.show_batch_3d()"
-    xb, yb = dls.one_batch()
-    xb.show(figsize=figsize, **kwargs)
-    if with_mask: yb.show(add_to_existing = True, alpha = alpha_mask,
-                          cmap = 'jet', figsize=figsize, **kwargs)
-    if isinstance(yb, TensorCategory):
-        print(yb)
+def show_batch_3d(dls:DataLoaders, with_mask=False, alpha_mask=0.3, figsize = (4, 4), viewer = 'widget', max_n = 9, **kwargs):
+    "Show batch of DataLoader either with simple moasik view or using the DICOM viewer widget"
+
+    assert viewer in ['widget', 'mosaik'], 'viewer must be of type `widget` or `mosaik`'
+    batch = dls.decode_batch(dls.one_batch(), max_n = max_n)
+    xb, yb = list(map(list, zip(*batch)))
+
+    if viewer == 'mosaik':
+        xb = torch.stack(xb)
+        xb.show(figsize=figsize, **kwargs)
+        if with_mask:
+            yb = torch.stack(yb)
+            yb.show(add_to_existing = True, alpha = alpha_mask,
+                    cmap = 'jet', figsize=figsize, **kwargs)
+        if isinstance(yb, TensorCategory): print(yb)
+    if viewer == 'widget':
+        xb = [x.squeeze() for x in xb]
+        assert xb[0].ndim == 3, 'Currently multiple inputs are not supported'
+        if isinstance(yb[0], TensorMask3D):
+            yb = [y.squeeze() for y in yb] if with_mask else None
+        if isinstance(yb[0], MultiCategory): yb = [', '.join(y) for y in yb]
+        ListViewer(x=xb, y=yb, figsize=figsize,  max_n = max_n, **kwargs).show()
 
 # Cell
 @patch

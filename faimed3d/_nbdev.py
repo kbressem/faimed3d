@@ -161,7 +161,10 @@ index = {"TensorDicom3D": "01_basics.ipynb",
          "SplitVolumes": "07_callback.ipynb",
          "SubsampleShuffle": "07_callback.ipynb",
          "MixSubvol": "07_callback.ipynb",
-         "ReloadBestFit": "07_callback.ipynb"}
+         "ReloadBestFit": "07_callback.ipynb",
+         "BasicViewer": "08_widgets.viewer.ipynb",
+         "DicomExplorer": "08_widgets.viewer.ipynb",
+         "ListViewer": "08_widgets.viewer.ipynb"}
 
 modules = ["basics.py",
            "preprocess.py",
@@ -175,7 +178,8 @@ modules = ["basics.py",
            "models/unet.py",
            "models/deeplab.py",
            "models/losses.py",
-           "callback.py"]
+           "callback.py",
+           "widgets/viewer.py"]
 
 doc_url = "https://kbressem.github.io/"
 
