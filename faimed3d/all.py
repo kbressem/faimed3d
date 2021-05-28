@@ -12,3 +12,4 @@ from .models.unet import *
 from .models.deeplab import *
 from .models.losses import *
 from .callback import *
+from .widgets.viewer import *
