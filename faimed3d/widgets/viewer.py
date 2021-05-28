@@ -234,6 +234,7 @@ class DicomExplorer(BasicViewer):
             slider_min = self.x.min().numpy(),
             slider_max = self.x.max().numpy(),
             value = [self.x.min().numpy(), self.x.max().numpy()],
+            continuous_update=False,
             slider_type = 'FloatRangeSlider' if torch.is_floating_point(self.x) else 'IntRandSlider',
             step = 0.01 if torch.is_floating_point(self.x) else 1)
 
