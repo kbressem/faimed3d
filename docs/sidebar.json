@@ -17,6 +17,9 @@
       }
     },
     "Losses and metrics": "models.losses.html",
-    "Callbacks": "callback.html"
+    "Callbacks": "callback.html",
+    "Widgets": {
+      "Image Viewer": "callback.html"
+    }
   }
 }
