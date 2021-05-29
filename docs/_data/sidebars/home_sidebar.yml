@@ -21,42 +21,19 @@ entries:
     - output: web,pdf
       title: Dataloaders
       url: dataloaders.html
-    - output: web
       subfolders:
-      - output: web,pdf
-        title: Layers
-        url: layers.html
-      - output: web,pdf
-        title: Learner
-        url: learner.html
-      - output: web,pdf
-        title: AlexNet
-        url: models.alexnet.html
-      - output: web,pdf
-        title: ResNet
-        url: models.resnet.html
-      - output: web,pdf
-        title: EfficientNet
-        url: model.efficientnet.html
-      - output: web,pdf
-        title: DeepLab
-        url: models.deeplabv3.html
-      - output: web,pdf
-        title: U-Net
-        url: models.unet.html
-      title: Models
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: Image Viewer
+          url: widgets.viewer.html
+        title: Widgets
     - output: web,pdf
       title: Losses and metrics
       url: models.losses.html
     - output: web,pdf
       title: Callbacks
       url: callback.html
-    - output: web
-      subfolders:
-      - output: web,pdf
-        title: Image Viewer
-        url: widgets.viewer.html
-      title: Widgets
     output: web
     title: faimed3d
   output: web
