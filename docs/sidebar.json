@@ -5,8 +5,7 @@
     "Preprocessing": "preprocessing.html",
     "Augmentations": "transforms.html",
     "Dataloaders": "dataloaders.html",
-    "":{
-      "Models": {
+    "Models": {
         "Layers": "layers.html",
         "Learner": "learner.html",
         "AlexNet": "models.alexnet.html",
@@ -14,14 +13,11 @@
         "EfficientNet": "model.efficientnet.html",
         "DeepLab": "models.deeplabv3.html",
         "U-Net": "models.unet.html"
-      }
     },
     "Losses and metrics": "models.losses.html",
     "Callbacks": "callback.html",
-    "":{
-      "Widgets": {
+    "Widgets": {
         "Image Viewer": "widgets.viewer.html"
-      }
     }
   }
 }
