@@ -5,7 +5,7 @@
     "Preprocessing": "preprocessing.html",
     "Augmentations": "transforms.html",
     "Dataloaders": "dataloaders.html",
-    "Models": {
+    "": {
       "Models": {
           "Layers": "layers.html",
           "Learner": "learner.html",
@@ -18,10 +18,6 @@
     },
     "Losses and metrics": "models.losses.html",
     "Callbacks": "callback.html",
-    "Widgets": {
-      "Widgets": {
-          "Image Viewer": "widgets.viewer.html"
-      }
-    }
+    "Image Viewer": "widgets.viewer.html"
   }
 }
