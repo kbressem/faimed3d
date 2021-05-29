@@ -26,7 +26,7 @@ entries:
         subfolderitems:
         - output: web,pdf
           title: Image Viewer
-          url: callback.html
+          url: widgets.viewer.html
         title: Widgets
     - output: web,pdf
       title: Losses and metrics

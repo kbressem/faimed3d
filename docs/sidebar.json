@@ -20,7 +20,7 @@
     "Callbacks": "callback.html",
     "":{
       "Widgets": {
-        "Image Viewer": "callback.html"
+        "Image Viewer": "widgets.viewer.html"
       }
     }
   }
