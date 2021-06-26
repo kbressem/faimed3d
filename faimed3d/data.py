@@ -182,10 +182,10 @@ def show_batch_3d(dls:DataLoaders, with_mask=False, alpha_mask=0.3, figsize = (4
 
     if viewer == 'mosaik':
         xb = torch.stack(xb)
-        xb.show(figsize=figsize, **kwargs)
+        show_images_3d(xb, figsize=figsize, **kwargs)
         if with_mask:
             yb = torch.stack(yb)
-            yb.show(add_to_existing = True, alpha = alpha_mask,
+            show_imges_3d(yb, add_to_existing = True, alpha = alpha_mask,
                     cmap = 'jet', figsize=figsize, **kwargs)
         if isinstance(yb, TensorCategory): print(yb)
     if viewer == 'widget':
