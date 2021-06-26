@@ -8,3 +8,5 @@ gem "jekyll", ">= 3.7"
 gem "kramdown", ">= 2.3.0"
 gem "jekyll-remote-theme"
 gem "webrick", "~> 1.7"
+
+gem "mini_portile2", "~> 2.5"

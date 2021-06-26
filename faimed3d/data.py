@@ -193,7 +193,7 @@ def show_batch_3d(dls:DataLoaders, with_mask=False, alpha_mask=0.3, figsize = (4
         assert xb[0].ndim == 3, 'Currently multiple inputs are not supported'
         if isinstance(yb[0], TensorMask3D):
             yb = [y.squeeze() for y in yb] if with_mask else None
-        if isinstance(yb[0], MultiCategory): yb = [', '.join(y) for y in yb]
+        elif isinstance(yb[0], MultiCategory): yb = [', '.join(y) for y in yb]
         ListViewer(x=xb, y=yb, figsize=figsize,  max_n = max_n, **kwargs).show()
 
 # Cell

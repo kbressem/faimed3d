@@ -264,6 +264,7 @@ DEPENDENCIES
   jekyll (>= 3.7)
   jekyll-remote-theme
   kramdown (>= 2.3.0)
+  mini_portile2 (~> 2.5)
   nokogiri (< 1.11.5)
   webrick (~> 1.7)
 

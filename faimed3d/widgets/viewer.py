@@ -163,6 +163,13 @@ class BasicViewer():
         display(self.box)
 
 # Cell
+@patch
+@delegates(BasicViewer)
+def show(x:TensorDicom3D, **kwargs):
+    "Overwrites the standard shpw function of TensorDicom3D"
+    BasicViewer(x, **kwargs).show()
+
+# Cell
 class DicomExplorer(BasicViewer):
     """ DICOM viewer for basic image analysis inside iPython notebooks.
     Can display a single 3D volume together with a segmentation mask, a histogram
@@ -205,7 +212,6 @@ class DicomExplorer(BasicViewer):
         zscores = diffs / std
         skews = torch.mean(torch.pow(zscores, 3.0))
         kurt = torch.mean(torch.pow(zscores, 4.0)) - 3.0
-        entropy = torch.distributions.Categorical(x).entropy()
 
         table = f'Statistics:\n' + \
                 f'  Mean px value:     {x.mean()} \n' + \

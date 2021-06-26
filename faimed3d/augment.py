@@ -136,16 +136,23 @@ class Resample3D(RandTransform):
         self.direction = tuple(reversed(direction)) if direction else None
         super().__init__(p=p,**kwargs)
 
+    def copy_metadata(self, resampled_image, resampled_sitk_image):
+        resampled_image.set_spacing(resampled_sitk_image.GetSpacing())
+        resampled_image.set_origin(resampled_sitk_image.GetOrigin())
+        resampled_image.set_direction(resampled_sitk_image.GetDirection())
+        return resampled_image
 
     def encodes(self, x:TensorDicom3D):
         assert x.device == torch.device(type='cpu'), 'resampling does not work on cuda'
-        resampled_image = resample(x.as_sitk(), self.size, self.spacing, sitk.sitkLinear, self.origin, self.direction)
-        return TensorDicom3D.create(resampled_image)
+        resampled_sitk_image = resample(x.as_sitk(), self.size, self.spacing, sitk.sitkLinear, self.origin, self.direction)
+        resampled_image = TensorDicom3D.create(resampled_sitk_image)
+        return self.copy_metadata(resampled_image, resampled_sitk_image)
 
     def encodes(self, x:TensorMask3D):
         assert x.device == torch.device(type='cpu'), 'resampling does not work on cuda'
-        resampled_image = resample(x.as_sitk(), self.size, self.spacing, sitk.sitkNearestNeighbor, self.origin, self.direction)
-        return TensorDicom3D.create(resampled_image)
+        resampled_sitk_image = resample(x.as_sitk(), self.size, self.spacing, sitk.sitkNearestNeighbor, self.origin, self.direction)
+        resampled_image = TensorMask3D.create(resampled_sitk_image)
+        return self.copy_metadata(resampled_image, resampled_sitk_image)
 
 
 # Cell
@@ -189,16 +196,17 @@ def flip_cc_3d(t: (TensorDicom3D, TensorMask3D)):
 
 class RandomFlip3D(RandTransform):
     "Randomly flip alongside any axis with probability `p`"
-    def __init__(self, p=0.75):
+    def __init__(self, p=0.75, axis=(-1, -2, -3)):
+        self.axis = axis
         super().__init__(p=p)
 
     def before_call(self, b, split_idx):
         "Set `self.do` based on `self.p`"
         self.do = self.p==1. or random.random() < self.p
-        self.axis = random.randint(1, 3)*-1  # add a random integer for axis to rotate
+        self.flip_axis = random.choice(self.axis)  # add a random integer for axis to rotate
 
     def encodes(self, x:(TensorDicom3D, TensorMask3D)):
-        return x.flip(self.axis)
+        return x.flip(self.flip_axis)
 
 # Cell
 
@@ -327,6 +335,7 @@ class RandomCrop3D(RandTransform):
     '''
     Randomly crop the 3D volume with a probability of `p`
     The x axis is the "slice" axis, where no cropping should be done by default
+    During inference, the behaviour is switched to center-crop without random variation
 
     Args
         crop_by: number of pixels or pecantage of pixel to be removed at each side. E.g. if (0, 5, 5), 0 pixel in the x axis, but 10 pixels in eacht y and z axis will be cropped (5 each side)
@@ -342,6 +351,7 @@ class RandomCrop3D(RandTransform):
         self.crop_by_x, self.crop_by_y, self.crop_by_z = rand_crop_xyz
 
     def before_call(self, b, split_idx):
+        if split_idx != 0: self.crop_by_x, self.crop_by_y, self.crop_by_z = 0, 0, 0 # no random crop during valid
         super().before_call(b, split_idx)
 
         if type(self.crop_by) is tuple and len(self.crop_by) == 3:
@@ -352,8 +362,8 @@ class RandomCrop3D(RandTransform):
             self.z_add = _add_to_margin(self.crop_by_z)
 
             self.margins = (x1+self.x_add, x2-self.x_add,
-                                y1+self.y_add, y2-self.y_add,
-                                z1+self.z_add, z2-self.z_add)
+                            y1+self.y_add, y2-self.y_add,
+                            z1+self.z_add, z2-self.z_add)
 
         else:
             raise ValueError('"final_margins" must be a tuple with length 3')
