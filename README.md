@@ -53,7 +53,7 @@ learn.lr_find()
 ![png](docs/images/output_6_2.png)
 
 
-Click [here](../examples/3d_classification.md) for a more in-depth classification example. 
+Click [here](../main/examples/3d_classification.md) for a more in-depth classification example. 
 
 ## Segmentation
 
@@ -91,4 +91,4 @@ learn.lr_find()
 ![png](docs/images/output_12_2.png)
 
 
-Click [here](../examples/3d_segmentation.md) for a more in-depth segmentation example. 
+Click [here](../main/examples/3d_segmentation.md) for a more in-depth segmentation example. 
