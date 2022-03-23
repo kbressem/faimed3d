@@ -563,16 +563,17 @@ def adjust_brightness(x:TensorDicom3D, beta):
 
 
 class RandomBrightness3D(RandTransform):
-    def __init__(self, p=0.5, beta_range=[-0.3, 0.3]):
+    def __init__(self, p=0.5, beta_range=[-0.3, 0.3], beta_step=25):
         super().__init__(p=p)
         self.lwr_beta = np.min(beta_range)
         self.upr_beta = np.max(beta_range)
+        self.step_beta = beta_step
 
     def before_call(self, b, split_idx):
         super().before_call(b, split_idx)
         self.beta = random.choice(np.arange(self.lwr_beta,
                                            self.upr_beta,
-                                           25))
+                                           self.step_beta))
     def encodes(self, x:TensorDicom3D):
         return x.adjust_brightness(self.beta)
 
@@ -586,16 +587,17 @@ def adjust_contrast(x:TensorDicom3D, alpha):
     return torch.clamp(x2, min, x.max())
 
 class RandomContrast3D(RandTransform):
-    def __init__(self, p=0.6, alpha_range=[0.7, 2.]):
+    def __init__(self, p=0.6, alpha_range=[0.7, 2.], alpha_step=25):
         super().__init__(p=p)
         self.lwr_alpha = np.min(alpha_range)
         self.upr_alpha = np.max(alpha_range)
+        self.step_alpha = alpha_step
 
     def before_call(self, b, split_idx):
         super().before_call(b, split_idx)
         self.alpha = random.choice(np.arange(self.lwr_alpha,
                                             self.upr_alpha,
-                                            25))
+                                            self.step_alpha))
 
     def encodes(self, x:TensorDicom3D):
         return x.adjust_contrast(self.alpha)
